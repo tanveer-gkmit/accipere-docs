@@ -1,0 +1,986 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      
+      
+      
+      <link rel="icon" href="assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.21">
+    
+    
+      
+        <title>Recruitment Management System (RMS)</title>
+      
+    
+    
+      <link rel="stylesheet" href="assets/stylesheets/main.2a3383ac.min.css">
+      
+        
+        <link rel="stylesheet" href="assets/stylesheets/palette.06af60db.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL(".",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#recruitment-management-system-rms" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="." title="Recruitment Management System (RMS)" class="md-header__button md-logo" aria-label="Recruitment Management System (RMS)" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Recruitment Management System (RMS)
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Recruitment Management System (RMS)
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+    
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+    
+  
+  
+    <li class="md-tabs__item md-tabs__item--active">
+      <a href="." class="md-tabs__link">
+        
+  
+  
+    
+  
+  Recruitment Management System (RMS)
+
+      </a>
+    </li>
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+  
+
+<nav class="md-nav md-nav--primary md-nav--lifted md-nav--integrated" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="." title="Recruitment Management System (RMS)" class="md-nav__button md-logo" aria-label="Recruitment Management System (RMS)" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Recruitment Management System (RMS)
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    Recruitment Management System (RMS)
+    
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="." class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    Recruitment Management System (RMS)
+    
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#executive-summary" class="md-nav__link">
+    <span class="md-ellipsis">
+      Executive Summary
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#purpose-and-scope" class="md-nav__link">
+    <span class="md-ellipsis">
+      Purpose and Scope
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Purpose and Scope">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#purpose" class="md-nav__link">
+    <span class="md-ellipsis">
+      Purpose
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#scope" class="md-nav__link">
+    <span class="md-ellipsis">
+      Scope
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#system-architecture-overview" class="md-nav__link">
+    <span class="md-ellipsis">
+      System Architecture Overview
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="System Architecture Overview">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-cicd-pipeline" class="md-nav__link">
+    <span class="md-ellipsis">
+      1. CI/CD Pipeline
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-backend-layer-fastapi-on-ec2" class="md-nav__link">
+    <span class="md-ellipsis">
+      2. Backend Layer (FastAPI on EC2)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-frontend-layer-react-axios" class="md-nav__link">
+    <span class="md-ellipsis">
+      3. Frontend Layer (React + Axios)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-database-layer-postgresql-rds" class="md-nav__link">
+    <span class="md-ellipsis">
+      4. Database Layer (PostgreSQL RDS)
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#architecture-diagram" class="md-nav__link">
+    <span class="md-ellipsis">
+      Architecture Diagram
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#database-architecture-erd-overview" class="md-nav__link">
+    <span class="md-ellipsis">
+      Database Architecture (ERD Overview)
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Database Architecture (ERD Overview)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#database-entity-relationship-diagram" class="md-nav__link">
+    <span class="md-ellipsis">
+      Database Entity Relationship Diagram
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#goals" class="md-nav__link">
+    <span class="md-ellipsis">
+      Goals
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#functional-modules" class="md-nav__link">
+    <span class="md-ellipsis">
+      Functional Modules
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Functional Modules">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-authentication-and-authorization" class="md-nav__link">
+    <span class="md-ellipsis">
+      1. Authentication and Authorization
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-job-management" class="md-nav__link">
+    <span class="md-ellipsis">
+      2. Job Management
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-applicant-management" class="md-nav__link">
+    <span class="md-ellipsis">
+      3. Applicant Management
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-application-tracking" class="md-nav__link">
+    <span class="md-ellipsis">
+      4. Application Tracking
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#5-reporting-and-logs" class="md-nav__link">
+    <span class="md-ellipsis">
+      5. Reporting and Logs
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#technical-requirements" class="md-nav__link">
+    <span class="md-ellipsis">
+      Technical Requirements
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#constraints" class="md-nav__link">
+    <span class="md-ellipsis">
+      Constraints
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#workflow" class="md-nav__link">
+    <span class="md-ellipsis">
+      Workflow
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#use-cases" class="md-nav__link">
+    <span class="md-ellipsis">
+      Use Cases
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Use Cases">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#use-case-1-job-applicant-workflow" class="md-nav__link">
+    <span class="md-ellipsis">
+      Use Case 1: Job Applicant Workflow
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#use-case-2-admin-user-management" class="md-nav__link">
+    <span class="md-ellipsis">
+      Use Case 2: Admin User Management
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#use-case-3-hr-team-application-screening" class="md-nav__link">
+    <span class="md-ellipsis">
+      Use Case 3: HR Team Application Screening
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#evaluation-plan-and-metrics" class="md-nav__link">
+    <span class="md-ellipsis">
+      Evaluation Plan and Metrics
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#future-enhancements" class="md-nav__link">
+    <span class="md-ellipsis">
+      Future Enhancements
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#conclusion" class="md-nav__link">
+    <span class="md-ellipsis">
+      Conclusion
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="recruitment-management-system-rms">Recruitment Management System (RMS)<a class="headerlink" href="#recruitment-management-system-rms" title="Permanent link">&para;</a></h1>
+<h2 id="executive-summary">Executive Summary<a class="headerlink" href="#executive-summary" title="Permanent link">&para;</a></h2>
+<p>Recruitment Management System (RMS): a cloud-hosted web app to streamline job posting, applicant tracking, status updates, and role-based access. Built with React, FastAPI, and PostgreSQL (RDS), deployed via CI/CD on AWS, with secure JWT authentication and a scalable backend—foundation for a future AI ATS.</p>
+<h2 id="purpose-and-scope">Purpose and Scope<a class="headerlink" href="#purpose-and-scope" title="Permanent link">&para;</a></h2>
+<h3 id="purpose">Purpose<a class="headerlink" href="#purpose" title="Permanent link">&para;</a></h3>
+<p>The purpose of this project is to design and implement a centralized recruitment management system that digitizes and automates essential HR functions like job management, application tracking, and department-wise reviews.</p>
+<h3 id="scope">Scope<a class="headerlink" href="#scope" title="Permanent link">&para;</a></h3>
+<p>The system currently supports:</p>
+<ul>
+<li>Secure login and registration for HRs, recruiters, and department heads</li>
+<li>Job posting and management within specific departments</li>
+<li>Applicant registration and application submission</li>
+<li>Recruitment status updates and interview sheduling</li>
+<li>Role-based permissions for data access and actions</li>
+<li>CI/CD deployment through GitHub Actions with AWS hosting</li>
+</ul>
+<h2 id="system-architecture-overview">System Architecture Overview<a class="headerlink" href="#system-architecture-overview" title="Permanent link">&para;</a></h2>
+<p>The system follows a modular, layered architecture deployed on AWS Cloud Infrastructure.</p>
+<h3 id="1-cicd-pipeline">1. CI/CD Pipeline<a class="headerlink" href="#1-cicd-pipeline" title="Permanent link">&para;</a></h3>
+<ul>
+<li>GitHub Actions handle automated build and deployment</li>
+<li>The frontend (React) and backend (FastAPI) are hosted separately, ensuring independent scalability</li>
+<li>Backend is deployed to AWS EC2, and frontend assets are served from AWS S3 via CloudFront for global availability</li>
+</ul>
+<h3 id="2-backend-layer-fastapi-on-ec2">2. Backend Layer (FastAPI on EC2)<a class="headerlink" href="#2-backend-layer-fastapi-on-ec2" title="Permanent link">&para;</a></h3>
+<ul>
+<li>Handles all business logic and RESTful API endpoints</li>
+<li>Uses JWT-based middleware for authentication and authorization</li>
+<li>Implements modular structure with Controllers, Services, and Models</li>
+<li>Interacts with PostgreSQL RDS for secure data storage and querying</li>
+</ul>
+<h3 id="3-frontend-layer-react-axios">3. Frontend Layer (React + Axios)<a class="headerlink" href="#3-frontend-layer-react-axios" title="Permanent link">&para;</a></h3>
+<ul>
+<li>Developed using React.js for a responsive, interactive UI</li>
+<li>Axios middleware manages API communication</li>
+<li>State management ensures smooth user experience across modules</li>
+</ul>
+<h3 id="4-database-layer-postgresql-rds">4. Database Layer (PostgreSQL RDS)<a class="headerlink" href="#4-database-layer-postgresql-rds" title="Permanent link">&para;</a></h3>
+<ul>
+<li>Stores structured data for users, roles, permissions, departments, jobs, applicants, and applications</li>
+</ul>
+<h2 id="architecture-diagram">Architecture Diagram<a class="headerlink" href="#architecture-diagram" title="Permanent link">&para;</a></h2>
+<p><img alt="System Architecture" src="diagram-export-11-7-2025-4_53_28-PM.png" /></p>
+<h2 id="database-architecture-erd-overview">Database Architecture (ERD Overview)<a class="headerlink" href="#database-architecture-erd-overview" title="Permanent link">&para;</a></h2>
+<p>The ER diagram defines clear relationships between the system's entities:</p>
+<ul>
+<li><strong>USER</strong> – Represents all system users (HR, recruiter, manager)</li>
+<li><strong>ROLE and PERMISSION</strong> – Define access control using RBAC (Role-Based Access Control)</li>
+<li><strong>DEPARTMENT</strong> – Groups jobs and users for hierarchical organization</li>
+<li><strong>JOB</strong> – Job listings created and managed by users under departments</li>
+<li><strong>APPLICANT</strong> – Contains applicant information and uploaded resumes</li>
+<li><strong>APPLICATION</strong> – Links applicants to specific jobs and stores current status</li>
+<li><strong>APPLICATION_STATUS</strong> – Defines stages such as Applied, Shortlisted, Rejected, etc.</li>
+<li><strong>APPLICATION_STATUS_DEPARTMENT_USER</strong> – Logs reviews, actions, and comments per department</li>
+</ul>
+<h3 id="database-entity-relationship-diagram">Database Entity Relationship Diagram<a class="headerlink" href="#database-entity-relationship-diagram" title="Permanent link">&para;</a></h3>
+<pre class="mermaid"><code>erDiagram
+    %% ===== RELATIONSHIPS =====
+    USER ||--o{ APPLICATION_ASSIGNED_USER_STATUS : "reviews / updates"
+    USER }o--|| ROLE : "has"
+
+    USER ||--o{ JOB : "posts"
+    JOB ||--o{ APPLICATION : "receives"
+
+    APPLICANT ||--o{ APPLICATION : "submits"
+
+    APPLICATION ||--o{ APPLICATION_ASSIGNED_USER_STATUS : "tracked by"
+    APPLICATION_ASSIGNED_USER_STATUS }o--|| APPLICATION_STATUS : "records status"
+
+    %% ===== TABLE DEFINITIONS =====
+
+    USER {
+        int id PK "Primary Key, auto-increment"
+        string email UK "Unique, NOT NULL"
+        string name "NOT NULL"
+        string password_hash "NOT NULL"
+        int role_id FK "References ROLE(id) ON DELETE SET NULL"
+        datetime created_at "NOT NULL, default=NOW()"
+        datetime updated_at "NOT NULL, auto-updated"
+    }
+
+    ROLE {
+        int id PK "Primary Key, auto-increment"
+        string name UK "Unique, NOT NULL"
+        string description "Optional"
+        datetime created_at "NOT NULL, default=NOW()"
+    }
+
+    JOB {
+        int id PK "Primary Key, auto-increment"
+        string title "NOT NULL"
+        text description "Optional"
+        string employment_type "NOT NULL"
+        string location "NOT NULL"
+        int posted_by_user_id FK "References USER(id) ON DELETE SET NULL"
+        datetime posted_date "NOT NULL, default=NOW()"
+        datetime closing_date "Optional"
+        string status "Default='Open'"
+        datetime created_at "NOT NULL, default=NOW()"
+        datetime updated_at "NOT NULL, auto-updated"
+    }
+
+    APPLICANT {
+        int id PK "Primary Key, auto-increment"
+        string email UK "Unique, NOT NULL"
+        string first_name "NOT NULL"
+        string last_name "NOT NULL"
+        string phone "NOT NULL"
+        text resume_url "NOT NULL"
+        text cover_letter "Optional"
+        datetime created_at "NOT NULL, default=NOW()"
+        datetime updated_at "NOT NULL, auto-updated"
+    }
+
+    APPLICATION {
+        int id PK "Primary Key, auto-increment"
+        int job_id FK "References JOB(id) ON DELETE CASCADE"
+        int applicant_id FK "References APPLICANT(id) ON DELETE CASCADE"
+        datetime applied_date "NOT NULL, default=NOW()"
+        datetime created_at "NOT NULL, default=NOW()"
+        datetime updated_at "NOT NULL, auto-updated"
+    }
+
+    APPLICATION_STATUS {
+        int id PK "Primary Key, auto-increment"
+        string name UK "Unique, NOT NULL"
+        string description "Optional"
+        int order_sequence "NOT NULL"
+        datetime created_at "NOT NULL, default=NOW()"
+    }
+
+    APPLICATION_ASSIGNED_USER_STATUS {
+        int id PK "Primary Key, auto-increment"
+        int application_id FK "References APPLICATION(id) ON DELETE CASCADE"
+        int status_id FK "References APPLICATION_STATUS(id) ON DELETE CASCADE"
+        int assigned_user_id FK "References USER(id) ON DELETE SET NULL"
+        text notes "Optional (review feedback or comments)"
+        datetime status_date "NOT NULL, default=NOW()"
+        datetime created_at "NOT NULL, default=NOW()"
+    }</code></pre>
+<h2 id="goals">Goals<a class="headerlink" href="#goals" title="Permanent link">&para;</a></h2>
+<ul>
+<li>Digitize the recruitment workflow to reduce manual paperwork</li>
+<li>Improve coordination between HR, departments, and candidates</li>
+<li>Enable centralized access to all job and application data</li>
+<li>Establish a secure authentication and authorization system</li>
+<li>Prepare infrastructure for future AI-based enhancements</li>
+</ul>
+<h2 id="functional-modules">Functional Modules<a class="headerlink" href="#functional-modules" title="Permanent link">&para;</a></h2>
+<h3 id="1-authentication-and-authorization">1. Authentication and Authorization<a class="headerlink" href="#1-authentication-and-authorization" title="Permanent link">&para;</a></h3>
+<ul>
+<li>JWT-based login and sign-up system</li>
+<li>Role-based permissions for HR, recruiter, and admin</li>
+</ul>
+<h3 id="2-job-management">2. Job Management<a class="headerlink" href="#2-job-management" title="Permanent link">&para;</a></h3>
+<ul>
+<li>Create, edit, and delete job postings</li>
+<li>Assign jobs to departments and specify employment details</li>
+</ul>
+<h3 id="3-applicant-management">3. Applicant Management<a class="headerlink" href="#3-applicant-management" title="Permanent link">&para;</a></h3>
+<ul>
+<li>Candidate registration and resume upload</li>
+<li>Apply for specific job openings</li>
+</ul>
+<h3 id="4-application-tracking">4. Application Tracking<a class="headerlink" href="#4-application-tracking" title="Permanent link">&para;</a></h3>
+<ul>
+<li>Department-wise review and comments on applications</li>
+<li>Track status transitions such as Applied, Under Review, Shortlisted, Rejected, or Hired</li>
+</ul>
+<h3 id="5-reporting-and-logs">5. Reporting and Logs<a class="headerlink" href="#5-reporting-and-logs" title="Permanent link">&para;</a></h3>
+<ul>
+<li>Automatically maintain timestamps for reviews and updates</li>
+<li>Provide recruiters visibility into department activity</li>
+</ul>
+<h2 id="technical-requirements">Technical Requirements<a class="headerlink" href="#technical-requirements" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Component</th>
+<th>Technology Stack</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Frontend</td>
+<td>React.js, Axios, Tailwind CSS</td>
+</tr>
+<tr>
+<td>Backend</td>
+<td>FastAPI (Python), JWT Auth</td>
+</tr>
+<tr>
+<td>Database</td>
+<td>PostgreSQL (AWS RDS)</td>
+</tr>
+<tr>
+<td>Hosting</td>
+<td>AWS EC2 (Backend), AWS S3 + CloudFront (Frontend)</td>
+</tr>
+<tr>
+<td>CI/CD</td>
+<td>GitHub Actions</td>
+</tr>
+<tr>
+<td>Authentication</td>
+<td>JSON Web Token (JWT)</td>
+</tr>
+<tr>
+<td>Version Control</td>
+<td>GitHub</td>
+</tr>
+</tbody>
+</table>
+<h2 id="constraints">Constraints<a class="headerlink" href="#constraints" title="Permanent link">&para;</a></h2>
+<ul>
+<li>Developed and maintained by a single developer; not much can be done</li>
+<li>Focused on building a solid foundation for data management and workflows</li>
+<li>AI-based candidate filtering and predictive analytics are deferred for later integration</li>
+</ul>
+<h2 id="workflow">Workflow<a class="headerlink" href="#workflow" title="Permanent link">&para;</a></h2>
+<ol>
+<li>HR or recruiter logs in securely</li>
+<li>HR posts a new job with relevant department and details</li>
+<li>Applicants register and apply for available jobs</li>
+<li>Department reviewers track applications and update statuses</li>
+<li>System maintains logs of all status updates and user actions</li>
+<li>Reports and analytics (basic) are generated for monthly overview</li>
+</ol>
+<h2 id="use-cases">Use Cases<a class="headerlink" href="#use-cases" title="Permanent link">&para;</a></h2>
+<h3 id="use-case-1-job-applicant-workflow">Use Case 1: Job Applicant Workflow<a class="headerlink" href="#use-case-1-job-applicant-workflow" title="Permanent link">&para;</a></h3>
+<p>This covers the complete journey of a candidate applying for a job through our portal.</p>
+<p><strong>Actor:</strong> Job Applicant (User)</p>
+<p><strong>Main Flow:</strong></p>
+<p>The applicant starts by visiting the website and browsing through available job listings. When they find something interesting, they can view detailed information about the job including the description, requirements, and benefits package.</p>
+<p>Once they decide to apply, they need to:
+- Upload their resume and any supporting documents
+- Fill out the application form with personal information, work experience, and education details
+- Submit the complete application</p>
+<p>After submission, the system sends them a confirmation email with application details.</p>
+<p><strong>System Boundary:</strong> Accipere Job Application Portal</p>
+<p><strong>Key Points:</strong>
+- Browsing jobs doesn't require login, but applying does
+- Resume upload supports PDF, DOC, and DOCX formats
+- Application form validates required fields before submission
+- Confirmation is sent immediately after successful submission</p>
+<hr />
+<h3 id="use-case-2-admin-user-management">Use Case 2: Admin User Management<a class="headerlink" href="#use-case-2-admin-user-management" title="Permanent link">&para;</a></h3>
+<p>This describes how system administrators add new team members to the platform.</p>
+<p><strong>Actor:</strong> System Administrator</p>
+<p><strong>Main Flow:</strong></p>
+<p>Admin logs into the admin panel and accesses the user management settings. To add a new user, they:</p>
+<ol>
+<li>Enter the new user's email address</li>
+<li>Select which department they belong to</li>
+<li>Assign an appropriate role (HR Team Member, Hiring Manager, Recruiter, or Admin)</li>
+</ol>
+<p>Once these details are filled, the system sends an invitation email to the new user. The email contains a secure setup link that's valid for 48 hours.</p>
+<p><strong>Secondary Actor:</strong> New User</p>
+<p>The new user receives the email, clicks the setup link, and creates their password. After that, they can log in with their credentials.</p>
+<p><strong>System Boundary:</strong> Accipere Admin Panel</p>
+<p><strong>Important Notes:</strong>
+- Only admins can add new users
+- Email addresses must be unique in the system
+- Setup links expire after 48 hours for security
+- Users can't change their own role, only admins can do that</p>
+<hr />
+<h3 id="use-case-3-hr-team-application-screening">Use Case 3: HR Team Application Screening<a class="headerlink" href="#use-case-3-hr-team-application-screening" title="Permanent link">&para;</a></h3>
+<p>This is the workflow HR team members follow when reviewing job applications.</p>
+<p><strong>Actor:</strong> HR Team Member</p>
+<p><strong>Main Flow:</strong></p>
+<p>HR team member logs in and lands on their dashboard. From there, they can view the list of all applications with options to filter by status (new, under review, shortlisted, etc.) or by position, and search for specific applicants.</p>
+<p>When they open an application, they can see:
+- The applicant's resume
+- Filled application form
+- Any additional documents uploaded</p>
+<p><strong>Screening Process:</strong></p>
+<p>While reviewing, the HR member:
+- Checks if qualifications match the job requirements
+- Reviews work experience and education background
+- Adds internal notes for other team members
+- Rates or scores the candidate based on criteria</p>
+<p>After screening, they update the application status and can:
+- Move the candidate to the next stage (schedule interview, request more info, or forward to hiring manager)
+- Reject the application with a reason</p>
+<p>The system automatically sends a status update email to the applicant whenever their application status changes.</p>
+<p><strong>System Boundary:</strong> Accipere HR Dashboard</p>
+<p><strong>Workflow Notes:</strong>
+- Multiple HR members can review the same application
+- All notes and status changes are logged with timestamps
+- Applicants only see major status updates, not internal notes
+- Rejected candidates receive a polite email with feedback (if provided)
+- Interview scheduling integrates with the calendar system</p>
+<hr />
+<h2 id="evaluation-plan-and-metrics">Evaluation Plan and Metrics<a class="headerlink" href="#evaluation-plan-and-metrics" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Metric</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Data Accuracy</td>
+<td>Ensured by foreign key constraints in PostgreSQL</td>
+</tr>
+<tr>
+<td>Response Time</td>
+<td>Measured for API endpoints</td>
+</tr>
+<tr>
+<td>User Experience</td>
+<td>Feedback collected from HR team</td>
+</tr>
+<tr>
+<td>Deployment Stability</td>
+<td>Tested through automated GitHub Actions runs</td>
+</tr>
+</tbody>
+</table>
+<h2 id="future-enhancements">Future Enhancements<a class="headerlink" href="#future-enhancements" title="Permanent link">&para;</a></h2>
+<p>While the current focus is on building a core recruitment management system, future work includes:</p>
+<ul>
+<li><strong>AI Integration</strong>: Resume parsing and auto-filtering based on skill match</li>
+<li><strong>Email Automation</strong>: Auto-notification for shortlisted or rejected candidates</li>
+<li><strong>External Job Portal Integration</strong>: Connect with LinkedIn, Indeed, and Naukri</li>
+<li><strong>Advanced Reporting Dashboard</strong>: Predictive analytics and visualization</li>
+<li><strong>Chatbot Interface</strong>: For applicant queries and process guidance</li>
+</ul>
+<h2 id="conclusion">Conclusion<a class="headerlink" href="#conclusion" title="Permanent link">&para;</a></h2>
+<p>The Recruitment Management System (RMS) provides a reliable foundation for automating company internal hiring process. By combining FastAPI, React, and AWS, it establishes a scalable and secure system architecture.</p>
+<p>This base version focuses on streamlining recruitment workflows and building a modular, cloud-ready infrastructure—serving as a strong platform for future expansion into a full-featured AI-driven Applicant Tracking System (ATS).</p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      <script id="__config" type="application/json">{"base": ".", "features": ["navigation.tabs", "navigation.sections", "toc.integrate", "search.suggest", "search.highlight"], "search": "assets/javascripts/workers/search.973d3a69.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="assets/javascripts/bundle.f55a23d4.min.js"></script>
+      
+    
+  </body>
+</html>
