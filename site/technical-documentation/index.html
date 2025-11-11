@@ -1,0 +1,1247 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      
+        <link rel="prev" href="..">
+      
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.21">
+    
+    
+      
+        <title>Technical Documentation - Recruitment Management System (RMS)</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.2a3383ac.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.06af60db.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#technical-documentation-accipere-ats-backend" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="Recruitment Management System (RMS)" class="md-header__button md-logo" aria-label="Recruitment Management System (RMS)" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Recruitment Management System (RMS)
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Technical Documentation
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+    
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href=".." class="md-tabs__link">
+        
+  
+  
+    
+  
+  Home
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    <li class="md-tabs__item md-tabs__item--active">
+      <a href="./" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Technical Documentation
+
+      </a>
+    </li>
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+  
+
+<nav class="md-nav md-nav--primary md-nav--lifted md-nav--integrated" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="Recruitment Management System (RMS)" class="md-nav__button md-logo" aria-label="Recruitment Management System (RMS)" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Recruitment Management System (RMS)
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Home
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    Technical Documentation
+    
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    Technical Documentation
+    
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#overview" class="md-nav__link">
+    <span class="md-ellipsis">
+      Overview
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Overview">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#key-design-principles" class="md-nav__link">
+    <span class="md-ellipsis">
+      Key Design Principles
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#1-technology-stack" class="md-nav__link">
+    <span class="md-ellipsis">
+      1. Technology Stack
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="1. Technology Stack">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#core-framework" class="md-nav__link">
+    <span class="md-ellipsis">
+      Core Framework
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#database" class="md-nav__link">
+    <span class="md-ellipsis">
+      Database
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#authentication-security" class="md-nav__link">
+    <span class="md-ellipsis">
+      Authentication &amp; Security
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#additional-libraries" class="md-nav__link">
+    <span class="md-ellipsis">
+      Additional Libraries
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#11-architecture" class="md-nav__link">
+    <span class="md-ellipsis">
+      1.1 Architecture
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="1.1 Architecture">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#high-level-architecture" class="md-nav__link">
+    <span class="md-ellipsis">
+      High-Level Architecture
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#application-structure" class="md-nav__link">
+    <span class="md-ellipsis">
+      Application Structure
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-complete-api-endpoints" class="md-nav__link">
+    <span class="md-ellipsis">
+      2. Complete API Endpoints
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2. Complete API Endpoints">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#21-authentication-apis" class="md-nav__link">
+    <span class="md-ellipsis">
+      2.1 Authentication APIs
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#22-user-management-apis" class="md-nav__link">
+    <span class="md-ellipsis">
+      2.2 User Management APIs
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#23-job-management-apis" class="md-nav__link">
+    <span class="md-ellipsis">
+      2.3 Job Management APIs
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#24-application-management-apis" class="md-nav__link">
+    <span class="md-ellipsis">
+      2.4 Application Management APIs
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#25-application-status-apis" class="md-nav__link">
+    <span class="md-ellipsis">
+      2.5 Application Status APIs
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-authentication-permissions" class="md-nav__link">
+    <span class="md-ellipsis">
+      3. Authentication &amp; Permissions
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3. Authentication &amp; Permissions">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#31-jwt-authentication" class="md-nav__link">
+    <span class="md-ellipsis">
+      3.1 JWT Authentication
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#32-permission-classes" class="md-nav__link">
+    <span class="md-ellipsis">
+      3.2 Permission Classes
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#33-permission-matrix" class="md-nav__link">
+    <span class="md-ellipsis">
+      3.3 Permission Matrix
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-status-management" class="md-nav__link">
+    <span class="md-ellipsis">
+      4. Status Management
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4. Status Management">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#41-application-status-workflow" class="md-nav__link">
+    <span class="md-ellipsis">
+      4.1 Application Status Workflow
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#42-status-transition-rules" class="md-nav__link">
+    <span class="md-ellipsis">
+      4.2 Status Transition Rules
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#43-status-management-best-practices" class="md-nav__link">
+    <span class="md-ellipsis">
+      4.3 Status Management Best Practices
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-file-storage-resume-handling" class="md-nav__link">
+    <span class="md-ellipsis">
+      5. File Storage &amp; Resume Handling
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="5. File Storage &amp; Resume Handling">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#51-resume-storage-in-postgresql" class="md-nav__link">
+    <span class="md-ellipsis">
+      5.1 Resume Storage in PostgreSQL
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#52-resume-uploaddownload" class="md-nav__link">
+    <span class="md-ellipsis">
+      5.2 Resume Upload/Download
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-error-handling" class="md-nav__link">
+    <span class="md-ellipsis">
+      6. Error Handling
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="6. Error Handling">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#error-response-format" class="md-nav__link">
+    <span class="md-ellipsis">
+      Error Response Format
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#http-status-codes" class="md-nav__link">
+    <span class="md-ellipsis">
+      HTTP Status Codes
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#common-error-examples" class="md-nav__link">
+    <span class="md-ellipsis">
+      Common Error Examples
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#7-security-requirements" class="md-nav__link">
+    <span class="md-ellipsis">
+      7. Security Requirements
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="7. Security Requirements">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#71-data-protection" class="md-nav__link">
+    <span class="md-ellipsis">
+      7.1 Data Protection
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#72-input-validation" class="md-nav__link">
+    <span class="md-ellipsis">
+      7.2 Input Validation
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#73-api-security" class="md-nav__link">
+    <span class="md-ellipsis">
+      7.3 API Security
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#8-testing-requirements" class="md-nav__link">
+    <span class="md-ellipsis">
+      8. Testing Requirements
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="8. Testing Requirements">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#81-test-coverage" class="md-nav__link">
+    <span class="md-ellipsis">
+      8.1 Test Coverage
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#82-test-types" class="md-nav__link">
+    <span class="md-ellipsis">
+      8.2 Test Types
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#9-future-enhancements" class="md-nav__link">
+    <span class="md-ellipsis">
+      9. Future Enhancements
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="9. Future Enhancements">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#91-async-task-processing" class="md-nav__link">
+    <span class="md-ellipsis">
+      9.1 Async Task Processing
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#92-advanced-features" class="md-nav__link">
+    <span class="md-ellipsis">
+      9.2 Advanced Features
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="technical-documentation-accipere-ats-backend">Technical Documentation - Accipere ATS Backend<a class="headerlink" href="#technical-documentation-accipere-ats-backend" title="Permanent link">&para;</a></h1>
+<h2 id="overview">Overview<a class="headerlink" href="#overview" title="Permanent link">&para;</a></h2>
+<p>The Accipere ATS backend is a Django REST Framework application that provides a comprehensive API for managing recruitment workflows. The system follows a layered architecture with clear separation between models, serializers, views, and business logic. It uses PostgreSQL for data persistence, JWT for authentication, and stores resume files as binary data directly in the database.</p>
+<h3 id="key-design-principles">Key Design Principles<a class="headerlink" href="#key-design-principles" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>RESTful API Design</strong>: All endpoints follow REST conventions with proper HTTP methods and status codes</li>
+<li><strong>Role-Based Access Control</strong>: Three-tier permission system (Administrator, Recruiter, Technical Evaluator)</li>
+<li><strong>Stateless Authentication</strong>: JWT tokens for scalable, stateless authentication</li>
+<li><strong>Database-First Storage</strong>: Resume files stored in PostgreSQL for simplified architecture and ACID compliance</li>
+<li><strong>Django Best Practices</strong>: Leverage Django ORM, built-in authentication, and DRF conventions</li>
+</ul>
+<hr />
+<h2 id="1-technology-stack">1. Technology Stack<a class="headerlink" href="#1-technology-stack" title="Permanent link">&para;</a></h2>
+<h3 id="core-framework">Core Framework<a class="headerlink" href="#core-framework" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>Django</strong> 4.2+ (LTS)</li>
+<li><strong>Django REST Framework</strong> 3.14+</li>
+<li><strong>Python</strong> 3.10+</li>
+</ul>
+<h3 id="database">Database<a class="headerlink" href="#database" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>PostgreSQL</strong> 14+ (Development &amp; Production)</li>
+</ul>
+<h3 id="authentication-security">Authentication &amp; Security<a class="headerlink" href="#authentication-security" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>djangorestframework-simplejwt</strong> - JWT authentication</li>
+<li><strong>django-cors-headers</strong> - CORS handling</li>
+</ul>
+<h3 id="additional-libraries">Additional Libraries<a class="headerlink" href="#additional-libraries" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>drf-spectacular</strong> - OpenAPI/Swagger documentation</li>
+<li><strong>python-decouple</strong> - Configuration management</li>
+<li><strong>gunicorn</strong> - WSGI HTTP Server (Production)</li>
+<li><strong>python-magic</strong> - File type validation</li>
+<li><strong>django-filter</strong> - Advanced filtering for querysets</li>
+<li><strong>django-ratelimit</strong> - Rate limiting for API endpoints</li>
+</ul>
+<hr />
+<h2 id="11-architecture">1.1 Architecture<a class="headerlink" href="#11-architecture" title="Permanent link">&para;</a></h2>
+<h3 id="high-level-architecture">High-Level Architecture<a class="headerlink" href="#high-level-architecture" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>┌─────────────────┐
+│ React Frontend  │
+└────────┬────────┘
+         │ HTTP/HTTPS
+         ▼
+┌─────────────────────────────┐
+│ Django REST Framework API   │
+├─────────────────────────────┤
+│ Authentication Middleware   │
+│ (JWT Token Validation)      │
+├─────────────────────────────┤
+│ Permission Layer            │
+│ (Role-Based Access Control) │
+├─────────────────────────────┤
+│ ViewSets &amp; Views            │
+├─────────────────────────────┤
+│ Serializers                 │
+├─────────────────────────────┤
+│ Django Models               │
+└────────┬────────────────────┘
+         │
+         ▼
+┌─────────────────┐
+│   PostgreSQL    │
+│    Database     │
+└─────────────────┘
+</code></pre></div>
+<h3 id="application-structure">Application Structure<a class="headerlink" href="#application-structure" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>accipere-backend/
+├── manage.py
+├── requirements.txt
+├── .env.example
+├── accipere/                    # Project configuration
+│   ├── settings.py              # Django settings with environment-based config
+│   ├── urls.py                  # Root URL configuration
+│   └── wsgi.py                  # WSGI application entry point
+├── authentication/              # JWT authentication &amp; user registration
+│   ├── models.py
+│   ├── serializers.py
+│   ├── views.py
+│   └── urls.py
+├── users/                       # User and Role management
+│   ├── models.py
+│   ├── serializers.py
+│   ├── views.py
+│   └── urls.py
+├── jobs/                        # Job posting management
+│   ├── models.py
+│   ├── serializers.py
+│   ├── views.py
+│   ├── urls.py
+│   └── filters.py
+├── applications/                # Application tracking &amp; status management
+│   ├── models.py
+│   ├── serializers.py
+│   ├── views.py
+│   └── urls.py
+├── common/                      # Shared utilities, permissions, validators
+│   ├── permissions.py
+│   ├── validators.py
+│   └── exceptions.py
+└── tests/                       # Test suite
+    ├── test_auth.py
+    ├── test_users.py
+    ├── test_jobs.py
+    └── test_applications.py
+</code></pre></div>
+<hr />
+<h2 id="2-complete-api-endpoints">2. Complete API Endpoints<a class="headerlink" href="#2-complete-api-endpoints" title="Permanent link">&para;</a></h2>
+<h3 id="21-authentication-apis">2.1 Authentication APIs<a class="headerlink" href="#21-authentication-apis" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>POST   /api/auth/login/             - Login (returns JWT tokens)
+POST   /api/auth/logout/            - Logout (blacklist token)
+POST   /api/auth/refresh/           - Refresh access token
+GET    /api/auth/me/                - Get current user profile
+</code></pre></div>
+<h3 id="22-user-management-apis">2.2 User Management APIs<a class="headerlink" href="#22-user-management-apis" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>GET    /api/users/                  - List all users (admin only)
+POST   /api/users/                  - Create user (admin only)
+PUT    /api/users/{id}/             - Update user (admin only)
+DELETE /api/users/{id}/             - Delete user (admin only)
+GET    /api/users/{id}/applications/ - Get applications assigned to user
+</code></pre></div>
+<h3 id="23-job-management-apis">2.3 Job Management APIs<a class="headerlink" href="#23-job-management-apis" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>GET    /api/jobs/                   - List all jobs
+POST   /api/jobs/                   - Create new job
+GET    /api/jobs/{id}/              - Get job details
+PUT    /api/jobs/{id}/              - Update job
+PATCH  /api/jobs/{id}/              - Partial update job
+DELETE /api/jobs/{id}/              - Delete job
+GET    /api/jobs/{id}/applicants/   - Get all applicants for a job
+</code></pre></div>
+<h3 id="24-application-management-apis">2.4 Application Management APIs<a class="headerlink" href="#24-application-management-apis" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>GET    /api/applications/           - List all applications
+POST   /api/applications/           - Create application (public endpoint)
+GET    /api/applications/{id}/      - Get application details
+PUT    /api/applications/{id}/      - Update application (full update)
+PATCH  /api/applications/{id}/      - Partial update (status, assignment, notes)
+DELETE /api/applications/{id}/      - Delete application
+GET    /api/applications/{id}/resume/ - Download applicant&#39;s resume
+</code></pre></div>
+<h3 id="25-application-status-apis">2.5 Application Status APIs<a class="headerlink" href="#25-application-status-apis" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>GET    /api/application-statuses/   - List all application statuses
+POST   /api/application-statuses/   - Create new status (admin only)
+PUT    /api/application-statuses/{id}/ - Update status (admin only)
+PATCH  /api/application-statuses/{id}/ - Partial update status
+DELETE /api/application-statuses/{id}/ - Delete status (admin only)
+</code></pre></div>
+<hr />
+<h2 id="3-authentication-permissions">3. Authentication &amp; Permissions<a class="headerlink" href="#3-authentication-permissions" title="Permanent link">&para;</a></h2>
+<h3 id="31-jwt-authentication">3.1 JWT Authentication<a class="headerlink" href="#31-jwt-authentication" title="Permanent link">&para;</a></h3>
+<ul>
+<li>Access token expiry: 1 hour</li>
+<li>Refresh token expiry: 7 days</li>
+<li>Token blacklisting on logout</li>
+</ul>
+<h3 id="32-permission-classes">3.2 Permission Classes<a class="headerlink" href="#32-permission-classes" title="Permanent link">&para;</a></h3>
+<p><strong>Custom Permissions:</strong>
+- <code>IsAdmin</code> - Full access to all resources
+- <code>IsRecruiter</code> - Can manage jobs, view/update applications
+- <code>IsTechnicalEvaluator</code> - Can view applications and add notes
+- <code>IsPublic</code> - Can submit applications</p>
+<h3 id="33-permission-matrix">3.3 Permission Matrix<a class="headerlink" href="#33-permission-matrix" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Endpoint</th>
+<th>Admin</th>
+<th>Recruiter</th>
+<th>Technical Evaluator</th>
+<th>Public</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>POST /api/applications/</td>
+<td>✓</td>
+<td>✓</td>
+<td>✓</td>
+<td>✓</td>
+</tr>
+<tr>
+<td>GET /api/jobs/</td>
+<td>✓</td>
+<td>✓</td>
+<td>✓</td>
+<td>✓</td>
+</tr>
+<tr>
+<td>POST /api/jobs/</td>
+<td>✓</td>
+<td>✓</td>
+<td>✗</td>
+<td>✗</td>
+</tr>
+<tr>
+<td>GET /api/applications/</td>
+<td>✓</td>
+<td>✓</td>
+<td>✓</td>
+<td>✗</td>
+</tr>
+<tr>
+<td>PUT /api/applications/{id}/</td>
+<td>✓</td>
+<td>✓</td>
+<td>✓</td>
+<td>✗</td>
+</tr>
+<tr>
+<td>POST /api/users/</td>
+<td>✓</td>
+<td>✗</td>
+<td>✗</td>
+<td>✗</td>
+</tr>
+<tr>
+<td>POST /api/application-statuses/</td>
+<td>✓</td>
+<td>✗</td>
+<td>✗</td>
+<td>✗</td>
+</tr>
+<tr>
+<td>DELETE /api/applications/{id}/</td>
+<td>✓</td>
+<td>✓</td>
+<td>✗</td>
+<td>✗</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<hr />
+<h2 id="4-status-management">4. Status Management<a class="headerlink" href="#4-status-management" title="Permanent link">&para;</a></h2>
+<h3 id="41-application-status-workflow">4.1 Application Status Workflow<a class="headerlink" href="#41-application-status-workflow" title="Permanent link">&para;</a></h3>
+<p>The system uses a flexible status management system that allows administrators to:</p>
+<ol>
+<li><strong>Create custom statuses</strong> - Add new stages to the recruitment pipeline</li>
+<li><strong>Define order</strong> - Set the sequence of statuses</li>
+<li><strong>Activate/Deactivate</strong> - Toggle statuses without deleting them</li>
+<li><strong>Track transitions</strong> - Monitor status changes over time</li>
+</ol>
+<h3 id="42-status-transition-rules">4.2 Status Transition Rules<a class="headerlink" href="#42-status-transition-rules" title="Permanent link">&para;</a></h3>
+<ul>
+<li>Applications start with "HR Screening" status by default</li>
+<li>Status can be updated to any available active status</li>
+<li>Status changes are logged with timestamp and user</li>
+<li>Rejected applications cannot be moved to other statuses (optional business rule)</li>
+<li>Joined applications are considered final</li>
+</ul>
+<h3 id="43-status-management-best-practices">4.3 Status Management Best Practices<a class="headerlink" href="#43-status-management-best-practices" title="Permanent link">&para;</a></h3>
+<ol>
+<li><strong>Keep statuses sequential</strong> - Use order_sequence to maintain logical flow</li>
+<li><strong>Use descriptive names</strong> - Clear status names help team communication</li>
+<li><strong>Don't delete statuses</strong> - Deactivate instead to preserve historical data</li>
+<li><strong>Document transitions</strong> - Add notes when changing application status</li>
+<li><strong>Review regularly</strong> - Audit status usage and optimize pipeline</li>
+</ol>
+<hr />
+<hr />
+<h2 id="5-file-storage-resume-handling">5. File Storage &amp; Resume Handling<a class="headerlink" href="#5-file-storage-resume-handling" title="Permanent link">&para;</a></h2>
+<h3 id="51-resume-storage-in-postgresql">5.1 Resume Storage in PostgreSQL<a class="headerlink" href="#51-resume-storage-in-postgresql" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>Storage Method:</strong> BinaryField in APPLICATION model</li>
+<li><strong>Maximum file size:</strong> 5MB</li>
+<li><strong>Allowed formats:</strong> PDF, DOC, DOCX</li>
+<li><strong>Validation:</strong> Magic byte checking (not just extension)</li>
+</ul>
+<h3 id="52-resume-uploaddownload">5.2 Resume Upload/Download<a class="headerlink" href="#52-resume-uploaddownload" title="Permanent link">&para;</a></h3>
+<p><strong>Upload Process:</strong>
+- Multipart form data
+- File type validation using magic bytes (python-magic)
+- Size limit enforcement (5MB maximum)
+- Store filename, content type, and file size</p>
+<p><strong>File Validation:</strong>
+<div class="highlight"><pre><span></span><code>Maximum Size: 5MB (5,242,880 bytes)
+Allowed Types: PDF, DOC, DOCX
+Validation Method: Magic byte checking (not just extension)
+</code></pre></div></p>
+<p><strong>Download Process:</strong>
+- Dedicated endpoint: <code>GET /api/applications/{id}/resume/</code>
+- Proper Content-Type header
+- Content-Disposition: attachment with original filename
+- Streaming for large files (&gt;1MB)</p>
+<p><strong>Resume Download Response Headers:</strong>
+<div class="highlight"><pre><span></span><code>Content-Type: application/pdf (or appropriate MIME type)
+Content-Disposition: attachment; filename=&quot;john_doe_resume.pdf&quot;
+Content-Length: 524288
+</code></pre></div></p>
+<hr />
+<h2 id="6-error-handling">6. Error Handling<a class="headerlink" href="#6-error-handling" title="Permanent link">&para;</a></h2>
+<h3 id="error-response-format">Error Response Format<a class="headerlink" href="#error-response-format" title="Permanent link">&para;</a></h3>
+<p>All API errors follow a consistent format:</p>
+<div class="highlight"><pre><span></span><code><span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;error&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Error message&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;details&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;field_name&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;Specific error for this field&quot;</span><span class="p">]</span>
+<span class="w">  </span><span class="p">},</span>
+<span class="w">  </span><span class="nt">&quot;code&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;ERROR_CODE&quot;</span>
+<span class="p">}</span>
+</code></pre></div>
+<h3 id="http-status-codes">HTTP Status Codes<a class="headerlink" href="#http-status-codes" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>200 OK</strong>: Successful GET, PUT, PATCH requests</li>
+<li><strong>201 Created</strong>: Successful POST requests</li>
+<li><strong>204 No Content</strong>: Successful DELETE requests</li>
+<li><strong>400 Bad Request</strong>: Validation errors, duplicate applications</li>
+<li><strong>401 Unauthorized</strong>: Missing or invalid JWT token</li>
+<li><strong>403 Forbidden</strong>: Insufficient permissions</li>
+<li><strong>404 Not Found</strong>: Resource not found</li>
+<li><strong>500 Internal Server Error</strong>: Unexpected server errors</li>
+</ul>
+<h3 id="common-error-examples">Common Error Examples<a class="headerlink" href="#common-error-examples" title="Permanent link">&para;</a></h3>
+<p><strong>Duplicate Application:</strong>
+<div class="highlight"><pre><span></span><code><span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;error&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;You have already applied to this job&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;code&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;DUPLICATE_APPLICATION&quot;</span>
+<span class="p">}</span>
+</code></pre></div></p>
+<p><strong>Invalid Resume File:</strong>
+<div class="highlight"><pre><span></span><code><span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;error&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Resume file size must not exceed 5MB&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;code&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;FILE_SIZE_EXCEEDED&quot;</span>
+<span class="p">}</span>
+</code></pre></div></p>
+<p><strong>Missing Required Fields:</strong>
+<div class="highlight"><pre><span></span><code><span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;error&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Validation failed&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;details&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;email&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;This field is required&quot;</span><span class="p">],</span>
+<span class="w">    </span><span class="nt">&quot;first_name&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;This field is required&quot;</span><span class="p">]</span>
+<span class="w">  </span><span class="p">},</span>
+<span class="w">  </span><span class="nt">&quot;code&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;VALIDATION_ERROR&quot;</span>
+<span class="p">}</span>
+</code></pre></div></p>
+<p><strong>Unauthorized Access:</strong>
+<div class="highlight"><pre><span></span><code><span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;error&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Authentication credentials were not provided&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;code&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;NOT_AUTHENTICATED&quot;</span>
+<span class="p">}</span>
+</code></pre></div></p>
+<p><strong>Forbidden Access:</strong>
+<div class="highlight"><pre><span></span><code><span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;error&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;You do not have permission to perform this action&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;code&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;PERMISSION_DENIED&quot;</span>
+<span class="p">}</span>
+</code></pre></div></p>
+<hr />
+<h2 id="7-security-requirements">7. Security Requirements<a class="headerlink" href="#7-security-requirements" title="Permanent link">&para;</a></h2>
+<h3 id="71-data-protection">7.1 Data Protection<a class="headerlink" href="#71-data-protection" title="Permanent link">&para;</a></h3>
+<ul>
+<li>Password hashing using Django's PBKDF2</li>
+<li>HTTPS only in production</li>
+<li>CSRF protection</li>
+<li>SQL injection prevention (ORM)</li>
+</ul>
+<h3 id="72-input-validation">7.2 Input Validation<a class="headerlink" href="#72-input-validation" title="Permanent link">&para;</a></h3>
+<ul>
+<li>Sanitize all user inputs</li>
+<li>File upload validation</li>
+<li>Email format validation</li>
+<li>XSS protection</li>
+</ul>
+<h3 id="73-api-security">7.3 API Security<a class="headerlink" href="#73-api-security" title="Permanent link">&para;</a></h3>
+<ul>
+<li>JWT token validation</li>
+<li>CORS whitelist configuration</li>
+<li>Rate limiting (recommended)</li>
+<li>Request size limits</li>
+</ul>
+<hr />
+<hr />
+<h2 id="8-testing-requirements">8. Testing Requirements<a class="headerlink" href="#8-testing-requirements" title="Permanent link">&para;</a></h2>
+<h3 id="81-test-coverage">8.1 Test Coverage<a class="headerlink" href="#81-test-coverage" title="Permanent link">&para;</a></h3>
+<ul>
+<li>Minimum 80% code coverage</li>
+<li>Use <code>pytest</code> and <code>pytest-django</code></li>
+<li>Mock external services</li>
+</ul>
+<h3 id="82-test-types">8.2 Test Types<a class="headerlink" href="#82-test-types" title="Permanent link">&para;</a></h3>
+<ul>
+<li>Unit tests for models, serializers, views</li>
+<li>Integration tests for API endpoints</li>
+<li>Permission tests</li>
+<li>File upload/download tests</li>
+<li>Status transition tests</li>
+</ul>
+<hr />
+<h2 id="9-future-enhancements">9. Future Enhancements<a class="headerlink" href="#9-future-enhancements" title="Permanent link">&para;</a></h2>
+<h3 id="91-async-task-processing">9.1 Async Task Processing<a class="headerlink" href="#91-async-task-processing" title="Permanent link">&para;</a></h3>
+<ul>
+<li>Celery + Redis for background jobs</li>
+<li>Email notifications</li>
+<li>Resume parsing</li>
+<li>Scheduled reports</li>
+</ul>
+<h3 id="92-advanced-features">9.2 Advanced Features<a class="headerlink" href="#92-advanced-features" title="Permanent link">&para;</a></h3>
+<ul>
+<li>Calendar integration</li>
+<li>Interview scheduling</li>
+<li>Video interview integration</li>
+<li>AI-powered candidate matching</li>
+<li>Resume parsing and auto-fill</li>
+<li>Analytics dashboard</li>
+<li>Export to PDF/Excel</li>
+</ul>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      <script id="__config" type="application/json">{"base": "..", "features": ["navigation.tabs", "navigation.sections", "toc.integrate", "search.suggest", "search.highlight"], "search": "../assets/javascripts/workers/search.973d3a69.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.f55a23d4.min.js"></script>
+      
+    
+  </body>
+</html>

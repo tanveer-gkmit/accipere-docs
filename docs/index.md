@@ -2,7 +2,7 @@
 
 ## Executive Summary
 
-Recruitment Management System (RMS): a cloud-hosted web app to streamline job posting, applicant tracking, status updates, and role-based access. Built with React, FastAPI, and PostgreSQL (RDS), deployed via CI/CD on AWS, with secure JWT authentication and a scalable backend—foundation for a future AI ATS.
+Recruitment Management System (RMS): a cloud-hosted web app to streamline job posting, applicant tracking, status updates, and role-based access. Built with React, Django REST Framework, and PostgreSQL (RDS), deployed via CI/CD on AWS, with secure JWT authentication and a scalable backend—foundation for a future AI ATS.
 
 ## Purpose and Scope
 
@@ -14,9 +14,9 @@ The purpose of this project is to design and implement a centralized recruitment
 
 The system currently supports:
 
-- Secure login and registration for HRs, recruiters, and department heads
-- Job posting and management within specific departments
-- Applicant registration and application submission
+- Secure login and registration for Administrator ,Recruiter and Technical Evaluator
+- Job posting and management
+- application submission
 - Recruitment status updates and interview sheduling
 - Role-based permissions for data access and actions
 - CI/CD deployment through GitHub Actions with AWS hosting
@@ -28,14 +28,14 @@ The system follows a modular, layered architecture deployed on AWS Cloud Infrast
 ### 1. CI/CD Pipeline
 
 - GitHub Actions handle automated build and deployment
-- The frontend (React) and backend (FastAPI) are hosted separately, ensuring independent scalability
+- The frontend (React) and backend (Django REST Framework) are hosted separately, ensuring independent scalability
 - Backend is deployed to AWS EC2, and frontend assets are served from AWS S3 via CloudFront for global availability
 
-### 2. Backend Layer (FastAPI on EC2)
+### 2. Backend Layer (Django REST Framework on EC2)
 
 - Handles all business logic and RESTful API endpoints
 - Uses JWT-based middleware for authentication and authorization
-- Implements modular structure with Controllers, Services, and Models
+- Implements modular structure with Views, Serializers, and Models
 - Interacts with PostgreSQL RDS for secure data storage and querying
 
 ### 3. Frontend Layer (React + Axios)
@@ -46,24 +46,32 @@ The system follows a modular, layered architecture deployed on AWS Cloud Infrast
 
 ### 4. Database Layer (PostgreSQL RDS)
 
-- Stores structured data for users, roles, permissions, departments, jobs, applicants, and applications
+- Stores structured data for users, groups, permissions, departments, jobs, applicants, and applications
+- Leverages Django's built-in authentication and authorization tables
 
 ## Architecture Diagram
 
-![System Architecture](diagram-export-11-7-2025-4_53_28-PM.png)
+![System Architecture](diagram-export-11-11-2025-1_12_23-PM.png)
 
 ## Database Architecture (ERD Overview)
 
 The ER diagram defines clear relationships between the system's entities:
 
-- **USER** – Represents all system users (HR, recruiter, manager)
-- **ROLE and PERMISSION** – Define access control using RBAC (Role-Based Access Control)
-- **DEPARTMENT** – Groups jobs and users for hierarchical organization
-- **JOB** – Job listings created and managed by users under departments
-- **APPLICANT** – Contains applicant information and uploaded resumes
-- **APPLICATION** – Links applicants to specific jobs and stores current status
-- **APPLICATION_STATUS** – Defines stages such as Applied, Shortlisted, Rejected, etc.
-- **APPLICATION_STATUS_DEPARTMENT_USER** – Logs reviews, actions, and comments per department
+- **AUTH_USERS** – Django's built-in user model representing all system users (HR, recruiter, manager)
+- **AUTH_GROUPS and AUTH_PERMISSIONS** – Django's built-in tables for RBAC (Role-Based Access Control)
+- **AUTH_USER_GROUPS** – Many-to-many relationship between users and groups
+- **AUTH_USER_USER_PERMISSIONS** – Many-to-many relationship for user-specific permissions
+- **AUTH_GROUP_PERMISSIONS** – Many-to-many relationship between groups and permissions
+- **DJANGO_CONTENT_TYPES** – Django's content type framework for generic relations
+- **JOBS** – Job listings with complete details including salary range, requirements, and benefits
+- **APPLICATIONS** – Contains all applicant information and application data
+  - Stores resume as binary data in PostgreSQL
+  - Includes professional details, contact info, and address
+  - Tracks application status and assignment
+- **APPLICATION_STATUSES** – Defines recruitment stages (HR Screening, Technical Screening, Interviews, etc.)
+- **APPLICATION_ASSIGNED_USER_STATUSES** – track the status of the user . 
+
+> **Note:** For complete technical specifications, API endpoints, and implementation details, see the [Technical Documentation](technical-documentation.md) page.
 
 
 
@@ -71,85 +79,149 @@ The ER diagram defines clear relationships between the system's entities:
 
 ```mermaid
 erDiagram
-    %% ===== RELATIONSHIPS =====
-    USER ||--o{ APPLICATION_ASSIGNED_USER_STATUS : "reviews / updates"
-    USER }o--|| ROLE : "has"
+    %% ===== DJANGO AUTH RELATIONSHIPS =====
+    AUTH_USERS ||--o{ AUTH_USER_GROUPS : "belongs to"
+    AUTH_USER_GROUPS }o--|| AUTH_GROUPS : "links"
     
-    USER ||--o{ JOB : "posts"
-    JOB ||--o{ APPLICATION : "receives"
+    AUTH_USERS ||--o{ AUTH_USER_USER_PERMISSIONS : "has direct"
+    AUTH_USER_USER_PERMISSIONS }o--|| AUTH_PERMISSIONS : "links"
     
-    APPLICANT ||--o{ APPLICATION : "submits"
+    AUTH_GROUPS ||--o{ AUTH_GROUP_PERMISSIONS : "has"
+    AUTH_GROUP_PERMISSIONS }o--|| AUTH_PERMISSIONS : "links"
     
-    APPLICATION ||--o{ APPLICATION_ASSIGNED_USER_STATUS : "tracked by"
-    APPLICATION_ASSIGNED_USER_STATUS }o--|| APPLICATION_STATUS : "records status"
+    AUTH_PERMISSIONS }o--|| DJANGO_CONTENT_TYPES : "for model"
     
-    %% ===== TABLE DEFINITIONS =====
-
-    USER {
+    %% ===== APPLICATION RELATIONSHIPS =====
+    AUTH_USERS ||--o{ APPLICATION_ASSIGNED_USER_STATUSES : "reviews / updates"
+    AUTH_USERS ||--o{ JOBS : "posts"
+    AUTH_USERS ||--o{ APPLICATIONS : "assigned to"
+    
+    JOBS ||--o{ APPLICATIONS : "receives"
+    
+    APPLICATIONS ||--o{ APPLICATION_ASSIGNED_USER_STATUSES : "tracked by"
+    APPLICATION_ASSIGNED_USER_STATUSES }o--|| APPLICATION_STATUSES : "records status"
+    
+    %% ===== DJANGO AUTH TABLES =====
+    
+    AUTH_USERS {
         int id PK "Primary Key, auto-increment"
-        string email UK "Unique, NOT NULL"
-        string name "NOT NULL"
-        string password_hash "NOT NULL"
-        int role_id FK "References ROLE(id) ON DELETE SET NULL"
-        datetime created_at "NOT NULL, default=NOW()"
-        datetime updated_at "NOT NULL, auto-updated"
+        string password "NOT NULL (hashed)"
+        datetime last_login "Nullable"
+        boolean is_superuser "Default=False"
+        string username UK "Unique, NOT NULL, max_length=150"
+        string first_name "max_length=150"
+        string last_name "max_length=150"
+        string email "max_length=254"
+        boolean is_staff "Default=False"
+        boolean is_active "Default=True"
+        datetime date_joined "NOT NULL, default=NOW()"
     }
     
-    ROLE {
+    AUTH_GROUPS {
         int id PK "Primary Key, auto-increment"
-        string name UK "Unique, NOT NULL"
-        string description "Optional"
-        datetime created_at "NOT NULL, default=NOW()"
+        string name UK "Unique, NOT NULL, max_length=150"
     }
     
-    JOB {
+    AUTH_PERMISSIONS {
         int id PK "Primary Key, auto-increment"
-        string title "NOT NULL"
-        text description "Optional"
-        string employment_type "NOT NULL"
-        string location "NOT NULL"
-        int posted_by_user_id FK "References USER(id) ON DELETE SET NULL"
+        string name "NOT NULL, max_length=255"
+        int content_type_id FK "References DJANGO_CONTENT_TYPES(id)"
+        string codename UK "Unique with content_type_id, max_length=100"
+    }
+    
+    AUTH_USER_GROUPS {
+        bigint id PK "Primary Key, auto-increment"
+        int user_id FK "References AUTH_USERS(id)"
+        int group_id FK "References AUTH_GROUPS(id)"
+    }
+    
+    AUTH_USER_USER_PERMISSIONS {
+        bigint id PK "Primary Key, auto-increment"
+        int user_id FK "References AUTH_USERS(id)"
+        int permission_id FK "References AUTH_PERMISSIONS(id)"
+    }
+    
+    AUTH_GROUP_PERMISSIONS {
+        bigint id PK "Primary Key, auto-increment"
+        int group_id FK "References AUTH_GROUPS(id)"
+        int permission_id FK "References AUTH_PERMISSIONS(id)"
+    }
+    
+    DJANGO_CONTENT_TYPES {
+        int id PK "Primary Key, auto-increment"
+        string app_label "NOT NULL, max_length=100"
+        string model UK "Unique with app_label, max_length=100"
+    }
+    
+    %% ===== APPLICATION TABLES =====
+    
+    JOBS {
+        int id PK "Primary Key, auto-increment"
+        string title "NOT NULL, max_length=255"
+        text description "NOT NULL"
+        string employment_type "NOT NULL, choices: Full-time, Part-time, Contract, Internship"
+        string location "NOT NULL, max_length=255"
+        string department "NOT NULL, max_length=100"
+        string experience_level "NOT NULL, choices: Entry, Mid, Senior, Lead"
+        decimal salary_min "Optional, max_digits=10, decimal_places=2"
+        decimal salary_max "Optional, max_digits=10, decimal_places=2"
+        text requirements "NOT NULL"
+        text benefits "Optional"
+        int posted_by_user_id FK "References AUTH_USERS(id) ON DELETE SET NULL"
         datetime posted_date "NOT NULL, default=NOW()"
         datetime closing_date "Optional"
-        string status "Default='Open'"
+        string status "Default='Open', choices: Open, Paused, Closed"
         datetime created_at "NOT NULL, default=NOW()"
         datetime updated_at "NOT NULL, auto-updated"
     }
     
-    APPLICANT {
+    APPLICATIONS {
         int id PK "Primary Key, auto-increment"
-        string email UK "Unique, NOT NULL"
-        string first_name "NOT NULL"
-        string last_name "NOT NULL"
-        string phone "NOT NULL"
-        text resume_url "NOT NULL"
-        text cover_letter "Optional"
-        datetime created_at "NOT NULL, default=NOW()"
-        datetime updated_at "NOT NULL, auto-updated"
-    }
-    
-    APPLICATION {
-        int id PK "Primary Key, auto-increment"
-        int job_id FK "References JOB(id) ON DELETE CASCADE"
-        int applicant_id FK "References APPLICANT(id) ON DELETE CASCADE"
+        int job_id FK "References JOBS(id) ON DELETE CASCADE"
+        string first_name "NOT NULL, max_length=100"
+        string last_name "NOT NULL, max_length=100"
+        string email "NOT NULL, indexed"
+        string phone "NOT NULL, max_length=20"
+        binary resume "NOT NULL, stored in PostgreSQL"
+        string resume_filename "NOT NULL, max_length=255"
+        string resume_content_type "NOT NULL, max_length=100"
+        string current_location "Optional, max_length=255"
+        string total_experience "Optional, max_length=50"
+        string relevant_experience "Optional, max_length=50"
+        string current_ctc "Optional, max_length=50"
+        string expected_ctc "Optional, max_length=50"
+        string notice_period "Optional, max_length=50"
+        string current_job_title "Optional, max_length=255"
+        text skill_set "Optional"
+        url linkedin "Optional"
+        url github "Optional"
+        string street "Optional, max_length=255"
+        string city "Optional, max_length=100"
+        string state "Optional, max_length=100"
+        string zip_code "Optional, max_length=20"
+        string status "Default='HR Screening', choices: HR Screening, Technical Screening, Interview 1, Interview 2, HR Interview, Offer Sent, Joined, Rejected"
+        int assigned_user_id FK "References AUTH_USERS(id) ON DELETE SET NULL, Optional"
+        text notes "Optional"
         datetime applied_date "NOT NULL, default=NOW()"
         datetime created_at "NOT NULL, default=NOW()"
         datetime updated_at "NOT NULL, auto-updated"
     }
     
-    APPLICATION_STATUS {
+    APPLICATION_STATUSES {
         int id PK "Primary Key, auto-increment"
-        string name UK "Unique, NOT NULL"
-        string description "Optional"
+        string name UK "Unique, NOT NULL, max_length=100"
+        text description "Optional"
         int order_sequence "NOT NULL"
+        boolean is_active "Default=True"
         datetime created_at "NOT NULL, default=NOW()"
+        datetime updated_at "NOT NULL, auto-updated"
     }
     
-    APPLICATION_ASSIGNED_USER_STATUS {
+    APPLICATION_ASSIGNED_USER_STATUSES {
         int id PK "Primary Key, auto-increment"
-        int application_id FK "References APPLICATION(id) ON DELETE CASCADE"
-        int status_id FK "References APPLICATION_STATUS(id) ON DELETE CASCADE"
-        int assigned_user_id FK "References USER(id) ON DELETE SET NULL"
+        int application_id FK "References APPLICATIONS(id) ON DELETE CASCADE"
+        int status_id FK "References APPLICATION_STATUSES(id) ON DELETE CASCADE"
+        int assigned_user_id FK "References AUTH_USERS(id) ON DELETE SET NULL"
         text notes "Optional (review feedback or comments)"
         datetime status_date "NOT NULL, default=NOW()"
         datetime created_at "NOT NULL, default=NOW()"
@@ -158,18 +230,14 @@ erDiagram
 
 ## Goals
 
-- Digitize the recruitment workflow to reduce manual paperwork
-- Improve coordination between HR, departments, and candidates
-- Enable centralized access to all job and application data
-- Establish a secure authentication and authorization system
-- Prepare infrastructure for future AI-based enhancements
+Build a working MVP for recruitment management. Future plan: add AI agents for ranking candidates, analyzing GitHub/LinkedIn profiles, automated phone calls for repetitive tasks like sheduling interview ,getting notice period other stuff , and smart filtering beyond just resumes.
 
 ## Functional Modules
 
 ### 1. Authentication and Authorization
 
-- JWT-based login and sign-up system
-- Role-based permissions for HR, recruiter, and admin
+- JWT-based login and sign-up system using Django REST Framework SimpleJWT
+- Group-based permissions for tech evaluator, recruiter, and admin using Django's built-in auth system
 
 ### 2. Job Management
 
@@ -186,21 +254,16 @@ erDiagram
 - Department-wise review and comments on applications
 - Track status transitions such as Applied, Under Review, Shortlisted, Rejected, or Hired
 
-### 5. Reporting and Logs
-
-- Automatically maintain timestamps for reviews and updates
-- Provide recruiters visibility into department activity
-
 ## Technical Requirements
 
 | Component | Technology Stack |
 |-----------|-----------------|
 | Frontend | React.js, Axios, Tailwind CSS |
-| Backend | FastAPI (Python), JWT Auth |
+| Backend | Django REST Framework (Python), SimpleJWT Auth |
 | Database | PostgreSQL (AWS RDS) |
 | Hosting | AWS EC2 (Backend), AWS S3 + CloudFront (Frontend) |
 | CI/CD | GitHub Actions |
-| Authentication | JSON Web Token (JWT) |
+| Authentication | JSON Web Token (JWT) via djangorestframework-simplejwt |
 | Version Control | GitHub |
 
 ## Constraints
@@ -209,111 +272,69 @@ erDiagram
 - Focused on building a solid foundation for data management and workflows
 - AI-based candidate filtering and predictive analytics are deferred for later integration
 
-## Workflow
-
-1. HR or recruiter logs in securely
-2. HR posts a new job with relevant department and details
-3. Applicants register and apply for available jobs
-4. Department reviewers track applications and update statuses
-5. System maintains logs of all status updates and user actions
-6. Reports and analytics (basic) are generated for monthly overview
-
 ## Use Cases
 
-### Use Case 1: Job Applicant Workflow
+### Use Case 1: Applicant Applies for Job
 
-This covers the complete journey of a candidate applying for a job through our portal.
+**Actor:** Job Applicant
 
-**Actor:** Job Applicant (User)
+**Steps:**
 
-**Main Flow:**
+1. Visit website and browse jobs
+2. Click on a job to see details
+3. Upload resume (PDF or DOC)
+4. Fill out application form
+5. Submit application
+6. Get confirmation email
 
-The applicant starts by visiting the website and browsing through available job listings. When they find something interesting, they can view detailed information about the job including the description, requirements, and benefits package.
+**Notes:**
 
-Once they decide to apply, they need to:
-- Upload their resume and any supporting documents
-- Fill out the application form with personal information, work experience, and education details
-- Submit the complete application
-
-After submission, the system sends them a confirmation email with application details.
-
-**System Boundary:** Accipere Job Application Portal
-
-**Key Points:**
-- Browsing jobs doesn't require login, but applying does
-- Resume upload supports PDF, DOC, and DOCX formats
-- Application form validates required fields before submission
-- Confirmation is sent immediately after successful submission
+- No login needed to browse jobs
+- No login required 
 
 ---
 
-### Use Case 2: Admin User Management
+### Use Case 2: Admin Adds New User
 
-This describes how system administrators add new team members to the platform.
+**Actor:** Admin
 
-**Actor:** System Administrator
+**Steps:**
 
-**Main Flow:**
+1. Login to admin panel
+2. Go to user management
+3. Enter new user's email
+4. Select their department
+5. Assign group (Administrator, Recruiter and Technical Evaluator)
+6. System sends invite email
 
-Admin logs into the admin panel and accesses the user management settings. To add a new user, they:
+**What happens next:**
 
-1. Enter the new user's email address
-2. Select which department they belong to
-3. Assign an appropriate role (HR Team Member, Hiring Manager, Recruiter, or Admin)
-
-Once these details are filled, the system sends an invitation email to the new user. The email contains a secure setup link that's valid for 48 hours.
-
-**Secondary Actor:** New User
-
-The new user receives the email, clicks the setup link, and creates their password. After that, they can log in with their credentials.
-
-**System Boundary:** Accipere Admin Panel
-
-**Important Notes:**
-- Only admins can add new users
-- Email addresses must be unique in the system
-- Setup links expire after 48 hours for security
-- Users can't change their own role, only admins can do that
+- New user gets email with setup link
+- Link expires in 48 hours
+- User clicks link and creates password
+- User can now login
 
 ---
 
-### Use Case 3: HR Team Application Screening
-
-This is the workflow HR team members follow when reviewing job applications.
+### Use Case 3: HR Reviews Applications
 
 **Actor:** HR Team Member
 
-**Main Flow:**
+**Steps:**
 
-HR team member logs in and lands on their dashboard. From there, they can view the list of all applications with options to filter by status (new, under review, shortlisted, etc.) or by position, and search for specific applicants.
+1. Login to dashboard
+2. See list of applications
+3. Filter by status or job position
+4. Click on an application to open it
+5. Review resume and application form
+6. Add notes for team
+7. Update status (shortlist, reject, or interview)
+8. System emails applicant about status change
 
-When they open an application, they can see:
-- The applicant's resume
-- Filled application form
-- Any additional documents uploaded
+**Notes:**
 
-**Screening Process:**
-
-While reviewing, the HR member:
-- Checks if qualifications match the job requirements
-- Reviews work experience and education background
-- Adds internal notes for other team members
-- Rates or scores the candidate based on criteria
-
-After screening, they update the application status and can:
-- Move the candidate to the next stage (schedule interview, request more info, or forward to hiring manager)
-- Reject the application with a reason
-
-The system automatically sends a status update email to the applicant whenever their application status changes.
-
-**System Boundary:** Accipere HR Dashboard
-
-**Workflow Notes:**
-- Multiple HR members can review the same application
-- All notes and status changes are logged with timestamps
-- Applicants only see major status updates, not internal notes
-- Rejected candidates receive a polite email with feedback (if provided)
-- Interview scheduling integrates with the calendar system
+- Multiple HR members can review same application
+- All changes are logged with timestamps
 
 ---
 
@@ -323,21 +344,20 @@ The system automatically sends a status update email to the applicant whenever t
 |--------|-------------|
 | Data Accuracy | Ensured by foreign key constraints in PostgreSQL |
 | Response Time | Measured for API endpoints |
-| User Experience | Feedback collected from HR team |
 | Deployment Stability | Tested through automated GitHub Actions runs |
 
 ## Future Enhancements
 
-While the current focus is on building a core recruitment management system, future work includes:
-
-- **AI Integration**: Resume parsing and auto-filtering based on skill match
-- **Email Automation**: Auto-notification for shortlisted or rejected candidates
-- **External Job Portal Integration**: Connect with LinkedIn, Indeed, and Naukri
-- **Advanced Reporting Dashboard**: Predictive analytics and visualization
-- **Chatbot Interface**: For applicant queries and process guidance
+- Email automation for status updates
+- Job portal integration (LinkedIn, Indeed, Naukri)
+- AI resume parsing and ranking
+- AI agents to analyze GitHub, LinkedIn, portfolios
+- Automated phone calls for repetitive info (joining date, salary)
+- Smart candidate matching beyond keywords
+- Analytics dashboard
 
 ## Conclusion
 
-The Recruitment Management System (RMS) provides a reliable foundation for automating company internal hiring process. By combining FastAPI, React, and AWS, it establishes a scalable and secure system architecture.
+The Recruitment Management System (RMS) provides a reliable foundation for automating company internal hiring process. By combining Django REST Framework, React, and AWS, it establishes a scalable and secure system architecture.
 
-This base version focuses on streamlining recruitment workflows and building a modular, cloud-ready infrastructure—serving as a strong platform for future expansion into a full-featured AI-driven Applicant Tracking System (ATS).
+This base version focuses on streamlining recruitment workflows and cloud-ready infrastructure—serving as a strong platform for future expansion into a full-featured AI-driven Applicant Tracking System (ATS).

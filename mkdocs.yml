@@ -11,6 +11,10 @@ theme:
     - search.suggest
     - search.highlight
 
+nav:
+  - Home: index.md
+  - Technical Documentation: technical-documentation.md
+
 markdown_extensions:
   - pymdownx.superfences:
       custom_fences:
