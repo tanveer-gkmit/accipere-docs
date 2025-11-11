@@ -87,8 +87,13 @@ accipere-backend/
 │   ├── serializers.py
 │   ├── views.py
 │   └── urls.py
-├── users/                       # User and Role management
-│   ├── models.py
+├── users/                       # User management
+│   ├── models.py                # User model with role_id FK
+│   ├── serializers.py
+│   ├── views.py
+│   └── urls.py
+├── roles/                       # Role management
+│   ├── models.py                # Simple ROLES table
 │   ├── serializers.py
 │   ├── views.py
 │   └── urls.py
@@ -130,14 +135,23 @@ GET    /api/auth/me/                - Get current user profile
 ### 2.2 User Management APIs
 
 ```
-GET    /api/users/                  - List all users (admin only)
-POST   /api/users/                  - Create user (admin only)
-PUT    /api/users/{id}/             - Update user (admin only)
-DELETE /api/users/{id}/             - Delete user (admin only)
+GET    /api/users/                  - List all users (Administrator only)
+POST   /api/users/                  - Create user (Administrator only)
+PUT    /api/users/{id}/             - Update user (Administrator only)
+DELETE /api/users/{id}/             - Soft delete user (Administrator only)
 GET    /api/users/{id}/applications/ - Get applications assigned to user
 ```
 
-### 2.3 Job Management APIs
+### 2.3 Role Management APIs
+
+```
+GET    /api/roles/                  - List all roles (Administrator only)
+POST   /api/roles/                  - Create role (Administrator only)
+PUT    /api/roles/{id}/             - Update role (Administrator only)
+DELETE /api/roles/{id}/             - Soft delete role (Administrator only)
+```
+
+### 2.4 Job Management APIs
 
 ```
 GET    /api/jobs/                   - List all jobs
@@ -149,7 +163,7 @@ DELETE /api/jobs/{id}/              - Delete job
 GET    /api/jobs/{id}/applicants/   - Get all applicants for a job
 ```
 
-### 2.4 Application Management APIs
+### 2.5 Application Management APIs
 
 ```
 GET    /api/applications/           - List all applications
@@ -161,7 +175,7 @@ DELETE /api/applications/{id}/      - Delete application
 GET    /api/applications/{id}/resume/ - Download applicant's resume
 ```
 
-### 2.5 Application Status APIs
+### 2.6 Application Status APIs
 
 ```
 GET    /api/application-statuses/   - List all application statuses
@@ -181,26 +195,33 @@ DELETE /api/application-statuses/{id}/ - Delete status (admin only)
 - Refresh token expiry: 7 days
 - Token blacklisting on logout
 
-### 3.2 Permission Classes
+### 3.2 Role-Based Access Control
 
-**Custom Permissions:**
-- `IsAdmin` - Full access to all resources
-- `IsRecruiter` - Can manage jobs, view/update applications
-- `IsTechnicalEvaluator` - Can view applications and add notes
-- `IsPublic` - Can submit applications
+**Simple Role System:**
+The system uses a straightforward role-based approach with three predefined roles stored in the ROLES table:
+
+- **Administrator** - Full access to all resources (users, jobs, applications, statuses)
+- **Recruiter** - Can manage jobs, view/update applications, assign evaluators
+- **Technical Evaluator** - Can view applications and add technical notes
+
+**Permission Implementation:**
+- Each user has a single role assigned via `role_id` foreign key
+- Permissions are checked based on the user's role name
+- Custom permission decorators validate role access at the view level
 
 ### 3.3 Permission Matrix
 
-| Endpoint | Admin | Recruiter | Technical Evaluator | Public |
-|----------|-------|-----------|---------------------|--------|
+| Endpoint | Administrator | Recruiter | Technical Evaluator | Public |
+|----------|---------------|-----------|---------------------|--------|
 | POST /api/applications/ | ✓ | ✓ | ✓ | ✓ |
 | GET /api/jobs/ | ✓ | ✓ | ✓ | ✓ |
 | POST /api/jobs/ | ✓ | ✓ | ✗ | ✗ |
 | GET /api/applications/ | ✓ | ✓ | ✓ | ✗ |
-| PUT /api/applications/{id}/ | ✓ | ✓ | ✓ | ✗ |
+| PUT /api/applications/{id}/ | ✓ | ✓ | ✓ (notes only) | ✗ |
 | POST /api/users/ | ✓ | ✗ | ✗ | ✗ |
 | POST /api/application-statuses/ | ✓ | ✗ | ✗ | ✗ |
 | DELETE /api/applications/{id}/ | ✓ | ✓ | ✗ | ✗ |
+| GET /api/roles/ | ✓ | ✗ | ✗ | ✗ |
 
 ---
 
@@ -237,16 +258,118 @@ The system uses a flexible status management system that allows administrators t
 
 ---
 
-## 5. File Storage & Resume Handling
+## 5. Soft Delete Implementation
 
-### 5.1 Resume Storage in PostgreSQL
+### 5.1 Overview
+
+The system implements soft delete functionality across all major tables to preserve data integrity and enable data recovery. Instead of permanently removing records from the database, records are marked as deleted using a `deleted_at` timestamp field.
+
+### 5.2 Tables with Soft Delete
+
+The following tables include the `deleted_at` field:
+
+- **AUTH_USERS** - User accounts
+- **JOBS** - Job postings
+- **APPLICATIONS** - Job applications
+- **APPLICATION_STATUSES** - Status definitions
+- **APPLICATION_ASSIGNED_USER_STATUSES** - Status tracking records
+
+### 5.3 Soft Delete Behavior
+
+**Field Specification:**
+```
+deleted_at: DateTimeField, nullable=True, default=None
+```
+
+**Delete Operation:**
+- When a DELETE request is made, set `deleted_at = current_timestamp`
+- Record remains in database but is excluded from normal queries
+- Original data is preserved for audit trails and recovery
+
+**Query Filtering:**
+- Default queryset filters: `deleted_at__isnull=True`
+- Soft-deleted records are hidden from standard API responses
+- Admin users can optionally view deleted records with special filters
+
+### 5.4 Implementation Guidelines
+
+**Model Level:**
+```python
+class SoftDeleteModel(models.Model):
+    deleted_at = models.DateTimeField(null=True, blank=True, default=None)
+    
+    class Meta:
+        abstract = True
+    
+    def soft_delete(self):
+        self.deleted_at = timezone.now()
+        self.save()
+    
+    def restore(self):
+        self.deleted_at = None
+        self.save()
+```
+
+**Manager Level:**
+```python
+class SoftDeleteManager(models.Manager):
+    def get_queryset(self):
+        return super().get_queryset().filter(deleted_at__isnull=True)
+    
+    def with_deleted(self):
+        return super().get_queryset()
+    
+    def deleted_only(self):
+        return super().get_queryset().filter(deleted_at__isnull=False)
+```
+
+**ViewSet Level:**
+```python
+def destroy(self, request, *args, **kwargs):
+    instance = self.get_object()
+    instance.soft_delete()
+    return Response(status=status.HTTP_204_NO_CONTENT)
+```
+
+### 5.5 Recovery Endpoints
+
+**Restore Deleted Record:**
+```
+POST /api/{resource}/{id}/restore/
+```
+
+**List Deleted Records (Admin only):**
+```
+GET /api/{resource}/?show_deleted=true
+```
+
+### 5.6 Benefits
+
+- **Data Recovery**: Accidentally deleted records can be restored
+- **Audit Trail**: Maintain complete history of all records
+- **Compliance**: Meet regulatory requirements for data retention
+- **Referential Integrity**: Avoid cascade deletion issues
+- **Analytics**: Include historical data in reports
+
+### 5.7 Considerations
+
+- Unique constraints must account for soft-deleted records
+- Database indexes should consider `deleted_at` field
+- Periodic cleanup jobs may be needed for truly removing old data
+- Backup strategies should account for soft-deleted records
+
+---
+
+## 6. File Storage & Resume Handling
+
+### 6.1 Resume Storage in PostgreSQL
 
 - **Storage Method:** BinaryField in APPLICATION model
 - **Maximum file size:** 5MB
 - **Allowed formats:** PDF, DOC, DOCX
 - **Validation:** Magic byte checking (not just extension)
 
-### 5.2 Resume Upload/Download
+### 6.2 Resume Upload/Download
 
 **Upload Process:**
 - Multipart form data
@@ -276,7 +399,7 @@ Content-Length: 524288
 
 ---
 
-## 6. Error Handling
+## 7. Error Handling
 
 ### Error Response Format
 
@@ -351,21 +474,21 @@ All API errors follow a consistent format:
 
 ---
 
-## 7. Security Requirements
+## 8. Security Requirements
 
-### 7.1 Data Protection
+### 8.1 Data Protection
 - Password hashing using Django's PBKDF2
 - HTTPS only in production
 - CSRF protection
 - SQL injection prevention (ORM)
 
-### 7.2 Input Validation
+### 8.2 Input Validation
 - Sanitize all user inputs
 - File upload validation
 - Email format validation
 - XSS protection
 
-### 7.3 API Security
+### 8.3 API Security
 - JWT token validation
 - CORS whitelist configuration
 - Rate limiting (recommended)
@@ -375,14 +498,14 @@ All API errors follow a consistent format:
 
 ---
 
-## 8. Testing Requirements
+## 9. Testing Requirements
 
-### 8.1 Test Coverage
+### 9.1 Test Coverage
 - Minimum 80% code coverage
 - Use `pytest` and `pytest-django`
 - Mock external services
 
-### 8.2 Test Types
+### 9.2 Test Types
 - Unit tests for models, serializers, views
 - Integration tests for API endpoints
 - Permission tests
@@ -391,15 +514,15 @@ All API errors follow a consistent format:
 
 ---
 
-## 9. Future Enhancements
+## 10. Future Enhancements
 
-### 9.1 Async Task Processing
+### 10.1 Async Task Processing
 - Celery + Redis for background jobs
 - Email notifications
 - Resume parsing
 - Scheduled reports
 
-### 9.2 Advanced Features
+### 10.2 Advanced Features
 - Calendar integration
 - Interview scheduling
 - Video interview integration

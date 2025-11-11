@@ -461,27 +461,36 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#23-job-management-apis" class="md-nav__link">
+  <a href="#23-role-management-apis" class="md-nav__link">
     <span class="md-ellipsis">
-      2.3 Job Management APIs
+      2.3 Role Management APIs
     </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#24-application-management-apis" class="md-nav__link">
+  <a href="#24-job-management-apis" class="md-nav__link">
     <span class="md-ellipsis">
-      2.4 Application Management APIs
+      2.4 Job Management APIs
     </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#25-application-status-apis" class="md-nav__link">
+  <a href="#25-application-management-apis" class="md-nav__link">
     <span class="md-ellipsis">
-      2.5 Application Status APIs
+      2.5 Application Management APIs
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#26-application-status-apis" class="md-nav__link">
+    <span class="md-ellipsis">
+      2.6 Application Status APIs
     </span>
   </a>
   
@@ -512,9 +521,9 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#32-permission-classes" class="md-nav__link">
+  <a href="#32-role-based-access-control" class="md-nav__link">
     <span class="md-ellipsis">
-      3.2 Permission Classes
+      3.2 Role-Based Access Control
     </span>
   </a>
   
@@ -577,28 +586,73 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#5-file-storage-resume-handling" class="md-nav__link">
+  <a href="#5-soft-delete-implementation" class="md-nav__link">
     <span class="md-ellipsis">
-      5. File Storage &amp; Resume Handling
+      5. Soft Delete Implementation
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="5. File Storage &amp; Resume Handling">
+    <nav class="md-nav" aria-label="5. Soft Delete Implementation">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#51-resume-storage-in-postgresql" class="md-nav__link">
+  <a href="#51-overview" class="md-nav__link">
     <span class="md-ellipsis">
-      5.1 Resume Storage in PostgreSQL
+      5.1 Overview
     </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#52-resume-uploaddownload" class="md-nav__link">
+  <a href="#52-tables-with-soft-delete" class="md-nav__link">
     <span class="md-ellipsis">
-      5.2 Resume Upload/Download
+      5.2 Tables with Soft Delete
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#53-soft-delete-behavior" class="md-nav__link">
+    <span class="md-ellipsis">
+      5.3 Soft Delete Behavior
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#54-implementation-guidelines" class="md-nav__link">
+    <span class="md-ellipsis">
+      5.4 Implementation Guidelines
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#55-recovery-endpoints" class="md-nav__link">
+    <span class="md-ellipsis">
+      5.5 Recovery Endpoints
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#56-benefits" class="md-nav__link">
+    <span class="md-ellipsis">
+      5.6 Benefits
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#57-considerations" class="md-nav__link">
+    <span class="md-ellipsis">
+      5.7 Considerations
     </span>
   </a>
   
@@ -610,13 +664,46 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#6-error-handling" class="md-nav__link">
+  <a href="#6-file-storage-resume-handling" class="md-nav__link">
     <span class="md-ellipsis">
-      6. Error Handling
+      6. File Storage &amp; Resume Handling
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="6. Error Handling">
+    <nav class="md-nav" aria-label="6. File Storage &amp; Resume Handling">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#61-resume-storage-in-postgresql" class="md-nav__link">
+    <span class="md-ellipsis">
+      6.1 Resume Storage in PostgreSQL
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#62-resume-uploaddownload" class="md-nav__link">
+    <span class="md-ellipsis">
+      6.2 Resume Upload/Download
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#7-error-handling" class="md-nav__link">
+    <span class="md-ellipsis">
+      7. Error Handling
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="7. Error Handling">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
@@ -652,37 +739,37 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#7-security-requirements" class="md-nav__link">
+  <a href="#8-security-requirements" class="md-nav__link">
     <span class="md-ellipsis">
-      7. Security Requirements
+      8. Security Requirements
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="7. Security Requirements">
+    <nav class="md-nav" aria-label="8. Security Requirements">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#71-data-protection" class="md-nav__link">
+  <a href="#81-data-protection" class="md-nav__link">
     <span class="md-ellipsis">
-      7.1 Data Protection
+      8.1 Data Protection
     </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#72-input-validation" class="md-nav__link">
+  <a href="#82-input-validation" class="md-nav__link">
     <span class="md-ellipsis">
-      7.2 Input Validation
+      8.2 Input Validation
     </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#73-api-security" class="md-nav__link">
+  <a href="#83-api-security" class="md-nav__link">
     <span class="md-ellipsis">
-      7.3 API Security
+      8.3 API Security
     </span>
   </a>
   
@@ -694,28 +781,28 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#8-testing-requirements" class="md-nav__link">
+  <a href="#9-testing-requirements" class="md-nav__link">
     <span class="md-ellipsis">
-      8. Testing Requirements
+      9. Testing Requirements
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="8. Testing Requirements">
+    <nav class="md-nav" aria-label="9. Testing Requirements">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#81-test-coverage" class="md-nav__link">
+  <a href="#91-test-coverage" class="md-nav__link">
     <span class="md-ellipsis">
-      8.1 Test Coverage
+      9.1 Test Coverage
     </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#82-test-types" class="md-nav__link">
+  <a href="#92-test-types" class="md-nav__link">
     <span class="md-ellipsis">
-      8.2 Test Types
+      9.2 Test Types
     </span>
   </a>
   
@@ -727,28 +814,28 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#9-future-enhancements" class="md-nav__link">
+  <a href="#10-future-enhancements" class="md-nav__link">
     <span class="md-ellipsis">
-      9. Future Enhancements
+      10. Future Enhancements
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="9. Future Enhancements">
+    <nav class="md-nav" aria-label="10. Future Enhancements">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#91-async-task-processing" class="md-nav__link">
+  <a href="#101-async-task-processing" class="md-nav__link">
     <span class="md-ellipsis">
-      9.1 Async Task Processing
+      10.1 Async Task Processing
     </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#92-advanced-features" class="md-nav__link">
+  <a href="#102-advanced-features" class="md-nav__link">
     <span class="md-ellipsis">
-      9.2 Advanced Features
+      10.2 Advanced Features
     </span>
   </a>
   
@@ -864,8 +951,13 @@
 │   ├── serializers.py
 │   ├── views.py
 │   └── urls.py
-├── users/                       # User and Role management
-│   ├── models.py
+├── users/                       # User management
+│   ├── models.py                # User model with role_id FK
+│   ├── serializers.py
+│   ├── views.py
+│   └── urls.py
+├── roles/                       # Role management
+│   ├── models.py                # Simple ROLES table
 │   ├── serializers.py
 │   ├── views.py
 │   └── urls.py
@@ -899,13 +991,19 @@ POST   /api/auth/refresh/           - Refresh access token
 GET    /api/auth/me/                - Get current user profile
 </code></pre></div>
 <h3 id="22-user-management-apis">2.2 User Management APIs<a class="headerlink" href="#22-user-management-apis" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code>GET    /api/users/                  - List all users (admin only)
-POST   /api/users/                  - Create user (admin only)
-PUT    /api/users/{id}/             - Update user (admin only)
-DELETE /api/users/{id}/             - Delete user (admin only)
+<div class="highlight"><pre><span></span><code>GET    /api/users/                  - List all users (Administrator only)
+POST   /api/users/                  - Create user (Administrator only)
+PUT    /api/users/{id}/             - Update user (Administrator only)
+DELETE /api/users/{id}/             - Soft delete user (Administrator only)
 GET    /api/users/{id}/applications/ - Get applications assigned to user
 </code></pre></div>
-<h3 id="23-job-management-apis">2.3 Job Management APIs<a class="headerlink" href="#23-job-management-apis" title="Permanent link">&para;</a></h3>
+<h3 id="23-role-management-apis">2.3 Role Management APIs<a class="headerlink" href="#23-role-management-apis" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>GET    /api/roles/                  - List all roles (Administrator only)
+POST   /api/roles/                  - Create role (Administrator only)
+PUT    /api/roles/{id}/             - Update role (Administrator only)
+DELETE /api/roles/{id}/             - Soft delete role (Administrator only)
+</code></pre></div>
+<h3 id="24-job-management-apis">2.4 Job Management APIs<a class="headerlink" href="#24-job-management-apis" title="Permanent link">&para;</a></h3>
 <div class="highlight"><pre><span></span><code>GET    /api/jobs/                   - List all jobs
 POST   /api/jobs/                   - Create new job
 GET    /api/jobs/{id}/              - Get job details
@@ -914,7 +1012,7 @@ PATCH  /api/jobs/{id}/              - Partial update job
 DELETE /api/jobs/{id}/              - Delete job
 GET    /api/jobs/{id}/applicants/   - Get all applicants for a job
 </code></pre></div>
-<h3 id="24-application-management-apis">2.4 Application Management APIs<a class="headerlink" href="#24-application-management-apis" title="Permanent link">&para;</a></h3>
+<h3 id="25-application-management-apis">2.5 Application Management APIs<a class="headerlink" href="#25-application-management-apis" title="Permanent link">&para;</a></h3>
 <div class="highlight"><pre><span></span><code>GET    /api/applications/           - List all applications
 POST   /api/applications/           - Create application (public endpoint)
 GET    /api/applications/{id}/      - Get application details
@@ -923,7 +1021,7 @@ PATCH  /api/applications/{id}/      - Partial update (status, assignment, notes)
 DELETE /api/applications/{id}/      - Delete application
 GET    /api/applications/{id}/resume/ - Download applicant&#39;s resume
 </code></pre></div>
-<h3 id="25-application-status-apis">2.5 Application Status APIs<a class="headerlink" href="#25-application-status-apis" title="Permanent link">&para;</a></h3>
+<h3 id="26-application-status-apis">2.6 Application Status APIs<a class="headerlink" href="#26-application-status-apis" title="Permanent link">&para;</a></h3>
 <div class="highlight"><pre><span></span><code>GET    /api/application-statuses/   - List all application statuses
 POST   /api/application-statuses/   - Create new status (admin only)
 PUT    /api/application-statuses/{id}/ - Update status (admin only)
@@ -938,18 +1036,24 @@ DELETE /api/application-statuses/{id}/ - Delete status (admin only)
 <li>Refresh token expiry: 7 days</li>
 <li>Token blacklisting on logout</li>
 </ul>
-<h3 id="32-permission-classes">3.2 Permission Classes<a class="headerlink" href="#32-permission-classes" title="Permanent link">&para;</a></h3>
-<p><strong>Custom Permissions:</strong>
-- <code>IsAdmin</code> - Full access to all resources
-- <code>IsRecruiter</code> - Can manage jobs, view/update applications
-- <code>IsTechnicalEvaluator</code> - Can view applications and add notes
-- <code>IsPublic</code> - Can submit applications</p>
+<h3 id="32-role-based-access-control">3.2 Role-Based Access Control<a class="headerlink" href="#32-role-based-access-control" title="Permanent link">&para;</a></h3>
+<p><strong>Simple Role System:</strong>
+The system uses a straightforward role-based approach with three predefined roles stored in the ROLES table:</p>
+<ul>
+<li><strong>Administrator</strong> - Full access to all resources (users, jobs, applications, statuses)</li>
+<li><strong>Recruiter</strong> - Can manage jobs, view/update applications, assign evaluators</li>
+<li><strong>Technical Evaluator</strong> - Can view applications and add technical notes</li>
+</ul>
+<p><strong>Permission Implementation:</strong>
+- Each user has a single role assigned via <code>role_id</code> foreign key
+- Permissions are checked based on the user's role name
+- Custom permission decorators validate role access at the view level</p>
 <h3 id="33-permission-matrix">3.3 Permission Matrix<a class="headerlink" href="#33-permission-matrix" title="Permanent link">&para;</a></h3>
 <table>
 <thead>
 <tr>
 <th>Endpoint</th>
-<th>Admin</th>
+<th>Administrator</th>
 <th>Recruiter</th>
 <th>Technical Evaluator</th>
 <th>Public</th>
@@ -988,7 +1092,7 @@ DELETE /api/application-statuses/{id}/ - Delete status (admin only)
 <td>PUT /api/applications/{id}/</td>
 <td>✓</td>
 <td>✓</td>
-<td>✓</td>
+<td>✓ (notes only)</td>
 <td>✗</td>
 </tr>
 <tr>
@@ -1009,6 +1113,13 @@ DELETE /api/application-statuses/{id}/ - Delete status (admin only)
 <td>DELETE /api/applications/{id}/</td>
 <td>✓</td>
 <td>✓</td>
+<td>✗</td>
+<td>✗</td>
+</tr>
+<tr>
+<td>GET /api/roles/</td>
+<td>✓</td>
+<td>✗</td>
 <td>✗</td>
 <td>✗</td>
 </tr>
@@ -1043,15 +1154,95 @@ DELETE /api/application-statuses/{id}/ - Delete status (admin only)
 </ol>
 <hr />
 <hr />
-<h2 id="5-file-storage-resume-handling">5. File Storage &amp; Resume Handling<a class="headerlink" href="#5-file-storage-resume-handling" title="Permanent link">&para;</a></h2>
-<h3 id="51-resume-storage-in-postgresql">5.1 Resume Storage in PostgreSQL<a class="headerlink" href="#51-resume-storage-in-postgresql" title="Permanent link">&para;</a></h3>
+<h2 id="5-soft-delete-implementation">5. Soft Delete Implementation<a class="headerlink" href="#5-soft-delete-implementation" title="Permanent link">&para;</a></h2>
+<h3 id="51-overview">5.1 Overview<a class="headerlink" href="#51-overview" title="Permanent link">&para;</a></h3>
+<p>The system implements soft delete functionality across all major tables to preserve data integrity and enable data recovery. Instead of permanently removing records from the database, records are marked as deleted using a <code>deleted_at</code> timestamp field.</p>
+<h3 id="52-tables-with-soft-delete">5.2 Tables with Soft Delete<a class="headerlink" href="#52-tables-with-soft-delete" title="Permanent link">&para;</a></h3>
+<p>The following tables include the <code>deleted_at</code> field:</p>
+<ul>
+<li><strong>AUTH_USERS</strong> - User accounts</li>
+<li><strong>JOBS</strong> - Job postings</li>
+<li><strong>APPLICATIONS</strong> - Job applications</li>
+<li><strong>APPLICATION_STATUSES</strong> - Status definitions</li>
+<li><strong>APPLICATION_ASSIGNED_USER_STATUSES</strong> - Status tracking records</li>
+</ul>
+<h3 id="53-soft-delete-behavior">5.3 Soft Delete Behavior<a class="headerlink" href="#53-soft-delete-behavior" title="Permanent link">&para;</a></h3>
+<p><strong>Field Specification:</strong>
+<div class="highlight"><pre><span></span><code>deleted_at: DateTimeField, nullable=True, default=None
+</code></pre></div></p>
+<p><strong>Delete Operation:</strong>
+- When a DELETE request is made, set <code>deleted_at = current_timestamp</code>
+- Record remains in database but is excluded from normal queries
+- Original data is preserved for audit trails and recovery</p>
+<p><strong>Query Filtering:</strong>
+- Default queryset filters: <code>deleted_at__isnull=True</code>
+- Soft-deleted records are hidden from standard API responses
+- Admin users can optionally view deleted records with special filters</p>
+<h3 id="54-implementation-guidelines">5.4 Implementation Guidelines<a class="headerlink" href="#54-implementation-guidelines" title="Permanent link">&para;</a></h3>
+<p><strong>Model Level:</strong>
+<div class="highlight"><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">SoftDeleteModel</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">deleted_at</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">DateTimeField</span><span class="p">(</span><span class="n">null</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">blank</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+
+    <span class="k">class</span><span class="w"> </span><span class="nc">Meta</span><span class="p">:</span>
+        <span class="n">abstract</span> <span class="o">=</span> <span class="kc">True</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">soft_delete</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">deleted_at</span> <span class="o">=</span> <span class="n">timezone</span><span class="o">.</span><span class="n">now</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">restore</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">deleted_at</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>
+</code></pre></div></p>
+<p><strong>Manager Level:</strong>
+<div class="highlight"><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">SoftDeleteManager</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">Manager</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_queryset</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">get_queryset</span><span class="p">()</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">deleted_at__isnull</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">with_deleted</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">get_queryset</span><span class="p">()</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">deleted_only</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">get_queryset</span><span class="p">()</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">deleted_at__isnull</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+</code></pre></div></p>
+<p><strong>ViewSet Level:</strong>
+<div class="highlight"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">destroy</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">request</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="n">instance</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_object</span><span class="p">()</span>
+    <span class="n">instance</span><span class="o">.</span><span class="n">soft_delete</span><span class="p">()</span>
+    <span class="k">return</span> <span class="n">Response</span><span class="p">(</span><span class="n">status</span><span class="o">=</span><span class="n">status</span><span class="o">.</span><span class="n">HTTP_204_NO_CONTENT</span><span class="p">)</span>
+</code></pre></div></p>
+<h3 id="55-recovery-endpoints">5.5 Recovery Endpoints<a class="headerlink" href="#55-recovery-endpoints" title="Permanent link">&para;</a></h3>
+<p><strong>Restore Deleted Record:</strong>
+<div class="highlight"><pre><span></span><code>POST /api/{resource}/{id}/restore/
+</code></pre></div></p>
+<p><strong>List Deleted Records (Admin only):</strong>
+<div class="highlight"><pre><span></span><code>GET /api/{resource}/?show_deleted=true
+</code></pre></div></p>
+<h3 id="56-benefits">5.6 Benefits<a class="headerlink" href="#56-benefits" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>Data Recovery</strong>: Accidentally deleted records can be restored</li>
+<li><strong>Audit Trail</strong>: Maintain complete history of all records</li>
+<li><strong>Compliance</strong>: Meet regulatory requirements for data retention</li>
+<li><strong>Referential Integrity</strong>: Avoid cascade deletion issues</li>
+<li><strong>Analytics</strong>: Include historical data in reports</li>
+</ul>
+<h3 id="57-considerations">5.7 Considerations<a class="headerlink" href="#57-considerations" title="Permanent link">&para;</a></h3>
+<ul>
+<li>Unique constraints must account for soft-deleted records</li>
+<li>Database indexes should consider <code>deleted_at</code> field</li>
+<li>Periodic cleanup jobs may be needed for truly removing old data</li>
+<li>Backup strategies should account for soft-deleted records</li>
+</ul>
+<hr />
+<h2 id="6-file-storage-resume-handling">6. File Storage &amp; Resume Handling<a class="headerlink" href="#6-file-storage-resume-handling" title="Permanent link">&para;</a></h2>
+<h3 id="61-resume-storage-in-postgresql">6.1 Resume Storage in PostgreSQL<a class="headerlink" href="#61-resume-storage-in-postgresql" title="Permanent link">&para;</a></h3>
 <ul>
 <li><strong>Storage Method:</strong> BinaryField in APPLICATION model</li>
 <li><strong>Maximum file size:</strong> 5MB</li>
 <li><strong>Allowed formats:</strong> PDF, DOC, DOCX</li>
 <li><strong>Validation:</strong> Magic byte checking (not just extension)</li>
 </ul>
-<h3 id="52-resume-uploaddownload">5.2 Resume Upload/Download<a class="headerlink" href="#52-resume-uploaddownload" title="Permanent link">&para;</a></h3>
+<h3 id="62-resume-uploaddownload">6.2 Resume Upload/Download<a class="headerlink" href="#62-resume-uploaddownload" title="Permanent link">&para;</a></h3>
 <p><strong>Upload Process:</strong>
 - Multipart form data
 - File type validation using magic bytes (python-magic)
@@ -1073,7 +1264,7 @@ Content-Disposition: attachment; filename=&quot;john_doe_resume.pdf&quot;
 Content-Length: 524288
 </code></pre></div></p>
 <hr />
-<h2 id="6-error-handling">6. Error Handling<a class="headerlink" href="#6-error-handling" title="Permanent link">&para;</a></h2>
+<h2 id="7-error-handling">7. Error Handling<a class="headerlink" href="#7-error-handling" title="Permanent link">&para;</a></h2>
 <h3 id="error-response-format">Error Response Format<a class="headerlink" href="#error-response-format" title="Permanent link">&para;</a></h3>
 <p>All API errors follow a consistent format:</p>
 <div class="highlight"><pre><span></span><code><span class="p">{</span>
@@ -1131,22 +1322,22 @@ Content-Length: 524288
 <span class="p">}</span>
 </code></pre></div></p>
 <hr />
-<h2 id="7-security-requirements">7. Security Requirements<a class="headerlink" href="#7-security-requirements" title="Permanent link">&para;</a></h2>
-<h3 id="71-data-protection">7.1 Data Protection<a class="headerlink" href="#71-data-protection" title="Permanent link">&para;</a></h3>
+<h2 id="8-security-requirements">8. Security Requirements<a class="headerlink" href="#8-security-requirements" title="Permanent link">&para;</a></h2>
+<h3 id="81-data-protection">8.1 Data Protection<a class="headerlink" href="#81-data-protection" title="Permanent link">&para;</a></h3>
 <ul>
 <li>Password hashing using Django's PBKDF2</li>
 <li>HTTPS only in production</li>
 <li>CSRF protection</li>
 <li>SQL injection prevention (ORM)</li>
 </ul>
-<h3 id="72-input-validation">7.2 Input Validation<a class="headerlink" href="#72-input-validation" title="Permanent link">&para;</a></h3>
+<h3 id="82-input-validation">8.2 Input Validation<a class="headerlink" href="#82-input-validation" title="Permanent link">&para;</a></h3>
 <ul>
 <li>Sanitize all user inputs</li>
 <li>File upload validation</li>
 <li>Email format validation</li>
 <li>XSS protection</li>
 </ul>
-<h3 id="73-api-security">7.3 API Security<a class="headerlink" href="#73-api-security" title="Permanent link">&para;</a></h3>
+<h3 id="83-api-security">8.3 API Security<a class="headerlink" href="#83-api-security" title="Permanent link">&para;</a></h3>
 <ul>
 <li>JWT token validation</li>
 <li>CORS whitelist configuration</li>
@@ -1155,14 +1346,14 @@ Content-Length: 524288
 </ul>
 <hr />
 <hr />
-<h2 id="8-testing-requirements">8. Testing Requirements<a class="headerlink" href="#8-testing-requirements" title="Permanent link">&para;</a></h2>
-<h3 id="81-test-coverage">8.1 Test Coverage<a class="headerlink" href="#81-test-coverage" title="Permanent link">&para;</a></h3>
+<h2 id="9-testing-requirements">9. Testing Requirements<a class="headerlink" href="#9-testing-requirements" title="Permanent link">&para;</a></h2>
+<h3 id="91-test-coverage">9.1 Test Coverage<a class="headerlink" href="#91-test-coverage" title="Permanent link">&para;</a></h3>
 <ul>
 <li>Minimum 80% code coverage</li>
 <li>Use <code>pytest</code> and <code>pytest-django</code></li>
 <li>Mock external services</li>
 </ul>
-<h3 id="82-test-types">8.2 Test Types<a class="headerlink" href="#82-test-types" title="Permanent link">&para;</a></h3>
+<h3 id="92-test-types">9.2 Test Types<a class="headerlink" href="#92-test-types" title="Permanent link">&para;</a></h3>
 <ul>
 <li>Unit tests for models, serializers, views</li>
 <li>Integration tests for API endpoints</li>
@@ -1171,15 +1362,15 @@ Content-Length: 524288
 <li>Status transition tests</li>
 </ul>
 <hr />
-<h2 id="9-future-enhancements">9. Future Enhancements<a class="headerlink" href="#9-future-enhancements" title="Permanent link">&para;</a></h2>
-<h3 id="91-async-task-processing">9.1 Async Task Processing<a class="headerlink" href="#91-async-task-processing" title="Permanent link">&para;</a></h3>
+<h2 id="10-future-enhancements">10. Future Enhancements<a class="headerlink" href="#10-future-enhancements" title="Permanent link">&para;</a></h2>
+<h3 id="101-async-task-processing">10.1 Async Task Processing<a class="headerlink" href="#101-async-task-processing" title="Permanent link">&para;</a></h3>
 <ul>
 <li>Celery + Redis for background jobs</li>
 <li>Email notifications</li>
 <li>Resume parsing</li>
 <li>Scheduled reports</li>
 </ul>
-<h3 id="92-advanced-features">9.2 Advanced Features<a class="headerlink" href="#92-advanced-features" title="Permanent link">&para;</a></h3>
+<h3 id="102-advanced-features">10.2 Advanced Features<a class="headerlink" href="#102-advanced-features" title="Permanent link">&para;</a></h3>
 <ul>
 <li>Calendar integration</li>
 <li>Interview scheduling</li>

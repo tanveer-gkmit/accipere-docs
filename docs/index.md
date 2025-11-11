@@ -46,8 +46,8 @@ The system follows a modular, layered architecture deployed on AWS Cloud Infrast
 
 ### 4. Database Layer (PostgreSQL RDS)
 
-- Stores structured data for users, groups, permissions, departments, jobs, applicants, and applications
-- Leverages Django's built-in authentication and authorization tables
+- Stores structured data for users, roles, jobs, applicants, and applications
+- Simple role-based access control with a dedicated ROLES table
 
 ## Architecture Diagram
 
@@ -57,19 +57,15 @@ The system follows a modular, layered architecture deployed on AWS Cloud Infrast
 
 The ER diagram defines clear relationships between the system's entities:
 
-- **AUTH_USERS** – Django's built-in user model representing all system users (HR, recruiter, manager)
-- **AUTH_GROUPS and AUTH_PERMISSIONS** – Django's built-in tables for RBAC (Role-Based Access Control)
-- **AUTH_USER_GROUPS** – Many-to-many relationship between users and groups
-- **AUTH_USER_USER_PERMISSIONS** – Many-to-many relationship for user-specific permissions
-- **AUTH_GROUP_PERMISSIONS** – Many-to-many relationship between groups and permissions
-- **DJANGO_CONTENT_TYPES** – Django's content type framework for generic relations
+- **USERS** – System users (Administrator, Recruiter, Technical Evaluator)
+- **ROLES** – Simple role definitions (Administrator, Recruiter, Technical Evaluator)
 - **JOBS** – Job listings with complete details including salary range, requirements, and benefits
 - **APPLICATIONS** – Contains all applicant information and application data
   - Stores resume as binary data in PostgreSQL
   - Includes professional details, contact info, and address
   - Tracks application status and assignment
 - **APPLICATION_STATUSES** – Defines recruitment stages (HR Screening, Technical Screening, Interviews, etc.)
-- **APPLICATION_ASSIGNED_USER_STATUSES** – track the status of the user . 
+- **APPLICATION_ASSIGNED_USER_STATUSES** – Tracks status changes and user assignments 
 
 > **Note:** For complete technical specifications, API endpoints, and implementation details, see the [Technical Documentation](technical-documentation.md) page.
 
@@ -79,78 +75,38 @@ The ER diagram defines clear relationships between the system's entities:
 
 ```mermaid
 erDiagram
-    %% ===== DJANGO AUTH RELATIONSHIPS =====
-    AUTH_USERS ||--o{ AUTH_USER_GROUPS : "belongs to"
-    AUTH_USER_GROUPS }o--|| AUTH_GROUPS : "links"
-    
-    AUTH_USERS ||--o{ AUTH_USER_USER_PERMISSIONS : "has direct"
-    AUTH_USER_USER_PERMISSIONS }o--|| AUTH_PERMISSIONS : "links"
-    
-    AUTH_GROUPS ||--o{ AUTH_GROUP_PERMISSIONS : "has"
-    AUTH_GROUP_PERMISSIONS }o--|| AUTH_PERMISSIONS : "links"
-    
-    AUTH_PERMISSIONS }o--|| DJANGO_CONTENT_TYPES : "for model"
-    
-    %% ===== APPLICATION RELATIONSHIPS =====
-    AUTH_USERS ||--o{ APPLICATION_ASSIGNED_USER_STATUSES : "reviews / updates"
-    AUTH_USERS ||--o{ JOBS : "posts"
-    AUTH_USERS ||--o{ APPLICATIONS : "assigned to"
+    %% ===== CORE RELATIONSHIPS =====
+    USERS }o--|| ROLES : "has role"
+    USERS ||--o{ APPLICATION_ASSIGNED_USER_STATUSES : "reviews / updates"
+    USERS ||--o{ JOBS : "posts"
+    USERS ||--o{ APPLICATIONS : "assigned to"
     
     JOBS ||--o{ APPLICATIONS : "receives"
     
     APPLICATIONS ||--o{ APPLICATION_ASSIGNED_USER_STATUSES : "tracked by"
     APPLICATION_ASSIGNED_USER_STATUSES }o--|| APPLICATION_STATUSES : "records status"
     
-    %% ===== DJANGO AUTH TABLES =====
+    %% ===== CORE TABLES =====
     
-    AUTH_USERS {
+    USERS {
         int id PK "Primary Key, auto-increment"
-        string password "NOT NULL (hashed)"
-        datetime last_login "Nullable"
-        boolean is_superuser "Default=False"
         string username UK "Unique, NOT NULL, max_length=150"
-        string first_name "max_length=150"
-        string last_name "max_length=150"
-        string email "max_length=254"
-        boolean is_staff "Default=False"
+        string email UK "Unique, NOT NULL, max_length=254"
+        string password "NOT NULL (hashed)"
+        string first_name "NOT NULL, max_length=150"
+        string last_name "NOT NULL, max_length=150"
+        int role_id FK "References ROLES(id)"
         boolean is_active "Default=True"
-        datetime date_joined "NOT NULL, default=NOW()"
+        datetime last_login "Nullable"
+        datetime created_at "NOT NULL, default=NOW()"
+        datetime updated_at "NOT NULL, auto-updated"
+        datetime deleted_at "Nullable, for soft delete"
     }
     
-    AUTH_GROUPS {
+    ROLES {
         int id PK "Primary Key, auto-increment"
-        string name UK "Unique, NOT NULL, max_length=150"
-    }
-    
-    AUTH_PERMISSIONS {
-        int id PK "Primary Key, auto-increment"
-        string name "NOT NULL, max_length=255"
-        int content_type_id FK "References DJANGO_CONTENT_TYPES(id)"
-        string codename UK "Unique with content_type_id, max_length=100"
-    }
-    
-    AUTH_USER_GROUPS {
-        bigint id PK "Primary Key, auto-increment"
-        int user_id FK "References AUTH_USERS(id)"
-        int group_id FK "References AUTH_GROUPS(id)"
-    }
-    
-    AUTH_USER_USER_PERMISSIONS {
-        bigint id PK "Primary Key, auto-increment"
-        int user_id FK "References AUTH_USERS(id)"
-        int permission_id FK "References AUTH_PERMISSIONS(id)"
-    }
-    
-    AUTH_GROUP_PERMISSIONS {
-        bigint id PK "Primary Key, auto-increment"
-        int group_id FK "References AUTH_GROUPS(id)"
-        int permission_id FK "References AUTH_PERMISSIONS(id)"
-    }
-    
-    DJANGO_CONTENT_TYPES {
-        int id PK "Primary Key, auto-increment"
-        string app_label "NOT NULL, max_length=100"
-        string model UK "Unique with app_label, max_length=100"
+        string name UK "Unique, NOT NULL, max_length=50"
+        text description "Optional"
     }
     
     %% ===== APPLICATION TABLES =====
@@ -167,12 +123,13 @@ erDiagram
         decimal salary_max "Optional, max_digits=10, decimal_places=2"
         text requirements "NOT NULL"
         text benefits "Optional"
-        int posted_by_user_id FK "References AUTH_USERS(id) ON DELETE SET NULL"
+        int posted_by_user_id FK "References USERS(id) ON DELETE SET NULL"
         datetime posted_date "NOT NULL, default=NOW()"
         datetime closing_date "Optional"
         string status "Default='Open', choices: Open, Paused, Closed"
         datetime created_at "NOT NULL, default=NOW()"
         datetime updated_at "NOT NULL, auto-updated"
+        datetime deleted_at "Nullable, for soft delete"
     }
     
     APPLICATIONS {
@@ -183,7 +140,6 @@ erDiagram
         string email "NOT NULL, indexed"
         string phone "NOT NULL, max_length=20"
         binary resume "NOT NULL, stored in PostgreSQL"
-        string resume_filename "NOT NULL, max_length=255"
         string resume_content_type "NOT NULL, max_length=100"
         string current_location "Optional, max_length=255"
         string total_experience "Optional, max_length=50"
@@ -200,11 +156,12 @@ erDiagram
         string state "Optional, max_length=100"
         string zip_code "Optional, max_length=20"
         string status "Default='HR Screening', choices: HR Screening, Technical Screening, Interview 1, Interview 2, HR Interview, Offer Sent, Joined, Rejected"
-        int assigned_user_id FK "References AUTH_USERS(id) ON DELETE SET NULL, Optional"
+        int assigned_user_id FK "References USERS(id) ON DELETE SET NULL, Optional"
         text notes "Optional"
         datetime applied_date "NOT NULL, default=NOW()"
         datetime created_at "NOT NULL, default=NOW()"
         datetime updated_at "NOT NULL, auto-updated"
+        datetime deleted_at "Nullable, for soft delete"
     }
     
     APPLICATION_STATUSES {
@@ -212,19 +169,21 @@ erDiagram
         string name UK "Unique, NOT NULL, max_length=100"
         text description "Optional"
         int order_sequence "NOT NULL"
-        boolean is_active "Default=True"
         datetime created_at "NOT NULL, default=NOW()"
         datetime updated_at "NOT NULL, auto-updated"
+        datetime deleted_at "Nullable, for soft delete"
     }
     
     APPLICATION_ASSIGNED_USER_STATUSES {
         int id PK "Primary Key, auto-increment"
         int application_id FK "References APPLICATIONS(id) ON DELETE CASCADE"
         int status_id FK "References APPLICATION_STATUSES(id) ON DELETE CASCADE"
-        int assigned_user_id FK "References AUTH_USERS(id) ON DELETE SET NULL"
+        int assigned_user_id FK "References USERS(id) ON DELETE SET NULL"
         text notes "Optional (review feedback or comments)"
         datetime status_date "NOT NULL, default=NOW()"
         datetime created_at "NOT NULL, default=NOW()"
+        datetime updated_at "NOT NULL, auto-updated"
+        datetime deleted_at "Nullable, for soft delete"
     }
 ```
 
@@ -237,7 +196,7 @@ Build a working MVP for recruitment management. Future plan: add AI agents for r
 ### 1. Authentication and Authorization
 
 - JWT-based login and sign-up system using Django REST Framework SimpleJWT
-- Group-based permissions for tech evaluator, recruiter, and admin using Django's built-in auth system
+- Simple role-based access control with three roles: Administrator, Recruiter, and Technical Evaluator
 
 ### 2. Job Management
 
@@ -348,13 +307,24 @@ Build a working MVP for recruitment management. Future plan: add AI agents for r
 
 ## Future Enhancements
 
+### Phase 1 - Core Features
 - Email automation for status updates
 - Job portal integration (LinkedIn, Indeed, Naukri)
+- Analytics dashboard
+
+### Phase 2 - Advanced Permission System
+- Migrate to Django's built-in Groups and Permissions system
+- Fine-grained permissions (AUTH_GROUPS, AUTH_PERMISSIONS, AUTH_USER_GROUPS, etc.)
+- Custom permission assignments per user
+- Content type framework for generic relations (DJANGO_CONTENT_TYPES)
+- Group-level permission management (AUTH_GROUP_PERMISSIONS)
+- User-specific permission overrides (AUTH_USER_USER_PERMISSIONS)
+
+### Phase 3 - AI Features
 - AI resume parsing and ranking
 - AI agents to analyze GitHub, LinkedIn, portfolios
 - Automated phone calls for repetitive info (joining date, salary)
 - Smart candidate matching beyond keywords
-- Analytics dashboard
 
 ## Conclusion
 
