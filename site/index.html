@@ -423,6 +423,48 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#database-indexing-strategy" class="md-nav__link">
+    <span class="md-ellipsis">
+      Database Indexing Strategy
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Database Indexing Strategy">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#users-table" class="md-nav__link">
+    <span class="md-ellipsis">
+      USERS Table
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#jobs-table" class="md-nav__link">
+    <span class="md-ellipsis">
+      JOBS Table
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#applications-table" class="md-nav__link">
+    <span class="md-ellipsis">
+      APPLICATIONS Table
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -826,6 +868,30 @@
         datetime updated_at "NOT NULL, auto-updated"
         datetime deleted_at "Nullable, for soft delete"
     }</code></pre>
+<h3 id="database-indexing-strategy">Database Indexing Strategy<a class="headerlink" href="#database-indexing-strategy" title="Permanent link">&para;</a></h3>
+<p>Essential indexes for better performance (Django creates most of these automatically):</p>
+<h4 id="users-table">USERS Table<a class="headerlink" href="#users-table" title="Permanent link">&para;</a></h4>
+<ul>
+<li><code>email</code> - For login and user search</li>
+<li><code>username</code> - For login</li>
+<li><code>role_id</code> - Foreign key (auto-indexed by Django)</li>
+</ul>
+<h4 id="jobs-table">JOBS Table<a class="headerlink" href="#jobs-table" title="Permanent link">&para;</a></h4>
+<ul>
+<li><code>status</code> - For filtering open/closed jobs</li>
+<li><code>department</code> - For department filtering</li>
+<li><code>posted_by_user_id</code> - Foreign key (auto-indexed by Django)</li>
+</ul>
+<h4 id="applications-table">APPLICATIONS Table<a class="headerlink" href="#applications-table" title="Permanent link">&para;</a></h4>
+<ul>
+<li><code>email</code> - For searching applicants and preventing duplicates</li>
+<li><code>status</code> - For filtering by application status</li>
+<li><code>job_id</code> - Foreign key (auto-indexed by Django)</li>
+<li><code>assigned_user_id</code> - Foreign key (auto-indexed by Django)</li>
+</ul>
+<blockquote>
+<p><strong>Note:</strong> Django automatically creates indexes for Primary Keys, Foreign Keys, and fields with <code>unique=True</code>. You only need to manually add indexes for frequently filtered fields like <code>status</code>, <code>department</code>, and <code>email</code>.</p>
+</blockquote>
 <h2 id="goals">Goals<a class="headerlink" href="#goals" title="Permanent link">&para;</a></h2>
 <p>Build a working MVP for recruitment management. Future plan: add AI agents for ranking candidates, analyzing GitHub/LinkedIn profiles, automated phone calls for repetitive tasks like sheduling interview ,getting notice period other stuff , and smart filtering beyond just resumes.</p>
 <h2 id="functional-modules">Functional Modules<a class="headerlink" href="#functional-modules" title="Permanent link">&para;</a></h2>

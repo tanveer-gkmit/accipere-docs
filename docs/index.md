@@ -187,6 +187,28 @@ erDiagram
     }
 ```
 
+### Database Indexing Strategy
+
+Essential indexes for better performance (Django creates most of these automatically):
+
+#### USERS Table
+- `email` - For login and user search
+- `username` - For login
+- `role_id` - Foreign key (auto-indexed by Django)
+
+#### JOBS Table
+- `status` - For filtering open/closed jobs
+- `department` - For department filtering
+- `posted_by_user_id` - Foreign key (auto-indexed by Django)
+
+#### APPLICATIONS Table
+- `email` - For searching applicants and preventing duplicates
+- `status` - For filtering by application status
+- `job_id` - Foreign key (auto-indexed by Django)
+- `assigned_user_id` - Foreign key (auto-indexed by Django)
+
+> **Note:** Django automatically creates indexes for Primary Keys, Foreign Keys, and fields with `unique=True`. You only need to manually add indexes for frequently filtered fields like `status`, `department`, and `email`.
+
 ## Goals
 
 Build a working MVP for recruitment management. Future plan: add AI agents for ranking candidates, analyzing GitHub/LinkedIn profiles, automated phone calls for repetitive tasks like sheduling interview ,getting notice period other stuff , and smart filtering beyond just resumes.
