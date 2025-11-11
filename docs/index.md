@@ -53,6 +53,46 @@ The system follows a modular, layered architecture deployed on AWS Cloud Infrast
 
 ![System Architecture](diagram-export-11-11-2025-1_12_23-PM.png)
 
+### Data Flow Diagram (Level 0)
+
+```mermaid
+flowchart TB
+    %% External Entities
+    Applicant([Job Applicant])
+    Admin([Administrator])
+    Recruiter([Recruiter])
+    Evaluator([Technical Evaluator])
+    
+    %% Main System
+    RMS[Recruitment Management System]
+    
+    %% Data Store
+    DB[(Database)]
+    
+    %% Applicant Flows
+    Applicant -->|Submit Application| RMS
+    RMS -->|Job Listings| Applicant
+    
+    %% Administrator Flows
+    Admin -->|Manage Users, Roles & Statuses| RMS
+    
+    %% Recruiter Flows
+    Recruiter -->|Create Jobs & Update Applications| RMS
+    
+    %% Technical Evaluator Flows
+    Evaluator -->|Add Technical Notes| RMS
+    
+    %% System to Database
+    RMS <-->|Store/Retrieve Data| DB
+    
+    style RMS fill:#4A90E2,stroke:#2E5C8A,stroke-width:3px,color:#fff
+    style DB fill:#50C878,stroke:#2D7A4A,stroke-width:2px,color:#fff
+    style Applicant fill:#FFB84D,stroke:#CC8A3D,stroke-width:2px
+    style Admin fill:#E74C3C,stroke:#C0392B,stroke-width:2px,color:#fff
+    style Recruiter fill:#9B59B6,stroke:#7D3C98,stroke-width:2px,color:#fff
+    style Evaluator fill:#3498DB,stroke:#2874A6,stroke-width:2px,color:#fff
+```
+
 ## Database Architecture (ERD Overview)
 
 The ER diagram defines clear relationships between the system's entities:

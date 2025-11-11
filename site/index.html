@@ -402,6 +402,21 @@
     </span>
   </a>
   
+    <nav class="md-nav" aria-label="Architecture Diagram">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#data-flow-diagram-level-0" class="md-nav__link">
+    <span class="md-ellipsis">
+      Data Flow Diagram (Level 0)
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
 </li>
       
         <li class="md-nav__item">
@@ -740,6 +755,42 @@
 </ul>
 <h2 id="architecture-diagram">Architecture Diagram<a class="headerlink" href="#architecture-diagram" title="Permanent link">&para;</a></h2>
 <p><img alt="System Architecture" src="diagram-export-11-11-2025-1_12_23-PM.png" /></p>
+<h3 id="data-flow-diagram-level-0">Data Flow Diagram (Level 0)<a class="headerlink" href="#data-flow-diagram-level-0" title="Permanent link">&para;</a></h3>
+<pre class="mermaid"><code>flowchart TB
+    %% External Entities
+    Applicant([Job Applicant])
+    Admin([Administrator])
+    Recruiter([Recruiter])
+    Evaluator([Technical Evaluator])
+
+    %% Main System
+    RMS[Recruitment Management System]
+
+    %% Data Store
+    DB[(Database)]
+
+    %% Applicant Flows
+    Applicant --&gt;|Submit Application| RMS
+    RMS --&gt;|Job Listings| Applicant
+
+    %% Administrator Flows
+    Admin --&gt;|Manage Users, Roles &amp; Statuses| RMS
+
+    %% Recruiter Flows
+    Recruiter --&gt;|Create Jobs &amp; Update Applications| RMS
+
+    %% Technical Evaluator Flows
+    Evaluator --&gt;|Add Technical Notes| RMS
+
+    %% System to Database
+    RMS &lt;--&gt;|Store/Retrieve Data| DB
+
+    style RMS fill:#4A90E2,stroke:#2E5C8A,stroke-width:3px,color:#fff
+    style DB fill:#50C878,stroke:#2D7A4A,stroke-width:2px,color:#fff
+    style Applicant fill:#FFB84D,stroke:#CC8A3D,stroke-width:2px
+    style Admin fill:#E74C3C,stroke:#C0392B,stroke-width:2px,color:#fff
+    style Recruiter fill:#9B59B6,stroke:#7D3C98,stroke-width:2px,color:#fff
+    style Evaluator fill:#3498DB,stroke:#2874A6,stroke-width:2px,color:#fff</code></pre>
 <h2 id="database-architecture-erd-overview">Database Architecture (ERD Overview)<a class="headerlink" href="#database-architecture-erd-overview" title="Permanent link">&para;</a></h2>
 <p>The ER diagram defines clear relationships between the system's entities:</p>
 <ul>
