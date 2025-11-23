@@ -208,7 +208,6 @@ The following tables include the `deleted_at` field:
 
 **Note:** The following tables do NOT have soft delete:
 - **ROLES** - Role definitions (permanent)
-- **APPLICATION_STATUSES** - Status definitions (permanent)
 
 ### 5.3 Soft Delete Behavior
 
