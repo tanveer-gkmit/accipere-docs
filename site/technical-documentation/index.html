@@ -394,30 +394,6 @@
   
 </li>
         
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#11-architecture" class="md-nav__link">
-    <span class="md-ellipsis">
-      1.1 Architecture
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="1.1 Architecture">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#high-level-architecture" class="md-nav__link">
-    <span class="md-ellipsis">
-      High-Level Architecture
-    </span>
-  </a>
-  
-</li>
-        
           <li class="md-nav__item">
   <a href="#application-structure" class="md-nav__link">
     <span class="md-ellipsis">
@@ -524,15 +500,6 @@
   <a href="#32-role-based-access-control" class="md-nav__link">
     <span class="md-ellipsis">
       3.2 Role-Based Access Control
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#33-permission-matrix" class="md-nav__link">
-    <span class="md-ellipsis">
-      3.3 Permission Matrix
     </span>
   </a>
   
@@ -725,9 +692,9 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#common-error-examples" class="md-nav__link">
+  <a href="#common-error-types" class="md-nav__link">
     <span class="md-ellipsis">
-      Common Error Examples
+      Common Error Types
     </span>
   </a>
   
@@ -824,18 +791,18 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#101-async-task-processing" class="md-nav__link">
+  <a href="#101-phase-2-ai-powered-candidate-analysis" class="md-nav__link">
     <span class="md-ellipsis">
-      10.1 Async Task Processing
+      10.1 Phase 2 - AI-Powered Candidate Analysis
     </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#102-advanced-features" class="md-nav__link">
+  <a href="#102-phase-3-ai-voice-calling-agent" class="md-nav__link">
     <span class="md-ellipsis">
-      10.2 Advanced Features
+      10.2 Phase 3 - AI Voice Calling Agent
     </span>
   </a>
   
@@ -900,232 +867,377 @@
 </ul>
 <h3 id="additional-libraries">Additional Libraries<a class="headerlink" href="#additional-libraries" title="Permanent link">&para;</a></h3>
 <ul>
-<li><strong>drf-spectacular</strong> - OpenAPI/Swagger documentation</li>
+<li><strong>PyJWT</strong> 2.8.0+ - JWT token handling</li>
 <li><strong>python-decouple</strong> - Configuration management</li>
 <li><strong>gunicorn</strong> - WSGI HTTP Server (Production)</li>
 <li><strong>python-magic</strong> - File type validation</li>
 <li><strong>django-filter</strong> - Advanced filtering for querysets</li>
 <li><strong>django-ratelimit</strong> - Rate limiting for API endpoints</li>
+<li><strong>coverage</strong> 7.11.1 - Code coverage testing</li>
 </ul>
 <hr />
-<h2 id="11-architecture">1.1 Architecture<a class="headerlink" href="#11-architecture" title="Permanent link">&para;</a></h2>
-<h3 id="high-level-architecture">High-Level Architecture<a class="headerlink" href="#high-level-architecture" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code>┌─────────────────┐
-│ React Frontend  │
-└────────┬────────┘
-         │ HTTP/HTTPS
-         ▼
-┌─────────────────────────────┐
-│ Django REST Framework API   │
-├─────────────────────────────┤
-│ Authentication Middleware   │
-│ (JWT Token Validation)      │
-├─────────────────────────────┤
-│ Permission Layer            │
-│ (Role-Based Access Control) │
-├─────────────────────────────┤
-│ ViewSets &amp; Views            │
-├─────────────────────────────┤
-│ Serializers                 │
-├─────────────────────────────┤
-│ Django Models               │
-└────────┬────────────────────┘
-         │
-         ▼
-┌─────────────────┐
-│   PostgreSQL    │
-│    Database     │
-└─────────────────┘
-</code></pre></div>
 <h3 id="application-structure">Application Structure<a class="headerlink" href="#application-structure" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code>accipere-backend/
-├── manage.py
-├── requirements.txt
-├── .env.example
-├── accipere/                    # Project configuration
-│   ├── settings.py              # Django settings with environment-based config
-│   ├── urls.py                  # Root URL configuration
-│   └── wsgi.py                  # WSGI application entry point
-├── authentication/              # JWT authentication &amp; user registration
-│   ├── models.py
-│   ├── serializers.py
-│   ├── views.py
-│   └── urls.py
-├── users/                       # User management
-│   ├── models.py                # User model with role_id FK
-│   ├── serializers.py
-│   ├── views.py
-│   └── urls.py
-├── roles/                       # Role management
-│   ├── models.py                # Simple ROLES table
-│   ├── serializers.py
-│   ├── views.py
-│   └── urls.py
-├── jobs/                        # Job posting management
-│   ├── models.py
-│   ├── serializers.py
-│   ├── views.py
-│   ├── urls.py
-│   └── filters.py
-├── applications/                # Application tracking &amp; status management
-│   ├── models.py
-│   ├── serializers.py
-│   ├── views.py
-│   └── urls.py
-├── common/                      # Shared utilities, permissions, validators
-│   ├── permissions.py
-│   ├── validators.py
-│   └── exceptions.py
-└── tests/                       # Test suite
-    ├── test_auth.py
-    ├── test_users.py
-    ├── test_jobs.py
-    └── test_applications.py
-</code></pre></div>
+<p>The backend follows a modular Django app structure:</p>
+<ul>
+<li><strong>accipere/</strong> - Project configuration (settings, URLs, WSGI)</li>
+<li><strong>authentication/</strong> - JWT authentication and user login</li>
+<li><strong>users/</strong> - User management with role-based access</li>
+<li><strong>roles/</strong> - Role definitions (Administrator, Recruiter, Technical Evaluator)</li>
+<li><strong>jobs/</strong> - Job posting management</li>
+<li><strong>applications/</strong> - Application tracking and status management</li>
+<li><strong>common/</strong> - Shared utilities, permissions, and validators</li>
+<li><strong>tests/</strong> - Test suite for all modules</li>
+</ul>
 <hr />
 <h2 id="2-complete-api-endpoints">2. Complete API Endpoints<a class="headerlink" href="#2-complete-api-endpoints" title="Permanent link">&para;</a></h2>
+<p>All endpoints use UUID for <code>{id}</code> parameters.</p>
 <h3 id="21-authentication-apis">2.1 Authentication APIs<a class="headerlink" href="#21-authentication-apis" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code>POST   /api/auth/login/             - Login (returns JWT tokens)
-POST   /api/auth/logout/            - Logout (blacklist token)
-POST   /api/auth/refresh/           - Refresh access token
-GET    /api/auth/me/                - Get current user profile
-</code></pre></div>
+<table>
+<thead>
+<tr>
+<th>Method</th>
+<th>Path</th>
+<th>Description</th>
+<th>Roles</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>POST</td>
+<td><code>/api/auth/token/</code></td>
+<td>Login and get JWT access &amp; refresh tokens</td>
+<td>Public</td>
+</tr>
+<tr>
+<td>POST</td>
+<td><code>/api/auth/token/refresh/</code></td>
+<td>Refresh access token using refresh token</td>
+<td>Public</td>
+</tr>
+<tr>
+<td>POST</td>
+<td><code>/api/auth/token/logout/</code></td>
+<td>Logout and blacklist refresh token</td>
+<td>Authenticated</td>
+</tr>
+<tr>
+<td>GET</td>
+<td><code>/api/auth/me/</code></td>
+<td>Get current authenticated user profile</td>
+<td>Authenticated</td>
+</tr>
+</tbody>
+</table>
 <h3 id="22-user-management-apis">2.2 User Management APIs<a class="headerlink" href="#22-user-management-apis" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code>GET    /api/users/                  - List all users (Administrator only)
-POST   /api/users/                  - Create user (Administrator only)
-PUT    /api/users/{id}/             - Update user (Administrator only)
-DELETE /api/users/{id}/             - Soft delete user (Administrator only)
-GET    /api/users/{id}/applications/ - Get applications assigned to user
-</code></pre></div>
+<table>
+<thead>
+<tr>
+<th>Method</th>
+<th>Path</th>
+<th>Description</th>
+<th>Roles</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>GET</td>
+<td><code>/api/users/</code></td>
+<td>List all users (use ?simple=true for minimal info)</td>
+<td>Administrator (or Authenticated if simple=true)</td>
+</tr>
+<tr>
+<td>POST</td>
+<td><code>/api/users/</code></td>
+<td>Create new user and send password setup email</td>
+<td>Administrator</td>
+</tr>
+<tr>
+<td>GET</td>
+<td><code>/api/users/{id}/</code></td>
+<td>Get user details by UUID</td>
+<td>Administrator or Self</td>
+</tr>
+<tr>
+<td>PUT</td>
+<td><code>/api/users/{id}/</code></td>
+<td>Update user (full update)</td>
+<td>Administrator or Self</td>
+</tr>
+<tr>
+<td>PATCH</td>
+<td><code>/api/users/{id}/</code></td>
+<td>Partial update user</td>
+<td>Administrator or Self</td>
+</tr>
+<tr>
+<td>DELETE</td>
+<td><code>/api/users/{id}/</code></td>
+<td>Soft delete user (sets deleted_at and is_active=False)</td>
+<td>Administrator</td>
+</tr>
+<tr>
+<td>POST</td>
+<td><code>/api/users/{id}/reset-password/</code></td>
+<td>Reset user password and send reset email</td>
+<td>Administrator</td>
+</tr>
+<tr>
+<td>POST</td>
+<td><code>/api/users/set-password/</code></td>
+<td>Set password via setup/reset link (token required)</td>
+<td>Public</td>
+</tr>
+<tr>
+<td>GET</td>
+<td><code>/api/users/{id}/applications/</code></td>
+<td>Get applications assigned to user</td>
+<td>Administrator or Self</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Notes:</strong>
+- Administrators cannot delete, deactivate, or reset their own account
+- Password setup/reset links expire in 2 days
+- <code>?simple=true</code> returns minimal user info (id, email, name, role_name) for active users only</p>
 <h3 id="23-role-management-apis">2.3 Role Management APIs<a class="headerlink" href="#23-role-management-apis" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code>GET    /api/roles/                  - List all roles (Administrator only)
-POST   /api/roles/                  - Create role (Administrator only)
-PUT    /api/roles/{id}/             - Update role (Administrator only)
-DELETE /api/roles/{id}/             - Soft delete role (Administrator only)
-</code></pre></div>
+<table>
+<thead>
+<tr>
+<th>Method</th>
+<th>Path</th>
+<th>Description</th>
+<th>Roles</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>GET</td>
+<td><code>/api/roles/</code></td>
+<td>List all roles</td>
+<td>Authenticated</td>
+</tr>
+<tr>
+<td>GET</td>
+<td><code>/api/roles/{id}/</code></td>
+<td>Get role details by UUID</td>
+<td>Authenticated</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Note:</strong> Roles are read-only. No create, update, or delete endpoints available.</p>
 <h3 id="24-job-management-apis">2.4 Job Management APIs<a class="headerlink" href="#24-job-management-apis" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code>GET    /api/jobs/                   - List all jobs
-POST   /api/jobs/                   - Create new job
-GET    /api/jobs/{id}/              - Get job details
-PUT    /api/jobs/{id}/              - Update job
-PATCH  /api/jobs/{id}/              - Partial update job
-DELETE /api/jobs/{id}/              - Delete job
-GET    /api/jobs/{id}/applicants/   - Get all applicants for a job
-</code></pre></div>
+<table>
+<thead>
+<tr>
+<th>Method</th>
+<th>Path</th>
+<th>Description</th>
+<th>Roles</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>GET</td>
+<td><code>/api/jobs/</code></td>
+<td>List jobs (unauthenticated: Open only, authenticated: all)</td>
+<td>Public</td>
+</tr>
+<tr>
+<td>POST</td>
+<td><code>/api/jobs/</code></td>
+<td>Create new job posting (auto-sets posted_by_user_id)</td>
+<td>Administrator, Recruiter</td>
+</tr>
+<tr>
+<td>GET</td>
+<td><code>/api/jobs/{id}/</code></td>
+<td>Get job details by UUID</td>
+<td>Public</td>
+</tr>
+<tr>
+<td>PUT</td>
+<td><code>/api/jobs/{id}/</code></td>
+<td>Update job (full update)</td>
+<td>Administrator, Recruiter</td>
+</tr>
+<tr>
+<td>PATCH</td>
+<td><code>/api/jobs/{id}/</code></td>
+<td>Partial update job</td>
+<td>Administrator, Recruiter</td>
+</tr>
+<tr>
+<td>DELETE</td>
+<td><code>/api/jobs/{id}/</code></td>
+<td>Soft delete job</td>
+<td>Administrator</td>
+</tr>
+<tr>
+<td>GET</td>
+<td><code>/api/jobs/{id}/applicants/</code></td>
+<td>Get all applicants for a specific job</td>
+<td>Administrator, Recruiter</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Job Status Choices:</strong> <code>Open</code> (accepting applications), <code>Closed</code> (auto-sets closing_date)</p>
 <h3 id="25-application-management-apis">2.5 Application Management APIs<a class="headerlink" href="#25-application-management-apis" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code>GET    /api/applications/           - List all applications
-POST   /api/applications/           - Create application (public endpoint)
-GET    /api/applications/{id}/      - Get application details
-PUT    /api/applications/{id}/      - Update application (full update)
-PATCH  /api/applications/{id}/      - Partial update (status, assignment, notes)
-DELETE /api/applications/{id}/      - Delete application
-GET    /api/applications/{id}/resume/ - Download applicant&#39;s resume
-</code></pre></div>
+<table>
+<thead>
+<tr>
+<th>Method</th>
+<th>Path</th>
+<th>Description</th>
+<th>Roles</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>GET</td>
+<td><code>/api/applications/</code></td>
+<td>List all applications</td>
+<td>Authenticated</td>
+</tr>
+<tr>
+<td>POST</td>
+<td><code>/api/applications/</code></td>
+<td>Submit application (multipart/form-data with resume)</td>
+<td>Public</td>
+</tr>
+<tr>
+<td>GET</td>
+<td><code>/api/applications/{id}/</code></td>
+<td>Get application details by UUID</td>
+<td>Authenticated</td>
+</tr>
+<tr>
+<td>PUT</td>
+<td><code>/api/applications/{id}/</code></td>
+<td>Update application (full update)</td>
+<td>Authenticated</td>
+</tr>
+<tr>
+<td>PATCH</td>
+<td><code>/api/applications/{id}/</code></td>
+<td>Partial update (status, notes, assignment)</td>
+<td>Authenticated</td>
+</tr>
+<tr>
+<td>DELETE</td>
+<td><code>/api/applications/{id}/</code></td>
+<td>Soft delete application</td>
+<td>Authenticated</td>
+</tr>
+<tr>
+<td>GET</td>
+<td><code>/api/applications/{id}/resume/</code></td>
+<td>Download applicant's resume file</td>
+<td>Authenticated</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Application Behavior:</strong>
+- On creation: Auto-assigns first status (by order_sequence) and creates status history entry
+- On status update: Validates forward-only progression (increasing order_sequence)
+- Status history is automatically tracked in ApplicationAssignedUserStatuses
+- Supports status_notes and assigned_user_id fields for tracking</p>
+<p><strong>Application Field Validations:</strong>
+- <code>phone_no</code> - Indian phone number (10 digits with optional +91 prefix)
+- <code>zip_code</code> - 6-digit Indian PIN code
+- <code>total_experience</code> - Integer (0-100 years)
+- <code>relevant_experience</code> - Integer (0-100 years)
+- <code>current_ctc</code> - Positive integer
+- <code>expected_ctc</code> - Positive integer
+- <code>resume</code> - Binary field (PDF, DOC, DOCX, max 5MB)</p>
 <h3 id="26-application-status-apis">2.6 Application Status APIs<a class="headerlink" href="#26-application-status-apis" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code>GET    /api/application-statuses/   - List all application statuses
-POST   /api/application-statuses/   - Create new status (admin only)
-PUT    /api/application-statuses/{id}/ - Update status (admin only)
-PATCH  /api/application-statuses/{id}/ - Partial update status
-DELETE /api/application-statuses/{id}/ - Delete status (admin only)
-</code></pre></div>
+<table>
+<thead>
+<tr>
+<th>Method</th>
+<th>Path</th>
+<th>Description</th>
+<th>Roles</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>GET</td>
+<td><code>/api/application-statuses/</code></td>
+<td>List all statuses (ordered by order_sequence)</td>
+<td>Authenticated</td>
+</tr>
+<tr>
+<td>POST</td>
+<td><code>/api/application-statuses/</code></td>
+<td>Create new status (auto-assigns order_sequence)</td>
+<td>Administrator</td>
+</tr>
+<tr>
+<td>GET</td>
+<td><code>/api/application-statuses/{id}/</code></td>
+<td>Get status details by UUID</td>
+<td>Authenticated</td>
+</tr>
+<tr>
+<td>PUT</td>
+<td><code>/api/application-statuses/{id}/</code></td>
+<td>Update status (full update)</td>
+<td>Administrator</td>
+</tr>
+<tr>
+<td>PATCH</td>
+<td><code>/api/application-statuses/{id}/</code></td>
+<td>Partial update status</td>
+<td>Administrator</td>
+</tr>
+<tr>
+<td>DELETE</td>
+<td><code>/api/application-statuses/{id}/</code></td>
+<td>Delete status (prevents deletion if in use)</td>
+<td>Administrator</td>
+</tr>
+<tr>
+<td>POST</td>
+<td><code>/api/application-statuses/reorder/</code></td>
+<td>Reorder statuses (bulk update order_sequence)</td>
+<td>Administrator</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Notes:</strong>
+- <code>order_sequence</code> is auto-incremented when creating new statuses
+- Cannot delete statuses that are currently assigned to applications or in status history
+- Reorder endpoint accepts array of {id, order_sequence} objects for bulk updates</p>
 <hr />
 <h2 id="3-authentication-permissions">3. Authentication &amp; Permissions<a class="headerlink" href="#3-authentication-permissions" title="Permanent link">&para;</a></h2>
 <h3 id="31-jwt-authentication">3.1 JWT Authentication<a class="headerlink" href="#31-jwt-authentication" title="Permanent link">&para;</a></h3>
 <ul>
-<li>Access token expiry: 1 hour</li>
-<li>Refresh token expiry: 7 days</li>
-<li>Token blacklisting on logout</li>
+<li><strong>Access token expiry:</strong> Configurable via <code>JWT_ACCESS_TOKEN_LIFETIME</code> (default: 60 minutes)</li>
+<li><strong>Refresh token expiry:</strong> Configurable via <code>JWT_REFRESH_TOKEN_LIFETIME</code> (default: 10080 minutes / 7 days)</li>
+<li><strong>Token rotation:</strong> Enabled - new refresh token issued on refresh</li>
+<li><strong>Token blacklisting:</strong> Enabled - tokens are blacklisted after rotation and on logout</li>
+<li><strong>Last login tracking:</strong> Enabled - updates user's last_login on token generation</li>
+<li><strong>Algorithm:</strong> HS256</li>
+<li><strong>Header type:</strong> Bearer</li>
 </ul>
 <h3 id="32-role-based-access-control">3.2 Role-Based Access Control<a class="headerlink" href="#32-role-based-access-control" title="Permanent link">&para;</a></h3>
 <p><strong>Simple Role System:</strong>
 The system uses a straightforward role-based approach with three predefined roles stored in the ROLES table:</p>
 <ul>
 <li><strong>Administrator</strong> - Full access to all resources (users, jobs, applications, statuses)</li>
-<li><strong>Recruiter</strong> - Can manage jobs, view/update applications, assign evaluators</li>
-<li><strong>Technical Evaluator</strong> - Can view applications and add technical notes</li>
+<li><strong>Recruiter</strong> - Can manage jobs and applications (Administrator + Recruiter permission)</li>
+<li><strong>Technical Evaluator</strong> - Can view and update applications (Administrator + Recruiter + Technical Evaluator permission)</li>
 </ul>
 <p><strong>Permission Implementation:</strong>
 - Each user has a single role assigned via <code>role_id</code> foreign key
 - Permissions are checked based on the user's role name
-- Custom permission decorators validate role access at the view level</p>
-<h3 id="33-permission-matrix">3.3 Permission Matrix<a class="headerlink" href="#33-permission-matrix" title="Permanent link">&para;</a></h3>
-<table>
-<thead>
-<tr>
-<th>Endpoint</th>
-<th>Administrator</th>
-<th>Recruiter</th>
-<th>Technical Evaluator</th>
-<th>Public</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>POST /api/applications/</td>
-<td>✓</td>
-<td>✓</td>
-<td>✓</td>
-<td>✓</td>
-</tr>
-<tr>
-<td>GET /api/jobs/</td>
-<td>✓</td>
-<td>✓</td>
-<td>✓</td>
-<td>✓</td>
-</tr>
-<tr>
-<td>POST /api/jobs/</td>
-<td>✓</td>
-<td>✓</td>
-<td>✗</td>
-<td>✗</td>
-</tr>
-<tr>
-<td>GET /api/applications/</td>
-<td>✓</td>
-<td>✓</td>
-<td>✓</td>
-<td>✗</td>
-</tr>
-<tr>
-<td>PUT /api/applications/{id}/</td>
-<td>✓</td>
-<td>✓</td>
-<td>✓ (notes only)</td>
-<td>✗</td>
-</tr>
-<tr>
-<td>POST /api/users/</td>
-<td>✓</td>
-<td>✗</td>
-<td>✗</td>
-<td>✗</td>
-</tr>
-<tr>
-<td>POST /api/application-statuses/</td>
-<td>✓</td>
-<td>✗</td>
-<td>✗</td>
-<td>✗</td>
-</tr>
-<tr>
-<td>DELETE /api/applications/{id}/</td>
-<td>✓</td>
-<td>✓</td>
-<td>✗</td>
-<td>✗</td>
-</tr>
-<tr>
-<td>GET /api/roles/</td>
-<td>✓</td>
-<td>✗</td>
-<td>✗</td>
-<td>✗</td>
-</tr>
-</tbody>
-</table>
-<hr />
+- Custom permission classes in <code>common/permissions.py</code>:
+  - <code>IsAdmin</code> - Only Administrator role
+  - <code>IsRecruiter</code> - Administrator or Recruiter roles
+  - <code>IsTechnicalEvaluator</code> - Administrator, Recruiter, or Technical Evaluator roles
+  - <code>IsAdminOrSelf</code> - Administrator or the user themselves (object-level)</p>
+<p><strong>Permission Hierarchy:</strong></p>
+<p>Administrator (highest access) → Recruiter (can manage jobs and applications) → Technical Evaluator (can view and update applications)</p>
 <hr />
 <h2 id="4-status-management">4. Status Management<a class="headerlink" href="#4-status-management" title="Permanent link">&para;</a></h2>
 <h3 id="41-application-status-workflow">4.1 Application Status Workflow<a class="headerlink" href="#41-application-status-workflow" title="Permanent link">&para;</a></h3>
@@ -1133,16 +1245,15 @@ The system uses a straightforward role-based approach with three predefined role
 <ol>
 <li><strong>Create custom statuses</strong> - Add new stages to the recruitment pipeline</li>
 <li><strong>Define order</strong> - Set the sequence of statuses</li>
-<li><strong>Activate/Deactivate</strong> - Toggle statuses without deleting them</li>
 <li><strong>Track transitions</strong> - Monitor status changes over time</li>
 </ol>
 <h3 id="42-status-transition-rules">4.2 Status Transition Rules<a class="headerlink" href="#42-status-transition-rules" title="Permanent link">&para;</a></h3>
 <ul>
-<li>Applications start with "HR Screening" status by default</li>
-<li>Status can be updated to any available active status</li>
-<li>Status changes are logged with timestamp and user</li>
-<li>Rejected applications cannot be moved to other statuses (optional business rule)</li>
-<li>Joined applications are considered final</li>
+<li>Applications start with the first status (lowest order_sequence) by default</li>
+<li>Status can only move forward (increasing order_sequence) - backward transitions are prevented</li>
+<li>Status changes are automatically logged in ApplicationAssignedUserStatuses with timestamp</li>
+<li>Each status change creates a new history entry with optional notes and assigned user</li>
+<li>Applications with "Rejected" or "Joined" status are excluded from user assignment lists</li>
 </ul>
 <h3 id="43-status-management-best-practices">4.3 Status Management Best Practices<a class="headerlink" href="#43-status-management-best-practices" title="Permanent link">&para;</a></h3>
 <ol>
@@ -1153,71 +1264,40 @@ The system uses a straightforward role-based approach with three predefined role
 <li><strong>Review regularly</strong> - Audit status usage and optimize pipeline</li>
 </ol>
 <hr />
-<hr />
 <h2 id="5-soft-delete-implementation">5. Soft Delete Implementation<a class="headerlink" href="#5-soft-delete-implementation" title="Permanent link">&para;</a></h2>
 <h3 id="51-overview">5.1 Overview<a class="headerlink" href="#51-overview" title="Permanent link">&para;</a></h3>
 <p>The system implements soft delete functionality across all major tables to preserve data integrity and enable data recovery. Instead of permanently removing records from the database, records are marked as deleted using a <code>deleted_at</code> timestamp field.</p>
 <h3 id="52-tables-with-soft-delete">5.2 Tables with Soft Delete<a class="headerlink" href="#52-tables-with-soft-delete" title="Permanent link">&para;</a></h3>
 <p>The following tables include the <code>deleted_at</code> field:</p>
 <ul>
-<li><strong>AUTH_USERS</strong> - User accounts</li>
+<li><strong>USERS</strong> - User accounts</li>
 <li><strong>JOBS</strong> - Job postings</li>
 <li><strong>APPLICATIONS</strong> - Job applications</li>
-<li><strong>APPLICATION_STATUSES</strong> - Status definitions</li>
 <li><strong>APPLICATION_ASSIGNED_USER_STATUSES</strong> - Status tracking records</li>
 </ul>
+<p><strong>Note:</strong> The following tables do NOT have soft delete:
+- <strong>ROLES</strong> - Role definitions (permanent)
+- <strong>APPLICATION_STATUSES</strong> - Status definitions (permanent)</p>
 <h3 id="53-soft-delete-behavior">5.3 Soft Delete Behavior<a class="headerlink" href="#53-soft-delete-behavior" title="Permanent link">&para;</a></h3>
-<p><strong>Field Specification:</strong>
-<div class="highlight"><pre><span></span><code>deleted_at: DateTimeField, nullable=True, default=None
-</code></pre></div></p>
 <p><strong>Delete Operation:</strong>
-- When a DELETE request is made, set <code>deleted_at = current_timestamp</code>
+- When a DELETE request is made, the deleted_at timestamp is set to current time
 - Record remains in database but is excluded from normal queries
 - Original data is preserved for audit trails and recovery</p>
 <p><strong>Query Filtering:</strong>
-- Default queryset filters: <code>deleted_at__isnull=True</code>
+- Default queryset filters exclude records where deleted_at is not null
 - Soft-deleted records are hidden from standard API responses
 - Admin users can optionally view deleted records with special filters</p>
 <h3 id="54-implementation-guidelines">5.4 Implementation Guidelines<a class="headerlink" href="#54-implementation-guidelines" title="Permanent link">&para;</a></h3>
 <p><strong>Model Level:</strong>
-<div class="highlight"><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">SoftDeleteModel</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
-    <span class="n">deleted_at</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">DateTimeField</span><span class="p">(</span><span class="n">null</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">blank</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
-
-    <span class="k">class</span><span class="w"> </span><span class="nc">Meta</span><span class="p">:</span>
-        <span class="n">abstract</span> <span class="o">=</span> <span class="kc">True</span>
-
-    <span class="k">def</span><span class="w"> </span><span class="nf">soft_delete</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">deleted_at</span> <span class="o">=</span> <span class="n">timezone</span><span class="o">.</span><span class="n">now</span><span class="p">()</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>
-
-    <span class="k">def</span><span class="w"> </span><span class="nf">restore</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">deleted_at</span> <span class="o">=</span> <span class="kc">None</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>
-</code></pre></div></p>
-<p><strong>Manager Level:</strong>
-<div class="highlight"><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">SoftDeleteManager</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">Manager</span><span class="p">):</span>
-    <span class="k">def</span><span class="w"> </span><span class="nf">get_queryset</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">get_queryset</span><span class="p">()</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">deleted_at__isnull</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-
-    <span class="k">def</span><span class="w"> </span><span class="nf">with_deleted</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">get_queryset</span><span class="p">()</span>
-
-    <span class="k">def</span><span class="w"> </span><span class="nf">deleted_only</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">get_queryset</span><span class="p">()</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">deleted_at__isnull</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
-</code></pre></div></p>
-<p><strong>ViewSet Level:</strong>
-<div class="highlight"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">destroy</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">request</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-    <span class="n">instance</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_object</span><span class="p">()</span>
-    <span class="n">instance</span><span class="o">.</span><span class="n">soft_delete</span><span class="p">()</span>
-    <span class="k">return</span> <span class="n">Response</span><span class="p">(</span><span class="n">status</span><span class="o">=</span><span class="n">status</span><span class="o">.</span><span class="n">HTTP_204_NO_CONTENT</span><span class="p">)</span>
-</code></pre></div></p>
+- Abstract SoftDeleteModel class in common/models.py provides soft_delete() and restore() methods
+- Models inherit from SoftDeleteModel to enable soft delete functionality
+- deleted_at field is nullable DateTimeField with default None</p>
+<p><strong>Usage:</strong>
+- Jobs and Applications models inherit from SoftDeleteModel
+- ViewSet destroy() method calls instance.soft_delete() instead of hard delete
+- Queryset automatically filters out soft-deleted records</p>
 <h3 id="55-recovery-endpoints">5.5 Recovery Endpoints<a class="headerlink" href="#55-recovery-endpoints" title="Permanent link">&para;</a></h3>
-<p><strong>Restore Deleted Record:</strong>
-<div class="highlight"><pre><span></span><code>POST /api/{resource}/{id}/restore/
-</code></pre></div></p>
-<p><strong>List Deleted Records (Admin only):</strong>
-<div class="highlight"><pre><span></span><code>GET /api/{resource}/?show_deleted=true
-</code></pre></div></p>
+<p><strong>Note:</strong> Recovery endpoints are not currently implemented in the API. Soft-deleted records remain in the database but are excluded from standard queries. Database-level recovery would be required to restore soft-deleted records.</p>
 <h3 id="56-benefits">5.6 Benefits<a class="headerlink" href="#56-benefits" title="Permanent link">&para;</a></h3>
 <ul>
 <li><strong>Data Recovery</strong>: Accidentally deleted records can be restored</li>
@@ -1244,37 +1324,19 @@ The system uses a straightforward role-based approach with three predefined role
 </ul>
 <h3 id="62-resume-uploaddownload">6.2 Resume Upload/Download<a class="headerlink" href="#62-resume-uploaddownload" title="Permanent link">&para;</a></h3>
 <p><strong>Upload Process:</strong>
-- Multipart form data
-- File type validation using magic bytes (python-magic)
-- Size limit enforcement (5MB maximum)
-- Store filename, content type, and file size</p>
-<p><strong>File Validation:</strong>
-<div class="highlight"><pre><span></span><code>Maximum Size: 5MB (5,242,880 bytes)
-Allowed Types: PDF, DOC, DOCX
-Validation Method: Magic byte checking (not just extension)
-</code></pre></div></p>
+- Multipart form data with resume file
+- File stored as BinaryField in PostgreSQL
+- Maximum file size: 5MB (5,242,880 bytes)
+- Allowed formats: PDF, DOC, DOCX
+- File type validation using python-magic (magic byte checking, not just extension)</p>
 <p><strong>Download Process:</strong>
 - Dedicated endpoint: <code>GET /api/applications/{id}/resume/</code>
-- Proper Content-Type header
-- Content-Disposition: attachment with original filename
-- Streaming for large files (&gt;1MB)</p>
-<p><strong>Resume Download Response Headers:</strong>
-<div class="highlight"><pre><span></span><code>Content-Type: application/pdf (or appropriate MIME type)
-Content-Disposition: attachment; filename=&quot;john_doe_resume.pdf&quot;
-Content-Length: 524288
-</code></pre></div></p>
+- Returns binary file data with proper Content-Type header
+- Content-Disposition: attachment with original filename</p>
 <hr />
 <h2 id="7-error-handling">7. Error Handling<a class="headerlink" href="#7-error-handling" title="Permanent link">&para;</a></h2>
 <h3 id="error-response-format">Error Response Format<a class="headerlink" href="#error-response-format" title="Permanent link">&para;</a></h3>
-<p>All API errors follow a consistent format:</p>
-<div class="highlight"><pre><span></span><code><span class="p">{</span>
-<span class="w">  </span><span class="nt">&quot;error&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Error message&quot;</span><span class="p">,</span>
-<span class="w">  </span><span class="nt">&quot;details&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">    </span><span class="nt">&quot;field_name&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;Specific error for this field&quot;</span><span class="p">]</span>
-<span class="w">  </span><span class="p">},</span>
-<span class="w">  </span><span class="nt">&quot;code&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;ERROR_CODE&quot;</span>
-<span class="p">}</span>
-</code></pre></div>
+<p>All API errors follow a consistent format with error message, optional field-specific details, and error code.</p>
 <h3 id="http-status-codes">HTTP Status Codes<a class="headerlink" href="#http-status-codes" title="Permanent link">&para;</a></h3>
 <ul>
 <li><strong>200 OK</strong>: Successful GET, PUT, PATCH requests</li>
@@ -1286,41 +1348,14 @@ Content-Length: 524288
 <li><strong>404 Not Found</strong>: Resource not found</li>
 <li><strong>500 Internal Server Error</strong>: Unexpected server errors</li>
 </ul>
-<h3 id="common-error-examples">Common Error Examples<a class="headerlink" href="#common-error-examples" title="Permanent link">&para;</a></h3>
-<p><strong>Duplicate Application:</strong>
-<div class="highlight"><pre><span></span><code><span class="p">{</span>
-<span class="w">  </span><span class="nt">&quot;error&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;You have already applied to this job&quot;</span><span class="p">,</span>
-<span class="w">  </span><span class="nt">&quot;code&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;DUPLICATE_APPLICATION&quot;</span>
-<span class="p">}</span>
-</code></pre></div></p>
-<p><strong>Invalid Resume File:</strong>
-<div class="highlight"><pre><span></span><code><span class="p">{</span>
-<span class="w">  </span><span class="nt">&quot;error&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Resume file size must not exceed 5MB&quot;</span><span class="p">,</span>
-<span class="w">  </span><span class="nt">&quot;code&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;FILE_SIZE_EXCEEDED&quot;</span>
-<span class="p">}</span>
-</code></pre></div></p>
-<p><strong>Missing Required Fields:</strong>
-<div class="highlight"><pre><span></span><code><span class="p">{</span>
-<span class="w">  </span><span class="nt">&quot;error&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Validation failed&quot;</span><span class="p">,</span>
-<span class="w">  </span><span class="nt">&quot;details&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">    </span><span class="nt">&quot;email&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;This field is required&quot;</span><span class="p">],</span>
-<span class="w">    </span><span class="nt">&quot;first_name&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;This field is required&quot;</span><span class="p">]</span>
-<span class="w">  </span><span class="p">},</span>
-<span class="w">  </span><span class="nt">&quot;code&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;VALIDATION_ERROR&quot;</span>
-<span class="p">}</span>
-</code></pre></div></p>
-<p><strong>Unauthorized Access:</strong>
-<div class="highlight"><pre><span></span><code><span class="p">{</span>
-<span class="w">  </span><span class="nt">&quot;error&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Authentication credentials were not provided&quot;</span><span class="p">,</span>
-<span class="w">  </span><span class="nt">&quot;code&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;NOT_AUTHENTICATED&quot;</span>
-<span class="p">}</span>
-</code></pre></div></p>
-<p><strong>Forbidden Access:</strong>
-<div class="highlight"><pre><span></span><code><span class="p">{</span>
-<span class="w">  </span><span class="nt">&quot;error&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;You do not have permission to perform this action&quot;</span><span class="p">,</span>
-<span class="w">  </span><span class="nt">&quot;code&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;PERMISSION_DENIED&quot;</span>
-<span class="p">}</span>
-</code></pre></div></p>
+<h3 id="common-error-types">Common Error Types<a class="headerlink" href="#common-error-types" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>Duplicate Application</strong>: User has already applied to the job</li>
+<li><strong>Invalid Resume File</strong>: File size exceeds 5MB or invalid format</li>
+<li><strong>Missing Required Fields</strong>: Required fields not provided in request</li>
+<li><strong>Unauthorized Access</strong>: Authentication credentials not provided</li>
+<li><strong>Forbidden Access</strong>: User lacks permission for the action</li>
+</ul>
 <hr />
 <h2 id="8-security-requirements">8. Security Requirements<a class="headerlink" href="#8-security-requirements" title="Permanent link">&para;</a></h2>
 <h3 id="81-data-protection">8.1 Data Protection<a class="headerlink" href="#81-data-protection" title="Permanent link">&para;</a></h3>
@@ -1345,41 +1380,65 @@ Content-Length: 524288
 <li>Request size limits</li>
 </ul>
 <hr />
-<hr />
 <h2 id="9-testing-requirements">9. Testing Requirements<a class="headerlink" href="#9-testing-requirements" title="Permanent link">&para;</a></h2>
 <h3 id="91-test-coverage">9.1 Test Coverage<a class="headerlink" href="#91-test-coverage" title="Permanent link">&para;</a></h3>
 <ul>
-<li>Minimum 80% code coverage</li>
 <li>Use <code>pytest</code> and <code>pytest-django</code></li>
 <li>Mock external services</li>
 </ul>
 <h3 id="92-test-types">9.2 Test Types<a class="headerlink" href="#92-test-types" title="Permanent link">&para;</a></h3>
 <ul>
-<li>Unit tests for models, serializers, views</li>
-<li>Integration tests for API endpoints</li>
+<li>tests for API endpoints</li>
 <li>Permission tests</li>
 <li>File upload/download tests</li>
 <li>Status transition tests</li>
 </ul>
 <hr />
 <h2 id="10-future-enhancements">10. Future Enhancements<a class="headerlink" href="#10-future-enhancements" title="Permanent link">&para;</a></h2>
-<h3 id="101-async-task-processing">10.1 Async Task Processing<a class="headerlink" href="#101-async-task-processing" title="Permanent link">&para;</a></h3>
-<ul>
-<li>Celery + Redis for background jobs</li>
-<li>Email notifications</li>
-<li>Resume parsing</li>
-<li>Scheduled reports</li>
-</ul>
-<h3 id="102-advanced-features">10.2 Advanced Features<a class="headerlink" href="#102-advanced-features" title="Permanent link">&para;</a></h3>
-<ul>
-<li>Calendar integration</li>
-<li>Interview scheduling</li>
-<li>Video interview integration</li>
-<li>AI-powered candidate matching</li>
-<li>Resume parsing and auto-fill</li>
-<li>Analytics dashboard</li>
-<li>Export to PDF/Excel</li>
-</ul>
+<h3 id="101-phase-2-ai-powered-candidate-analysis">10.1 Phase 2 - AI-Powered Candidate Analysis<a class="headerlink" href="#101-phase-2-ai-powered-candidate-analysis" title="Permanent link">&para;</a></h3>
+<p><strong>AI Resume Analysis:</strong>
+- Intelligent resume parsing and data extraction
+- Automated candidate ranking based on job requirements
+- Skills matching and scoring</p>
+<p><strong>Multi-Source Profile Analysis:</strong>
+- GitHub API integration for repository analysis
+- LinkedIn API integration for professional profile analysis
+- Portfolio website scraping and analysis
+- Code quality assessment from GitHub contributions
+- Skills verification across multiple platforms</p>
+<p><strong>Smart Matching:</strong>
+- Candidate scoring beyond keyword matching
+- Skills gap analysis
+- Experience relevance scoring
+- Cultural fit prediction</p>
+<p><strong>Technical Implementation:</strong>
+- Machine learning models for candidate ranking
+- Natural language processing for resume analysis
+- API integrations (GitHub, LinkedIn)
+- Background job processing with Celery + Redis</p>
+<h3 id="102-phase-3-ai-voice-calling-agent">10.2 Phase 3 - AI Voice Calling Agent<a class="headerlink" href="#102-phase-3-ai-voice-calling-agent" title="Permanent link">&para;</a></h3>
+<p><strong>Automated Voice Interactions:</strong>
+- AI-powered voice calls to candidates
+- Natural language understanding and generation
+- Multi-language support</p>
+<p><strong>Information Collection:</strong>
+- Notice period verification
+- Joining date preferences
+- Salary expectation confirmation
+- Current employment status
+- Availability for interviews</p>
+<p><strong>Interview Scheduling:</strong>
+- Automated interview slot booking
+- Calendar integration
+- Interview confirmation calls
+- Reminder calls before interviews
+- Rescheduling handling</p>
+<p><strong>Technical Implementation:</strong>
+- Voice AI integration (e.g., Twilio, AWS Connect)
+- Speech-to-text and text-to-speech services
+- Conversational AI framework
+- CRM integration for call logging
+- Calendar API integration</p>
 
 
 

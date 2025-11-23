@@ -29,161 +29,130 @@ The Accipere ATS backend is a Django REST Framework application that provides a 
 - **django-cors-headers** - CORS handling
 
 ### Additional Libraries
-- **drf-spectacular** - OpenAPI/Swagger documentation
+- **PyJWT** 2.8.0+ - JWT token handling
 - **python-decouple** - Configuration management
 - **gunicorn** - WSGI HTTP Server (Production)
 - **python-magic** - File type validation
 - **django-filter** - Advanced filtering for querysets
 - **django-ratelimit** - Rate limiting for API endpoints
+- **coverage** 7.11.1 - Code coverage testing
 
 ---
 
-## 1.1 Architecture
 
-### High-Level Architecture
-
-```
-┌─────────────────┐
-│ React Frontend  │
-└────────┬────────┘
-         │ HTTP/HTTPS
-         ▼
-┌─────────────────────────────┐
-│ Django REST Framework API   │
-├─────────────────────────────┤
-│ Authentication Middleware   │
-│ (JWT Token Validation)      │
-├─────────────────────────────┤
-│ Permission Layer            │
-│ (Role-Based Access Control) │
-├─────────────────────────────┤
-│ ViewSets & Views            │
-├─────────────────────────────┤
-│ Serializers                 │
-├─────────────────────────────┤
-│ Django Models               │
-└────────┬────────────────────┘
-         │
-         ▼
-┌─────────────────┐
-│   PostgreSQL    │
-│    Database     │
-└─────────────────┘
-```
 
 ### Application Structure
 
-```
-accipere-backend/
-├── manage.py
-├── requirements.txt
-├── .env.example
-├── accipere/                    # Project configuration
-│   ├── settings.py              # Django settings with environment-based config
-│   ├── urls.py                  # Root URL configuration
-│   └── wsgi.py                  # WSGI application entry point
-├── authentication/              # JWT authentication & user registration
-│   ├── models.py
-│   ├── serializers.py
-│   ├── views.py
-│   └── urls.py
-├── users/                       # User management
-│   ├── models.py                # User model with role_id FK
-│   ├── serializers.py
-│   ├── views.py
-│   └── urls.py
-├── roles/                       # Role management
-│   ├── models.py                # Simple ROLES table
-│   ├── serializers.py
-│   ├── views.py
-│   └── urls.py
-├── jobs/                        # Job posting management
-│   ├── models.py
-│   ├── serializers.py
-│   ├── views.py
-│   ├── urls.py
-│   └── filters.py
-├── applications/                # Application tracking & status management
-│   ├── models.py
-│   ├── serializers.py
-│   ├── views.py
-│   └── urls.py
-├── common/                      # Shared utilities, permissions, validators
-│   ├── permissions.py
-│   ├── validators.py
-│   └── exceptions.py
-└── tests/                       # Test suite
-    ├── test_auth.py
-    ├── test_users.py
-    ├── test_jobs.py
-    └── test_applications.py
-```
+The backend follows a modular Django app structure:
+
+- **accipere/** - Project configuration (settings, URLs, WSGI)
+- **authentication/** - JWT authentication and user login
+- **users/** - User management with role-based access
+- **roles/** - Role definitions (Administrator, Recruiter, Technical Evaluator)
+- **jobs/** - Job posting management
+- **applications/** - Application tracking and status management
+- **common/** - Shared utilities, permissions, and validators
+- **tests/** - Test suite for all modules
 
 ---
 
 ## 2. Complete API Endpoints
 
+All endpoints use UUID for `{id}` parameters.
+
 ### 2.1 Authentication APIs
 
-```
-POST   /api/auth/login/             - Login (returns JWT tokens)
-POST   /api/auth/logout/            - Logout (blacklist token)
-POST   /api/auth/refresh/           - Refresh access token
-GET    /api/auth/me/                - Get current user profile
-```
+| Method | Path | Description | Roles |
+|--------|------|-------------|-------|
+| POST | `/api/auth/token/` | Login and get JWT access & refresh tokens | Public |
+| POST | `/api/auth/token/refresh/` | Refresh access token using refresh token | Public |
+| POST | `/api/auth/token/logout/` | Logout and blacklist refresh token | Authenticated |
+| GET | `/api/auth/me/` | Get current authenticated user profile | Authenticated |
 
 ### 2.2 User Management APIs
 
-```
-GET    /api/users/                  - List all users (Administrator only)
-POST   /api/users/                  - Create user (Administrator only)
-PUT    /api/users/{id}/             - Update user (Administrator only)
-DELETE /api/users/{id}/             - Soft delete user (Administrator only)
-GET    /api/users/{id}/applications/ - Get applications assigned to user
-```
+| Method | Path | Description | Roles |
+|--------|------|-------------|-------|
+| GET | `/api/users/` | List all users (use ?simple=true for minimal info) | Administrator (or Authenticated if simple=true) |
+| POST | `/api/users/` | Create new user and send password setup email | Administrator |
+| GET | `/api/users/{id}/` | Get user details by UUID | Administrator or Self |
+| PUT | `/api/users/{id}/` | Update user (full update) | Administrator or Self |
+| PATCH | `/api/users/{id}/` | Partial update user | Administrator or Self |
+| DELETE | `/api/users/{id}/` | Soft delete user (sets deleted_at and is_active=False) | Administrator |
+| POST | `/api/users/{id}/reset-password/` | Reset user password and send reset email | Administrator |
+| POST | `/api/users/set-password/` | Set password via setup/reset link (token required) | Public |
+| GET | `/api/users/{id}/applications/` | Get applications assigned to user | Administrator or Self |
+
+**Notes:**
+- Administrators cannot delete, deactivate, or reset their own account
+- Password setup/reset links expire in 2 days
+- `?simple=true` returns minimal user info (id, email, name, role_name) for active users only
 
 ### 2.3 Role Management APIs
 
-```
-GET    /api/roles/                  - List all roles (Administrator only)
-POST   /api/roles/                  - Create role (Administrator only)
-PUT    /api/roles/{id}/             - Update role (Administrator only)
-DELETE /api/roles/{id}/             - Soft delete role (Administrator only)
-```
+| Method | Path | Description | Roles |
+|--------|------|-------------|-------|
+| GET | `/api/roles/` | List all roles | Authenticated |
+| GET | `/api/roles/{id}/` | Get role details by UUID | Authenticated |
+
+**Note:** Roles are read-only. No create, update, or delete endpoints available.
 
 ### 2.4 Job Management APIs
 
-```
-GET    /api/jobs/                   - List all jobs
-POST   /api/jobs/                   - Create new job
-GET    /api/jobs/{id}/              - Get job details
-PUT    /api/jobs/{id}/              - Update job
-PATCH  /api/jobs/{id}/              - Partial update job
-DELETE /api/jobs/{id}/              - Delete job
-GET    /api/jobs/{id}/applicants/   - Get all applicants for a job
-```
+| Method | Path | Description | Roles |
+|--------|------|-------------|-------|
+| GET | `/api/jobs/` | List jobs (unauthenticated: Open only, authenticated: all) | Public |
+| POST | `/api/jobs/` | Create new job posting (auto-sets posted_by_user_id) | Administrator, Recruiter |
+| GET | `/api/jobs/{id}/` | Get job details by UUID | Public |
+| PUT | `/api/jobs/{id}/` | Update job (full update) | Administrator, Recruiter |
+| PATCH | `/api/jobs/{id}/` | Partial update job | Administrator, Recruiter |
+| DELETE | `/api/jobs/{id}/` | Soft delete job | Administrator |
+| GET | `/api/jobs/{id}/applicants/` | Get all applicants for a specific job | Administrator, Recruiter |
+
+**Job Status Choices:** `Open` (accepting applications), `Closed` (auto-sets closing_date)
 
 ### 2.5 Application Management APIs
 
-```
-GET    /api/applications/           - List all applications
-POST   /api/applications/           - Create application (public endpoint)
-GET    /api/applications/{id}/      - Get application details
-PUT    /api/applications/{id}/      - Update application (full update)
-PATCH  /api/applications/{id}/      - Partial update (status, assignment, notes)
-DELETE /api/applications/{id}/      - Delete application
-GET    /api/applications/{id}/resume/ - Download applicant's resume
-```
+| Method | Path | Description | Roles |
+|--------|------|-------------|-------|
+| GET | `/api/applications/` | List all applications | Authenticated |
+| POST | `/api/applications/` | Submit application (multipart/form-data with resume) | Public |
+| GET | `/api/applications/{id}/` | Get application details by UUID | Authenticated |
+| PUT | `/api/applications/{id}/` | Update application (full update) | Authenticated |
+| PATCH | `/api/applications/{id}/` | Partial update (status, notes, assignment) | Authenticated |
+| DELETE | `/api/applications/{id}/` | Soft delete application | Authenticated |
+
+**Application Behavior:**
+- On creation: Auto-assigns first status (by order_sequence) and creates status history entry
+- On status update: Validates forward-only progression (increasing order_sequence)
+- Status history is automatically tracked in ApplicationAssignedUserStatuses
+- Supports status_notes and assigned_user_id fields for tracking
+
+**Application Field Validations:**
+- `phone_no` - Indian phone number (10 digits with optional +91 prefix)
+- `zip_code` - 6-digit Indian PIN code
+- `total_experience` - Integer (0-100 years)
+- `relevant_experience` - Integer (0-100 years)
+- `current_ctc` - Positive integer
+- `expected_ctc` - Positive integer
+- `resume` - Binary field (PDF, DOC, DOCX, max 5MB)
 
 ### 2.6 Application Status APIs
 
-```
-GET    /api/application-statuses/   - List all application statuses
-POST   /api/application-statuses/   - Create new status (admin only)
-PUT    /api/application-statuses/{id}/ - Update status (admin only)
-PATCH  /api/application-statuses/{id}/ - Partial update status
-DELETE /api/application-statuses/{id}/ - Delete status (admin only)
-```
+| Method | Path | Description | Roles |
+|--------|------|-------------|-------|
+| GET | `/api/application-statuses/` | List all statuses (ordered by order_sequence) | Authenticated |
+| POST | `/api/application-statuses/` | Create new status (auto-assigns order_sequence) | Administrator |
+| GET | `/api/application-statuses/{id}/` | Get status details by UUID | Authenticated |
+| PUT | `/api/application-statuses/{id}/` | Update status (full update) | Administrator |
+| PATCH | `/api/application-statuses/{id}/` | Partial update status | Administrator |
+| DELETE | `/api/application-statuses/{id}/` | Delete status (prevents deletion if in use) | Administrator |
+| POST | `/api/application-statuses/reorder/` | Reorder statuses (bulk update order_sequence) | Administrator |
+
+**Notes:**
+- `order_sequence` is auto-incremented when creating new statuses
+- Cannot delete statuses that are currently assigned to applications or in status history
+- Reorder endpoint accepts array of {id, order_sequence} objects for bulk updates
 
 ---
 
@@ -191,9 +160,12 @@ DELETE /api/application-statuses/{id}/ - Delete status (admin only)
 
 ### 3.1 JWT Authentication
 
-- Access token expiry: 1 hour
-- Refresh token expiry: 7 days
-- Token blacklisting on logout
+- **Access token expiry:** Configurable via `JWT_ACCESS_TOKEN_LIFETIME` (default: 60 minutes)
+- **Refresh token expiry:** Configurable via `JWT_REFRESH_TOKEN_LIFETIME` (default: 10080 minutes / 7 days)
+- **Token rotation:** Enabled - new refresh token issued on refresh
+- **Token blacklisting:** Enabled - tokens are blacklisted after rotation and on logout
+- **Algorithm:** HS256
+- **Header type:** Bearer
 
 ### 3.2 Role-Based Access Control
 
@@ -201,29 +173,21 @@ DELETE /api/application-statuses/{id}/ - Delete status (admin only)
 The system uses a straightforward role-based approach with three predefined roles stored in the ROLES table:
 
 - **Administrator** - Full access to all resources (users, jobs, applications, statuses)
-- **Recruiter** - Can manage jobs, view/update applications, assign evaluators
-- **Technical Evaluator** - Can view applications and add technical notes
+- **Recruiter** - Can manage jobs and applications (Administrator + Recruiter permission)
+- **Technical Evaluator** - Can view and update applications (Administrator + Recruiter + Technical Evaluator permission)
 
 **Permission Implementation:**
 - Each user has a single role assigned via `role_id` foreign key
 - Permissions are checked based on the user's role name
-- Custom permission decorators validate role access at the view level
+- Custom permission classes in `common/permissions.py`:
+  - `IsAdmin` - Only Administrator role
+  - `IsRecruiter` - Administrator or Recruiter roles
+  - `IsTechnicalEvaluator` - Administrator, Recruiter, or Technical Evaluator roles
+  - `IsAdminOrSelf` - Administrator or the user themselves (object-level)
 
-### 3.3 Permission Matrix
+**Permission Hierarchy:**
 
-| Endpoint | Administrator | Recruiter | Technical Evaluator | Public |
-|----------|---------------|-----------|---------------------|--------|
-| POST /api/applications/ | ✓ | ✓ | ✓ | ✓ |
-| GET /api/jobs/ | ✓ | ✓ | ✓ | ✓ |
-| POST /api/jobs/ | ✓ | ✓ | ✗ | ✗ |
-| GET /api/applications/ | ✓ | ✓ | ✓ | ✗ |
-| PUT /api/applications/{id}/ | ✓ | ✓ | ✓ (notes only) | ✗ |
-| POST /api/users/ | ✓ | ✗ | ✗ | ✗ |
-| POST /api/application-statuses/ | ✓ | ✗ | ✗ | ✗ |
-| DELETE /api/applications/{id}/ | ✓ | ✓ | ✗ | ✗ |
-| GET /api/roles/ | ✓ | ✗ | ✗ | ✗ |
-
----
+Administrator (highest access) → Recruiter (can manage jobs and applications) → Technical Evaluator (can view and update applications)
 
 ---
 
@@ -235,16 +199,15 @@ The system uses a flexible status management system that allows administrators t
 
 1. **Create custom statuses** - Add new stages to the recruitment pipeline
 2. **Define order** - Set the sequence of statuses
-3. **Activate/Deactivate** - Toggle statuses without deleting them
 4. **Track transitions** - Monitor status changes over time
 
 ### 4.2 Status Transition Rules
 
-- Applications start with "HR Screening" status by default
-- Status can be updated to any available active status
-- Status changes are logged with timestamp and user
-- Rejected applications cannot be moved to other statuses (optional business rule)
-- Joined applications are considered final
+- Applications start with the first status (lowest order_sequence) by default
+- Status can only move forward (increasing order_sequence) - backward transitions are prevented
+- Status changes are automatically logged in ApplicationAssignedUserStatuses with timestamp
+- Each status change creates a new history entry with optional notes and assigned user
+- Applications with "Rejected" or "Joined" status are excluded from user assignment lists
 
 ### 4.3 Status Management Best Practices
 
@@ -253,8 +216,6 @@ The system uses a flexible status management system that allows administrators t
 3. **Don't delete statuses** - Deactivate instead to preserve historical data
 4. **Document transitions** - Add notes when changing application status
 5. **Review regularly** - Audit status usage and optimize pipeline
-
----
 
 ---
 
@@ -268,95 +229,37 @@ The system implements soft delete functionality across all major tables to prese
 
 The following tables include the `deleted_at` field:
 
-- **AUTH_USERS** - User accounts
+- **USERS** - User accounts
 - **JOBS** - Job postings
 - **APPLICATIONS** - Job applications
-- **APPLICATION_STATUSES** - Status definitions
 - **APPLICATION_ASSIGNED_USER_STATUSES** - Status tracking records
+
+**Note:** The following tables do NOT have soft delete:
+- **ROLES** - Role definitions (permanent)
+- **APPLICATION_STATUSES** - Status definitions (permanent)
 
 ### 5.3 Soft Delete Behavior
 
-**Field Specification:**
-```
-deleted_at: DateTimeField, nullable=True, default=None
-```
-
 **Delete Operation:**
-- When a DELETE request is made, set `deleted_at = current_timestamp`
+- When a DELETE request is made, the deleted_at timestamp is set to current time
 - Record remains in database but is excluded from normal queries
 - Original data is preserved for audit trails and recovery
 
 **Query Filtering:**
-- Default queryset filters: `deleted_at__isnull=True`
+- Default queryset filters exclude records where deleted_at is not null
 - Soft-deleted records are hidden from standard API responses
-- Admin users can optionally view deleted records with special filters
 
 ### 5.4 Implementation Guidelines
 
 **Model Level:**
-```python
-class SoftDeleteModel(models.Model):
-    deleted_at = models.DateTimeField(null=True, blank=True, default=None)
-    
-    class Meta:
-        abstract = True
-    
-    def soft_delete(self):
-        self.deleted_at = timezone.now()
-        self.save()
-    
-    def restore(self):
-        self.deleted_at = None
-        self.save()
-```
+- Abstract SoftDeleteModel class in common/models.py provides soft_delete() and restore() methods
+- Models inherit from SoftDeleteModel to enable soft delete functionality
+- deleted_at field is nullable DateTimeField with default None
 
-**Manager Level:**
-```python
-class SoftDeleteManager(models.Manager):
-    def get_queryset(self):
-        return super().get_queryset().filter(deleted_at__isnull=True)
-    
-    def with_deleted(self):
-        return super().get_queryset()
-    
-    def deleted_only(self):
-        return super().get_queryset().filter(deleted_at__isnull=False)
-```
-
-**ViewSet Level:**
-```python
-def destroy(self, request, *args, **kwargs):
-    instance = self.get_object()
-    instance.soft_delete()
-    return Response(status=status.HTTP_204_NO_CONTENT)
-```
-
-### 5.5 Recovery Endpoints
-
-**Restore Deleted Record:**
-```
-POST /api/{resource}/{id}/restore/
-```
-
-**List Deleted Records (Admin only):**
-```
-GET /api/{resource}/?show_deleted=true
-```
-
-### 5.6 Benefits
-
-- **Data Recovery**: Accidentally deleted records can be restored
-- **Audit Trail**: Maintain complete history of all records
-- **Compliance**: Meet regulatory requirements for data retention
-- **Referential Integrity**: Avoid cascade deletion issues
-- **Analytics**: Include historical data in reports
-
-### 5.7 Considerations
-
-- Unique constraints must account for soft-deleted records
-- Database indexes should consider `deleted_at` field
-- Periodic cleanup jobs may be needed for truly removing old data
-- Backup strategies should account for soft-deleted records
+**Usage:**
+- Jobs and Applications models inherit from SoftDeleteModel
+- ViewSet destroy() method calls instance.soft_delete() instead of hard delete
+- Queryset automatically filters out soft-deleted records
 
 ---
 
@@ -366,36 +269,17 @@ GET /api/{resource}/?show_deleted=true
 
 - **Storage Method:** BinaryField in APPLICATION model
 - **Maximum file size:** 5MB
-- **Allowed formats:** PDF, DOC, DOCX
+- **Allowed formats:** PDF
 - **Validation:** Magic byte checking (not just extension)
 
 ### 6.2 Resume Upload/Download
 
 **Upload Process:**
-- Multipart form data
-- File type validation using magic bytes (python-magic)
-- Size limit enforcement (5MB maximum)
-- Store filename, content type, and file size
-
-**File Validation:**
-```
-Maximum Size: 5MB (5,242,880 bytes)
-Allowed Types: PDF, DOC, DOCX
-Validation Method: Magic byte checking (not just extension)
-```
-
-**Download Process:**
-- Dedicated endpoint: `GET /api/applications/{id}/resume/`
-- Proper Content-Type header
-- Content-Disposition: attachment with original filename
-- Streaming for large files (>1MB)
-
-**Resume Download Response Headers:**
-```
-Content-Type: application/pdf (or appropriate MIME type)
-Content-Disposition: attachment; filename="john_doe_resume.pdf"
-Content-Length: 524288
-```
+- Multipart form data with resume file
+- File stored as BinaryField in PostgreSQL
+- Maximum file size: 5MB (5,242,880 bytes)
+- Allowed formats: PDF
+- File type validation using python-magic (magic byte checking, not just extension)
 
 ---
 
@@ -403,17 +287,7 @@ Content-Length: 524288
 
 ### Error Response Format
 
-All API errors follow a consistent format:
-
-```json
-{
-  "error": "Error message",
-  "details": {
-    "field_name": ["Specific error for this field"]
-  },
-  "code": "ERROR_CODE"
-}
-```
+All API errors follow a consistent format with error message, optional field-specific details, and error code.
 
 ### HTTP Status Codes
 
@@ -426,51 +300,13 @@ All API errors follow a consistent format:
 - **404 Not Found**: Resource not found
 - **500 Internal Server Error**: Unexpected server errors
 
-### Common Error Examples
+### Common Error Types
 
-**Duplicate Application:**
-```json
-{
-  "error": "You have already applied to this job",
-  "code": "DUPLICATE_APPLICATION"
-}
-```
-
-**Invalid Resume File:**
-```json
-{
-  "error": "Resume file size must not exceed 5MB",
-  "code": "FILE_SIZE_EXCEEDED"
-}
-```
-
-**Missing Required Fields:**
-```json
-{
-  "error": "Validation failed",
-  "details": {
-    "email": ["This field is required"],
-    "first_name": ["This field is required"]
-  },
-  "code": "VALIDATION_ERROR"
-}
-```
-
-**Unauthorized Access:**
-```json
-{
-  "error": "Authentication credentials were not provided",
-  "code": "NOT_AUTHENTICATED"
-}
-```
-
-**Forbidden Access:**
-```json
-{
-  "error": "You do not have permission to perform this action",
-  "code": "PERMISSION_DENIED"
-}
-```
+- **Duplicate Application**: User has already applied to the job
+- **Invalid Resume File**: File size exceeds 5MB or invalid format
+- **Missing Required Fields**: Required fields not provided in request
+- **Unauthorized Access**: Authentication credentials not provided
+- **Forbidden Access**: User lacks permission for the action
 
 ---
 
@@ -485,50 +321,79 @@ All API errors follow a consistent format:
 ### 8.2 Input Validation
 - Sanitize all user inputs
 - File upload validation
-- Email format validation
-- XSS protection
 
 ### 8.3 API Security
 - JWT token validation
 - CORS whitelist configuration
-- Rate limiting (recommended)
-- Request size limits
-
----
+- Rate limiting
 
 ---
 
 ## 9. Testing Requirements
 
 ### 9.1 Test Coverage
-- Minimum 80% code coverage
-- Use `pytest` and `pytest-django`
-- Mock external services
+- Used django internal toolig for testing
 
 ### 9.2 Test Types
-- Unit tests for models, serializers, views
-- Integration tests for API endpoints
+- tests for API endpoints
 - Permission tests
-- File upload/download tests
-- Status transition tests
 
 ---
 
 ## 10. Future Enhancements
 
-### 10.1 Async Task Processing
-- Celery + Redis for background jobs
-- Email notifications
-- Resume parsing
-- Scheduled reports
+### 10.1 Phase 2 - AI-Powered Candidate Analysis
 
-### 10.2 Advanced Features
+**AI Resume Analysis:**
+- Intelligent resume parsing and data extraction
+- Automated candidate ranking based on job requirements
+- Skills matching and scoring
+
+**Multi-Source Profile Analysis:**
+- GitHub API integration for repository analysis
+- LinkedIn API integration for professional profile analysis
+- Portfolio website scraping and analysis
+- Code quality assessment from GitHub contributions
+- Skills verification across multiple platforms
+
+**Smart Matching:**
+- Candidate scoring beyond keyword matching
+- Skills gap analysis
+- Experience relevance scoring
+- Cultural fit prediction
+
+**Technical Implementation:**
+- Machine learning models for candidate ranking
+- Natural language processing for resume analysis
+- API integrations (GitHub, LinkedIn)
+- Background job processing with Celery + Redis
+
+### 10.2 Phase 3 - AI Voice Calling Agent
+
+**Automated Voice Interactions:**
+- AI-powered voice calls to candidates
+- Natural language understanding and generation
+- Multi-language support
+
+**Information Collection:**
+- Notice period verification
+- Joining date preferences
+- Salary expectation confirmation
+- Current employment status
+- Availability for interviews
+
+**Interview Scheduling:**
+- Automated interview slot booking
 - Calendar integration
-- Interview scheduling
-- Video interview integration
-- AI-powered candidate matching
-- Resume parsing and auto-fill
-- Analytics dashboard
-- Export to PDF/Excel
+- Interview confirmation calls
+- Reminder calls before interviews
+- Rescheduling handling
+
+**Technical Implementation:**
+- Voice AI integration (e.g., Twilio, AWS Connect)
+- Speech-to-text and text-to-speech services
+- Conversational AI framework
+- CRM integration for call logging
+- Calendar API integration
 
 

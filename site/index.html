@@ -402,7 +402,16 @@
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Architecture Diagram">
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#cloud-deployment-architecture" class="md-nav__link">
+    <span class="md-ellipsis">
+      Cloud Deployment Architecture
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Cloud Deployment Architecture">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
@@ -470,6 +479,15 @@
   <a href="#applications-table" class="md-nav__link">
     <span class="md-ellipsis">
       APPLICATIONS Table
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#application_statuses-table" class="md-nav__link">
+    <span class="md-ellipsis">
+      APPLICATION_STATUSES Table
     </span>
   </a>
   
@@ -606,15 +624,6 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#evaluation-plan-and-metrics" class="md-nav__link">
-    <span class="md-ellipsis">
-      Evaluation Plan and Metrics
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
   <a href="#future-enhancements" class="md-nav__link">
     <span class="md-ellipsis">
       Future Enhancements
@@ -625,27 +634,27 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#phase-1-core-features" class="md-nav__link">
+  <a href="#phase-1-core-features-current-mvp" class="md-nav__link">
     <span class="md-ellipsis">
-      Phase 1 - Core Features
+      Phase 1 - Core Features (Current MVP)
     </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#phase-2-advanced-permission-system" class="md-nav__link">
+  <a href="#phase-2-ai-powered-candidate-analysis" class="md-nav__link">
     <span class="md-ellipsis">
-      Phase 2 - Advanced Permission System
+      Phase 2 - AI-Powered Candidate Analysis
     </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#phase-3-ai-features" class="md-nav__link">
+  <a href="#phase-3-ai-voice-calling-agent" class="md-nav__link">
     <span class="md-ellipsis">
-      Phase 3 - AI Features
+      Phase 3 - AI Voice Calling Agent
     </span>
   </a>
   
@@ -755,6 +764,8 @@
 </ul>
 <h2 id="architecture-diagram">Architecture Diagram<a class="headerlink" href="#architecture-diagram" title="Permanent link">&para;</a></h2>
 <p><img alt="System Architecture" src="diagram-export-11-11-2025-1_12_23-PM.png" /></p>
+<h2 id="cloud-deployment-architecture">Cloud Deployment Architecture<a class="headerlink" href="#cloud-deployment-architecture" title="Permanent link">&para;</a></h2>
+<p><img alt="AWS Cloud Architecture" src="Blank%20diagram.png" /></p>
 <h3 id="data-flow-diagram-level-0">Data Flow Diagram (Level 0)<a class="headerlink" href="#data-flow-diagram-level-0" title="Permanent link">&para;</a></h3>
 <pre class="mermaid"><code>flowchart TB
     %% External Entities
@@ -794,15 +805,26 @@
 <h2 id="database-architecture-erd-overview">Database Architecture (ERD Overview)<a class="headerlink" href="#database-architecture-erd-overview" title="Permanent link">&para;</a></h2>
 <p>The ER diagram defines clear relationships between the system's entities:</p>
 <ul>
-<li><strong>USERS</strong> – System users (Administrator, Recruiter, Technical Evaluator)</li>
+<li><strong>USERS</strong> – System users (Administrator, Recruiter, Technical Evaluator) with UUID primary keys</li>
 <li><strong>ROLES</strong> – Simple role definitions (Administrator, Recruiter, Technical Evaluator)</li>
 <li><strong>JOBS</strong> – Job listings with complete details including salary range, requirements, and benefits</li>
+<li>Uses UUID primary keys</li>
+<li>Status choices: Open, Closed (removed Paused status)</li>
+<li>Auto-sets closing_date when status changes to Closed</li>
 <li><strong>APPLICATIONS</strong> – Contains all applicant information and application data</li>
+<li>Uses UUID primary keys</li>
 <li>Stores resume as binary data in PostgreSQL</li>
-<li>Includes professional details, contact info, and address</li>
-<li>Tracks application status and assignment</li>
-<li><strong>APPLICATION_STATUSES</strong> – Defines recruitment stages (HR Screening, Technical Screening, Interviews, etc.)</li>
-<li><strong>APPLICATION_ASSIGNED_USER_STATUSES</strong> – Tracks status changes and user assignments </li>
+<li>Indian phone number validation (10 digits with optional +91)</li>
+<li>Indian PIN code validation (6 digits)</li>
+<li>Experience fields are integers (0-100 years)</li>
+<li>CTC fields are integers (not decimals)</li>
+<li>References current_status directly (no separate status field)</li>
+<li><strong>APPLICATION_STATUSES</strong> – Defines recruitment stages with auto-incrementing order_sequence</li>
+<li>Uses UUID primary keys</li>
+<li>Unique constraint on order_sequence with deferred checking</li>
+<li><strong>APPLICATION_ASSIGNED_USER_STATUSES</strong> – Tracks status changes and user assignments</li>
+<li>Uses UUID primary keys</li>
+<li>Removed status_date field (uses created_at instead) </li>
 </ul>
 <blockquote>
 <p><strong>Note:</strong> For complete technical specifications, API endpoints, and implementation details, see the <a href="technical-documentation/">Technical Documentation</a> page.</p>
@@ -813,24 +835,25 @@
     USERS }o--|| ROLES : "has role"
     USERS ||--o{ APPLICATION_ASSIGNED_USER_STATUSES : "reviews / updates"
     USERS ||--o{ JOBS : "posts"
-    USERS ||--o{ APPLICATIONS : "assigned to"
 
     JOBS ||--o{ APPLICATIONS : "receives"
 
+    APPLICATIONS }o--|| APPLICATION_STATUSES : "has current status"
     APPLICATIONS ||--o{ APPLICATION_ASSIGNED_USER_STATUSES : "tracked by"
     APPLICATION_ASSIGNED_USER_STATUSES }o--|| APPLICATION_STATUSES : "records status"
+    APPLICATION_ASSIGNED_USER_STATUSES }o--|| USERS : "assigned to"
 
     %% ===== CORE TABLES =====
 
     USERS {
-        int id PK "Primary Key, auto-increment"
-        string username UK "Unique, NOT NULL, max_length=150"
-        string email UK "Unique, NOT NULL, max_length=254"
-        string password "NOT NULL (hashed)"
-        string first_name "NOT NULL, max_length=150"
-        string last_name "NOT NULL, max_length=150"
-        int role_id FK "References ROLES(id)"
+        uuid id PK "Primary Key, UUID"
+        string email UK "Unique, NOT NULL, max_length=254, indexed"
+        string password "NOT NULL (hashed with PBKDF2)"
+        string first_name "NOT NULL, max_length=255"
+        string last_name "NOT NULL, max_length=255"
+        uuid role_id FK "References ROLES(id)"
         boolean is_active "Default=True"
+        boolean is_staff "Default=False"
         datetime last_login "Nullable"
         datetime created_at "NOT NULL, default=NOW()"
         datetime updated_at "NOT NULL, auto-updated"
@@ -838,83 +861,74 @@
     }
 
     ROLES {
-        int id PK "Primary Key, auto-increment"
-        string name UK "Unique, NOT NULL, max_length=50"
+        uuid id PK "Primary Key, UUID"
+        string name UK "Unique, NOT NULL, max_length=100"
         text description "Optional"
+        datetime created_at "NOT NULL, default=NOW()"
     }
 
     %% ===== APPLICATION TABLES =====
 
     JOBS {
-        int id PK "Primary Key, auto-increment"
+        uuid id PK "Primary Key, UUID"
         string title "NOT NULL, max_length=255"
         text description "NOT NULL"
         string employment_type "NOT NULL, choices: Full-time, Part-time, Contract, Internship"
         string location "NOT NULL, max_length=255"
-        string department "NOT NULL, max_length=100"
+        string department "NOT NULL"
         string experience_level "NOT NULL, choices: Entry, Mid, Senior, Lead"
-        decimal salary_min "Optional, max_digits=10, decimal_places=2"
-        decimal salary_max "Optional, max_digits=10, decimal_places=2"
+        int salary_min "Optional, PositiveInteger"
+        int salary_max "Optional, PositiveInteger"
         text requirements "NOT NULL"
         text benefits "Optional"
-        int posted_by_user_id FK "References USERS(id) ON DELETE SET NULL"
-        datetime posted_date "NOT NULL, default=NOW()"
-        datetime closing_date "Optional"
-        string status "Default='Open', choices: Open, Paused, Closed"
+        uuid posted_by_user_id FK "References USERS(id) ON DELETE SET NULL"
+        datetime closing_date "Optional, auto-set when status=Closed"
+        string status "Default='Open', choices: Open, Closed"
         datetime created_at "NOT NULL, default=NOW()"
         datetime updated_at "NOT NULL, auto-updated"
         datetime deleted_at "Nullable, for soft delete"
     }
 
     APPLICATIONS {
-        int id PK "Primary Key, auto-increment"
-        int job_id FK "References JOBS(id) ON DELETE CASCADE"
-        string first_name "NOT NULL, max_length=100"
-        string last_name "NOT NULL, max_length=100"
+        uuid id PK "Primary Key, UUID"
+        uuid job_id FK "References JOBS(id) ON DELETE CASCADE"
+        string first_name "NOT NULL, max_length=255"
+        string last_name "NOT NULL, max_length=255"
         string email "NOT NULL, indexed"
-        string phone "NOT NULL, max_length=20"
+        string phone_no "NOT NULL, max_length=13, Indian phone validation"
         binary resume "NOT NULL, stored in PostgreSQL"
-        string resume_content_type "NOT NULL, max_length=100"
-        string current_location "Optional, max_length=255"
-        string total_experience "Optional, max_length=50"
-        string relevant_experience "Optional, max_length=50"
-        string current_ctc "Optional, max_length=50"
-        string expected_ctc "Optional, max_length=50"
-        string notice_period "Optional, max_length=50"
+        int total_experience "Optional, 0-100 years"
+        int relevant_experience "Optional, 0-100 years"
+        int current_ctc "Optional, PositiveInteger"
+        int expected_ctc "Optional, PositiveInteger"
+        string notice_period "Optional, max_length=255"
         string current_job_title "Optional, max_length=255"
-        text skill_set "Optional"
-        url linkedin "Optional"
-        url github "Optional"
-        string street "Optional, max_length=255"
-        string city "Optional, max_length=100"
-        string state "Optional, max_length=100"
-        string zip_code "Optional, max_length=20"
-        string status "Default='HR Screening', choices: HR Screening, Technical Screening, Interview 1, Interview 2, HR Interview, Offer Sent, Joined, Rejected"
-        int assigned_user_id FK "References USERS(id) ON DELETE SET NULL, Optional"
-        text notes "Optional"
-        datetime applied_date "NOT NULL, default=NOW()"
+        url linkedin "Optional, max_length=255"
+        url github "Optional, max_length=255"
+        string street "NOT NULL, max_length=255"
+        string city "NOT NULL, max_length=255"
+        string zip_code "NOT NULL, 6-digit Indian PIN code"
+        uuid current_status FK "References APPLICATION_STATUSES(id) ON DELETE PROTECT"
         datetime created_at "NOT NULL, default=NOW()"
         datetime updated_at "NOT NULL, auto-updated"
         datetime deleted_at "Nullable, for soft delete"
     }
 
     APPLICATION_STATUSES {
-        int id PK "Primary Key, auto-increment"
-        string name UK "Unique, NOT NULL, max_length=100"
-        text description "Optional"
-        int order_sequence "NOT NULL"
+        uuid id PK "Primary Key, UUID"
+        string name UK "Unique, NOT NULL, max_length=255"
+        text description "NOT NULL"
+        int order_sequence "NOT NULL, auto-increment, indexed, unique"
         datetime created_at "NOT NULL, default=NOW()"
         datetime updated_at "NOT NULL, auto-updated"
-        datetime deleted_at "Nullable, for soft delete"
     }
 
     APPLICATION_ASSIGNED_USER_STATUSES {
-        int id PK "Primary Key, auto-increment"
-        int application_id FK "References APPLICATIONS(id) ON DELETE CASCADE"
-        int status_id FK "References APPLICATION_STATUSES(id) ON DELETE CASCADE"
-        int assigned_user_id FK "References USERS(id) ON DELETE SET NULL"
+        uuid id PK "Primary Key, UUID"
+        uuid application_id FK "References APPLICATIONS(id) ON DELETE CASCADE"
+        uuid status_id FK "References APPLICATION_STATUSES(id) ON DELETE RESTRICT"
+        uuid assigned_user_id FK "References USERS(id) ON DELETE SET NULL"
         text notes "Optional (review feedback or comments)"
-        datetime status_date "NOT NULL, default=NOW()"
         datetime created_at "NOT NULL, default=NOW()"
         datetime updated_at "NOT NULL, auto-updated"
         datetime deleted_at "Nullable, for soft delete"
@@ -923,25 +937,32 @@
 <p>Essential indexes for better performance (Django creates most of these automatically):</p>
 <h4 id="users-table">USERS Table<a class="headerlink" href="#users-table" title="Permanent link">&para;</a></h4>
 <ul>
-<li><code>email</code> - For login and user search</li>
-<li><code>username</code> - For login</li>
+<li><code>id</code> - Primary key (UUID, auto-indexed)</li>
+<li><code>email</code> - Unique field with explicit index for login and user search</li>
 <li><code>role_id</code> - Foreign key (auto-indexed by Django)</li>
 </ul>
 <h4 id="jobs-table">JOBS Table<a class="headerlink" href="#jobs-table" title="Permanent link">&para;</a></h4>
 <ul>
+<li><code>id</code> - Primary key (UUID, auto-indexed)</li>
 <li><code>status</code> - For filtering open/closed jobs</li>
 <li><code>department</code> - For department filtering</li>
 <li><code>posted_by_user_id</code> - Foreign key (auto-indexed by Django)</li>
 </ul>
 <h4 id="applications-table">APPLICATIONS Table<a class="headerlink" href="#applications-table" title="Permanent link">&para;</a></h4>
 <ul>
-<li><code>email</code> - For searching applicants and preventing duplicates</li>
-<li><code>status</code> - For filtering by application status</li>
+<li><code>id</code> - Primary key (UUID, auto-indexed)</li>
+<li><code>email</code> - Indexed for searching applicants</li>
 <li><code>job_id</code> - Foreign key (auto-indexed by Django)</li>
-<li><code>assigned_user_id</code> - Foreign key (auto-indexed by Django)</li>
+<li><code>current_status</code> - Foreign key (auto-indexed by Django)</li>
+</ul>
+<h4 id="application_statuses-table">APPLICATION_STATUSES Table<a class="headerlink" href="#application_statuses-table" title="Permanent link">&para;</a></h4>
+<ul>
+<li><code>id</code> - Primary key (UUID, auto-indexed)</li>
+<li><code>name</code> - Unique field (auto-indexed)</li>
+<li><code>order_sequence</code> - Explicitly indexed for ordering, unique constraint</li>
 </ul>
 <blockquote>
-<p><strong>Note:</strong> Django automatically creates indexes for Primary Keys, Foreign Keys, and fields with <code>unique=True</code>. You only need to manually add indexes for frequently filtered fields like <code>status</code>, <code>department</code>, and <code>email</code>.</p>
+<p><strong>Note:</strong> Django automatically creates indexes for Primary Keys (UUIDs), Foreign Keys, and fields with <code>unique=True</code>. Additional indexes are added for frequently filtered fields like <code>email</code> and <code>order_sequence</code>.</p>
 </blockquote>
 <h2 id="goals">Goals<a class="headerlink" href="#goals" title="Permanent link">&para;</a></h2>
 <p>Build a working MVP for recruitment management. Future plan: add AI agents for ranking candidates, analyzing GitHub/LinkedIn profiles, automated phone calls for repetitive tasks like sheduling interview ,getting notice period other stuff , and smart filtering beyond just resumes.</p>
@@ -981,11 +1002,11 @@
 </tr>
 <tr>
 <td>Backend</td>
-<td>Django REST Framework (Python), SimpleJWT Auth</td>
+<td>Django 4.2+, Django REST Framework 3.14+, Python 3.10+</td>
 </tr>
 <tr>
 <td>Database</td>
-<td>PostgreSQL (AWS RDS)</td>
+<td>PostgreSQL 14+ (AWS RDS) with UUID primary keys</td>
 </tr>
 <tr>
 <td>Hosting</td>
@@ -997,7 +1018,15 @@
 </tr>
 <tr>
 <td>Authentication</td>
-<td>JSON Web Token (JWT) via djangorestframework-simplejwt</td>
+<td>JWT via djangorestframework-simplejwt with token blacklisting</td>
+</tr>
+<tr>
+<td>Configuration</td>
+<td>python-decouple for environment variables</td>
+</tr>
+<tr>
+<td>File Validation</td>
+<td>python-magic for resume file type checking</td>
 </tr>
 <tr>
 <td>Version Control</td>
@@ -1067,51 +1096,35 @@
 <li>All changes are logged with timestamps</li>
 </ul>
 <hr />
-<h2 id="evaluation-plan-and-metrics">Evaluation Plan and Metrics<a class="headerlink" href="#evaluation-plan-and-metrics" title="Permanent link">&para;</a></h2>
-<table>
-<thead>
-<tr>
-<th>Metric</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Data Accuracy</td>
-<td>Ensured by foreign key constraints in PostgreSQL</td>
-</tr>
-<tr>
-<td>Response Time</td>
-<td>Measured for API endpoints</td>
-</tr>
-<tr>
-<td>Deployment Stability</td>
-<td>Tested through automated GitHub Actions runs</td>
-</tr>
-</tbody>
-</table>
 <h2 id="future-enhancements">Future Enhancements<a class="headerlink" href="#future-enhancements" title="Permanent link">&para;</a></h2>
-<h3 id="phase-1-core-features">Phase 1 - Core Features<a class="headerlink" href="#phase-1-core-features" title="Permanent link">&para;</a></h3>
+<h3 id="phase-1-core-features-current-mvp">Phase 1 - Core Features (Current MVP)<a class="headerlink" href="#phase-1-core-features-current-mvp" title="Permanent link">&para;</a></h3>
 <ul>
-<li>Email automation for status updates</li>
-<li>Job portal integration (LinkedIn, Indeed, Naukri)</li>
-<li>Analytics dashboard</li>
+<li>Job posting and management</li>
+<li>Application submission and tracking</li>
+<li>Role-based access control (Administrator, Recruiter, Technical Evaluator)</li>
+<li>Resume storage in PostgreSQL</li>
+<li>Status management and workflow</li>
+<li>JWT authentication with token blacklisting</li>
 </ul>
-<h3 id="phase-2-advanced-permission-system">Phase 2 - Advanced Permission System<a class="headerlink" href="#phase-2-advanced-permission-system" title="Permanent link">&para;</a></h3>
+<h3 id="phase-2-ai-powered-candidate-analysis">Phase 2 - AI-Powered Candidate Analysis<a class="headerlink" href="#phase-2-ai-powered-candidate-analysis" title="Permanent link">&para;</a></h3>
 <ul>
-<li>Migrate to Django's built-in Groups and Permissions system</li>
-<li>Fine-grained permissions (AUTH_GROUPS, AUTH_PERMISSIONS, AUTH_USER_GROUPS, etc.)</li>
-<li>Custom permission assignments per user</li>
-<li>Content type framework for generic relations (DJANGO_CONTENT_TYPES)</li>
-<li>Group-level permission management (AUTH_GROUP_PERMISSIONS)</li>
-<li>User-specific permission overrides (AUTH_USER_USER_PERMISSIONS)</li>
+<li>AI resume parsing and intelligent ranking</li>
+<li>GitHub profile analysis (repositories, contributions, code quality)</li>
+<li>LinkedIn profile analysis (experience, skills, endorsements)</li>
+<li>Portfolio website analysis</li>
+<li>Smart candidate matching beyond just resume keywords</li>
+<li>Automated candidate scoring based on multiple data sources</li>
+<li>Skills gap analysis</li>
 </ul>
-<h3 id="phase-3-ai-features">Phase 3 - AI Features<a class="headerlink" href="#phase-3-ai-features" title="Permanent link">&para;</a></h3>
+<h3 id="phase-3-ai-voice-calling-agent">Phase 3 - AI Voice Calling Agent<a class="headerlink" href="#phase-3-ai-voice-calling-agent" title="Permanent link">&para;</a></h3>
 <ul>
-<li>AI resume parsing and ranking</li>
-<li>AI agents to analyze GitHub, LinkedIn, portfolios</li>
-<li>Automated phone calls for repetitive info (joining date, salary)</li>
-<li>Smart candidate matching beyond keywords</li>
+<li>Automated phone calls for repetitive tasks</li>
+<li>Get notice period information from candidates</li>
+<li>Collect joining date preferences</li>
+<li>Verify salary expectations</li>
+<li>Schedule interview slots automatically</li>
+<li>Send interview confirmations</li>
+<li>Follow-up calls for pending information</li>
 </ul>
 <h2 id="conclusion">Conclusion<a class="headerlink" href="#conclusion" title="Permanent link">&para;</a></h2>
 <p>The Recruitment Management System (RMS) provides a reliable foundation for automating company internal hiring process. By combining Django REST Framework, React, and AWS, it establishes a scalable and secure system architecture.</p>
