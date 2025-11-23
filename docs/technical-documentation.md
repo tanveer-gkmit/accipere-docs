@@ -183,21 +183,11 @@ The system uses a flexible status management system that allows administrators t
 2. **Define order** - Set the sequence of statuses
 4. **Track transitions** - Monitor status changes over time
 
-### 4.2 Status Transition Rules
-
-- Applications start with the first status (lowest order_sequence) by default
-- Status can only move forward (increasing order_sequence) - backward transitions are prevented
-- Status changes are automatically logged in ApplicationAssignedUserStatuses with timestamp
-- Each status change creates a new history entry with optional notes and assigned user
-- Applications with "Rejected" or "Joined" status are excluded from user assignment lists
-
-### 4.3 Status Management Best Practices
+### 4.2 Status Management Best Practices
 
 1. **Keep statuses sequential** - Use order_sequence to maintain logical flow
 2. **Use descriptive names** - Clear status names help team communication
-3. **Don't delete statuses** - Deactivate instead to preserve historical data
 4. **Document transitions** - Add notes when changing application status
-5. **Review regularly** - Audit status usage and optimize pipeline
 
 ---
 
