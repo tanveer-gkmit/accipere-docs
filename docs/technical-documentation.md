@@ -136,24 +136,6 @@ All endpoints use UUID for `{id}` parameters.
 - `current_ctc` - Positive integer
 - `expected_ctc` - Positive integer
 - `resume` - Binary field (PDF, DOC, DOCX, max 5MB)
-
-### 2.6 Application Status APIs
-
-| Method | Path | Description | Roles |
-|--------|------|-------------|-------|
-| GET | `/api/application-statuses/` | List all statuses (ordered by order_sequence) | Authenticated |
-| POST | `/api/application-statuses/` | Create new status (auto-assigns order_sequence) | Administrator |
-| GET | `/api/application-statuses/{id}/` | Get status details by UUID | Authenticated |
-| PUT | `/api/application-statuses/{id}/` | Update status (full update) | Administrator |
-| PATCH | `/api/application-statuses/{id}/` | Partial update status | Administrator |
-| DELETE | `/api/application-statuses/{id}/` | Delete status (prevents deletion if in use) | Administrator |
-| POST | `/api/application-statuses/reorder/` | Reorder statuses (bulk update order_sequence) | Administrator |
-
-**Notes:**
-- `order_sequence` is auto-incremented when creating new statuses
-- Cannot delete statuses that are currently assigned to applications or in status history
-- Reorder endpoint accepts array of {id, order_sequence} objects for bulk updates
-
 ---
 
 ## 3. Authentication & Permissions
