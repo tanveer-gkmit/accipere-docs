@@ -521,18 +521,9 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#42-status-transition-rules" class="md-nav__link">
+  <a href="#42-status-management-best-practices" class="md-nav__link">
     <span class="md-ellipsis">
-      4.2 Status Transition Rules
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#43-status-management-best-practices" class="md-nav__link">
-    <span class="md-ellipsis">
-      4.3 Status Management Best Practices
+      4.2 Status Management Best Practices
     </span>
   </a>
   
@@ -1145,21 +1136,11 @@ The system uses a straightforward role-based approach with three predefined role
 <li><strong>Define order</strong> - Set the sequence of statuses</li>
 <li><strong>Track transitions</strong> - Monitor status changes over time</li>
 </ol>
-<h3 id="42-status-transition-rules">4.2 Status Transition Rules<a class="headerlink" href="#42-status-transition-rules" title="Permanent link">&para;</a></h3>
-<ul>
-<li>Applications start with the first status (lowest order_sequence) by default</li>
-<li>Status can only move forward (increasing order_sequence) - backward transitions are prevented</li>
-<li>Status changes are automatically logged in ApplicationAssignedUserStatuses with timestamp</li>
-<li>Each status change creates a new history entry with optional notes and assigned user</li>
-<li>Applications with "Rejected" or "Joined" status are excluded from user assignment lists</li>
-</ul>
-<h3 id="43-status-management-best-practices">4.3 Status Management Best Practices<a class="headerlink" href="#43-status-management-best-practices" title="Permanent link">&para;</a></h3>
+<h3 id="42-status-management-best-practices">4.2 Status Management Best Practices<a class="headerlink" href="#42-status-management-best-practices" title="Permanent link">&para;</a></h3>
 <ol>
 <li><strong>Keep statuses sequential</strong> - Use order_sequence to maintain logical flow</li>
 <li><strong>Use descriptive names</strong> - Clear status names help team communication</li>
-<li><strong>Don't delete statuses</strong> - Deactivate instead to preserve historical data</li>
 <li><strong>Document transitions</strong> - Add notes when changing application status</li>
-<li><strong>Review regularly</strong> - Audit status usage and optimize pipeline</li>
 </ol>
 <hr />
 <h2 id="5-soft-delete-implementation">5. Soft Delete Implementation<a class="headerlink" href="#5-soft-delete-implementation" title="Permanent link">&para;</a></h2>
