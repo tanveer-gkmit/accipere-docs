@@ -809,7 +809,7 @@
 <li><strong>ROLES</strong> – Simple role definitions (Administrator, Recruiter, Technical Evaluator)</li>
 <li><strong>JOBS</strong> – Job listings with complete details including salary range, requirements, and benefits</li>
 <li>Uses UUID primary keys</li>
-<li>Status choices: Open, Closed (removed Paused status)</li>
+<li>Status choices: Open, Closed </li>
 <li>Auto-sets closing_date when status changes to Closed</li>
 <li><strong>APPLICATIONS</strong> – Contains all applicant information and application data</li>
 <li>Uses UUID primary keys</li>
@@ -818,7 +818,7 @@
 <li>Indian PIN code validation (6 digits)</li>
 <li>Experience fields are integers (0-100 years)</li>
 <li>CTC fields are integers (not decimals)</li>
-<li>References current_status directly (no separate status field)</li>
+<li>References current_status directly </li>
 <li><strong>APPLICATION_STATUSES</strong> – Defines recruitment stages with auto-incrementing order_sequence</li>
 <li>Uses UUID primary keys</li>
 <li>Unique constraint on order_sequence with deferred checking</li>
@@ -984,7 +984,6 @@
 </ul>
 <h3 id="4-application-tracking">4. Application Tracking<a class="headerlink" href="#4-application-tracking" title="Permanent link">&para;</a></h3>
 <ul>
-<li>Department-wise review and comments on applications</li>
 <li>Track status transitions such as Applied, Under Review, Shortlisted, Rejected, or Hired</li>
 </ul>
 <h2 id="technical-requirements">Technical Requirements<a class="headerlink" href="#technical-requirements" title="Permanent link">&para;</a></h2>

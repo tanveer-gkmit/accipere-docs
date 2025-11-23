@@ -105,7 +105,7 @@ The ER diagram defines clear relationships between the system's entities:
 - **ROLES** – Simple role definitions (Administrator, Recruiter, Technical Evaluator)
 - **JOBS** – Job listings with complete details including salary range, requirements, and benefits
   - Uses UUID primary keys
-  - Status choices: Open, Closed (removed Paused status)
+  - Status choices: Open, Closed 
   - Auto-sets closing_date when status changes to Closed
 - **APPLICATIONS** – Contains all applicant information and application data
   - Uses UUID primary keys
@@ -114,7 +114,7 @@ The ER diagram defines clear relationships between the system's entities:
   - Indian PIN code validation (6 digits)
   - Experience fields are integers (0-100 years)
   - CTC fields are integers (not decimals)
-  - References current_status directly (no separate status field)
+  - References current_status directly 
 - **APPLICATION_STATUSES** – Defines recruitment stages with auto-incrementing order_sequence
   - Uses UUID primary keys
   - Unique constraint on order_sequence with deferred checking
@@ -285,7 +285,6 @@ Build a working MVP for recruitment management. Future plan: add AI agents for r
 
 ### 4. Application Tracking
 
-- Department-wise review and comments on applications
 - Track status transitions such as Applied, Under Review, Shortlisted, Rejected, or Hired
 
 ## Technical Requirements
