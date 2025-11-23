@@ -463,15 +463,6 @@
   
 </li>
         
-          <li class="md-nav__item">
-  <a href="#26-application-status-apis" class="md-nav__link">
-    <span class="md-ellipsis">
-      2.6 Application Status APIs
-    </span>
-  </a>
-  
-</li>
-        
       </ul>
     </nav>
   
@@ -593,33 +584,6 @@
   <a href="#54-implementation-guidelines" class="md-nav__link">
     <span class="md-ellipsis">
       5.4 Implementation Guidelines
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#55-recovery-endpoints" class="md-nav__link">
-    <span class="md-ellipsis">
-      5.5 Recovery Endpoints
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#56-benefits" class="md-nav__link">
-    <span class="md-ellipsis">
-      5.6 Benefits
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#57-considerations" class="md-nav__link">
-    <span class="md-ellipsis">
-      5.7 Considerations
     </span>
   </a>
   
@@ -1128,12 +1092,6 @@
 <td>Soft delete application</td>
 <td>Authenticated</td>
 </tr>
-<tr>
-<td>GET</td>
-<td><code>/api/applications/{id}/resume/</code></td>
-<td>Download applicant's resume file</td>
-<td>Authenticated</td>
-</tr>
 </tbody>
 </table>
 <p><strong>Application Behavior:</strong>
@@ -1149,65 +1107,6 @@
 - <code>current_ctc</code> - Positive integer
 - <code>expected_ctc</code> - Positive integer
 - <code>resume</code> - Binary field (PDF, DOC, DOCX, max 5MB)</p>
-<h3 id="26-application-status-apis">2.6 Application Status APIs<a class="headerlink" href="#26-application-status-apis" title="Permanent link">&para;</a></h3>
-<table>
-<thead>
-<tr>
-<th>Method</th>
-<th>Path</th>
-<th>Description</th>
-<th>Roles</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>GET</td>
-<td><code>/api/application-statuses/</code></td>
-<td>List all statuses (ordered by order_sequence)</td>
-<td>Authenticated</td>
-</tr>
-<tr>
-<td>POST</td>
-<td><code>/api/application-statuses/</code></td>
-<td>Create new status (auto-assigns order_sequence)</td>
-<td>Administrator</td>
-</tr>
-<tr>
-<td>GET</td>
-<td><code>/api/application-statuses/{id}/</code></td>
-<td>Get status details by UUID</td>
-<td>Authenticated</td>
-</tr>
-<tr>
-<td>PUT</td>
-<td><code>/api/application-statuses/{id}/</code></td>
-<td>Update status (full update)</td>
-<td>Administrator</td>
-</tr>
-<tr>
-<td>PATCH</td>
-<td><code>/api/application-statuses/{id}/</code></td>
-<td>Partial update status</td>
-<td>Administrator</td>
-</tr>
-<tr>
-<td>DELETE</td>
-<td><code>/api/application-statuses/{id}/</code></td>
-<td>Delete status (prevents deletion if in use)</td>
-<td>Administrator</td>
-</tr>
-<tr>
-<td>POST</td>
-<td><code>/api/application-statuses/reorder/</code></td>
-<td>Reorder statuses (bulk update order_sequence)</td>
-<td>Administrator</td>
-</tr>
-</tbody>
-</table>
-<p><strong>Notes:</strong>
-- <code>order_sequence</code> is auto-incremented when creating new statuses
-- Cannot delete statuses that are currently assigned to applications or in status history
-- Reorder endpoint accepts array of {id, order_sequence} objects for bulk updates</p>
 <hr />
 <h2 id="3-authentication-permissions">3. Authentication &amp; Permissions<a class="headerlink" href="#3-authentication-permissions" title="Permanent link">&para;</a></h2>
 <h3 id="31-jwt-authentication">3.1 JWT Authentication<a class="headerlink" href="#31-jwt-authentication" title="Permanent link">&para;</a></h3>
@@ -1216,7 +1115,6 @@
 <li><strong>Refresh token expiry:</strong> Configurable via <code>JWT_REFRESH_TOKEN_LIFETIME</code> (default: 10080 minutes / 7 days)</li>
 <li><strong>Token rotation:</strong> Enabled - new refresh token issued on refresh</li>
 <li><strong>Token blacklisting:</strong> Enabled - tokens are blacklisted after rotation and on logout</li>
-<li><strong>Last login tracking:</strong> Enabled - updates user's last_login on token generation</li>
 <li><strong>Algorithm:</strong> HS256</li>
 <li><strong>Header type:</strong> Bearer</li>
 </ul>
@@ -1285,8 +1183,7 @@ The system uses a straightforward role-based approach with three predefined role
 - Original data is preserved for audit trails and recovery</p>
 <p><strong>Query Filtering:</strong>
 - Default queryset filters exclude records where deleted_at is not null
-- Soft-deleted records are hidden from standard API responses
-- Admin users can optionally view deleted records with special filters</p>
+- Soft-deleted records are hidden from standard API responses</p>
 <h3 id="54-implementation-guidelines">5.4 Implementation Guidelines<a class="headerlink" href="#54-implementation-guidelines" title="Permanent link">&para;</a></h3>
 <p><strong>Model Level:</strong>
 - Abstract SoftDeleteModel class in common/models.py provides soft_delete() and restore() methods
@@ -1296,30 +1193,13 @@ The system uses a straightforward role-based approach with three predefined role
 - Jobs and Applications models inherit from SoftDeleteModel
 - ViewSet destroy() method calls instance.soft_delete() instead of hard delete
 - Queryset automatically filters out soft-deleted records</p>
-<h3 id="55-recovery-endpoints">5.5 Recovery Endpoints<a class="headerlink" href="#55-recovery-endpoints" title="Permanent link">&para;</a></h3>
-<p><strong>Note:</strong> Recovery endpoints are not currently implemented in the API. Soft-deleted records remain in the database but are excluded from standard queries. Database-level recovery would be required to restore soft-deleted records.</p>
-<h3 id="56-benefits">5.6 Benefits<a class="headerlink" href="#56-benefits" title="Permanent link">&para;</a></h3>
-<ul>
-<li><strong>Data Recovery</strong>: Accidentally deleted records can be restored</li>
-<li><strong>Audit Trail</strong>: Maintain complete history of all records</li>
-<li><strong>Compliance</strong>: Meet regulatory requirements for data retention</li>
-<li><strong>Referential Integrity</strong>: Avoid cascade deletion issues</li>
-<li><strong>Analytics</strong>: Include historical data in reports</li>
-</ul>
-<h3 id="57-considerations">5.7 Considerations<a class="headerlink" href="#57-considerations" title="Permanent link">&para;</a></h3>
-<ul>
-<li>Unique constraints must account for soft-deleted records</li>
-<li>Database indexes should consider <code>deleted_at</code> field</li>
-<li>Periodic cleanup jobs may be needed for truly removing old data</li>
-<li>Backup strategies should account for soft-deleted records</li>
-</ul>
 <hr />
 <h2 id="6-file-storage-resume-handling">6. File Storage &amp; Resume Handling<a class="headerlink" href="#6-file-storage-resume-handling" title="Permanent link">&para;</a></h2>
 <h3 id="61-resume-storage-in-postgresql">6.1 Resume Storage in PostgreSQL<a class="headerlink" href="#61-resume-storage-in-postgresql" title="Permanent link">&para;</a></h3>
 <ul>
 <li><strong>Storage Method:</strong> BinaryField in APPLICATION model</li>
 <li><strong>Maximum file size:</strong> 5MB</li>
-<li><strong>Allowed formats:</strong> PDF, DOC, DOCX</li>
+<li><strong>Allowed formats:</strong> PDF</li>
 <li><strong>Validation:</strong> Magic byte checking (not just extension)</li>
 </ul>
 <h3 id="62-resume-uploaddownload">6.2 Resume Upload/Download<a class="headerlink" href="#62-resume-uploaddownload" title="Permanent link">&para;</a></h3>
@@ -1327,12 +1207,8 @@ The system uses a straightforward role-based approach with three predefined role
 - Multipart form data with resume file
 - File stored as BinaryField in PostgreSQL
 - Maximum file size: 5MB (5,242,880 bytes)
-- Allowed formats: PDF, DOC, DOCX
+- Allowed formats: PDF
 - File type validation using python-magic (magic byte checking, not just extension)</p>
-<p><strong>Download Process:</strong>
-- Dedicated endpoint: <code>GET /api/applications/{id}/resume/</code>
-- Returns binary file data with proper Content-Type header
-- Content-Disposition: attachment with original filename</p>
 <hr />
 <h2 id="7-error-handling">7. Error Handling<a class="headerlink" href="#7-error-handling" title="Permanent link">&para;</a></h2>
 <h3 id="error-response-format">Error Response Format<a class="headerlink" href="#error-response-format" title="Permanent link">&para;</a></h3>
@@ -1369,29 +1245,23 @@ The system uses a straightforward role-based approach with three predefined role
 <ul>
 <li>Sanitize all user inputs</li>
 <li>File upload validation</li>
-<li>Email format validation</li>
-<li>XSS protection</li>
 </ul>
 <h3 id="83-api-security">8.3 API Security<a class="headerlink" href="#83-api-security" title="Permanent link">&para;</a></h3>
 <ul>
 <li>JWT token validation</li>
 <li>CORS whitelist configuration</li>
-<li>Rate limiting (recommended)</li>
-<li>Request size limits</li>
+<li>Rate limiting</li>
 </ul>
 <hr />
 <h2 id="9-testing-requirements">9. Testing Requirements<a class="headerlink" href="#9-testing-requirements" title="Permanent link">&para;</a></h2>
 <h3 id="91-test-coverage">9.1 Test Coverage<a class="headerlink" href="#91-test-coverage" title="Permanent link">&para;</a></h3>
 <ul>
-<li>Use <code>pytest</code> and <code>pytest-django</code></li>
-<li>Mock external services</li>
+<li>Used django internal toolig for testing</li>
 </ul>
 <h3 id="92-test-types">9.2 Test Types<a class="headerlink" href="#92-test-types" title="Permanent link">&para;</a></h3>
 <ul>
 <li>tests for API endpoints</li>
 <li>Permission tests</li>
-<li>File upload/download tests</li>
-<li>Status transition tests</li>
 </ul>
 <hr />
 <h2 id="10-future-enhancements">10. Future Enhancements<a class="headerlink" href="#10-future-enhancements" title="Permanent link">&para;</a></h2>
