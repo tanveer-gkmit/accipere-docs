@@ -223,7 +223,7 @@ The following tables include the `deleted_at` field:
 ### 5.4 Implementation Guidelines
 
 **Model Level:**
-- Abstract SoftDeleteModel class in common/models.py provides soft_delete() and restore() methods
+- Abstract SoftDeleteModel class in common/models.py provides soft_delete()
 - Models inherit from SoftDeleteModel to enable soft delete functionality
 - deleted_at field is nullable DateTimeField with default None
 

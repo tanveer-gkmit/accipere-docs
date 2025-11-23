@@ -1166,7 +1166,7 @@ The system uses a straightforward role-based approach with three predefined role
 - Soft-deleted records are hidden from standard API responses</p>
 <h3 id="54-implementation-guidelines">5.4 Implementation Guidelines<a class="headerlink" href="#54-implementation-guidelines" title="Permanent link">&para;</a></h3>
 <p><strong>Model Level:</strong>
-- Abstract SoftDeleteModel class in common/models.py provides soft_delete() and restore() methods
+- Abstract SoftDeleteModel class in common/models.py provides soft_delete()
 - Models inherit from SoftDeleteModel to enable soft delete functionality
 - deleted_at field is nullable DateTimeField with default None</p>
 <p><strong>Usage:</strong>
