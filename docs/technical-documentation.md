@@ -34,7 +34,6 @@ The Accipere ATS backend is a Django REST Framework application that provides a 
 - **gunicorn** - WSGI HTTP Server (Production)
 - **python-magic** - File type validation
 - **django-filter** - Advanced filtering for querysets
-- **django-ratelimit** - Rate limiting for API endpoints
 - **coverage** 7.11.1 - Code coverage testing
 
 ---
