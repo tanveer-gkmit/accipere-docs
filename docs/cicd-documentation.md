@@ -13,6 +13,9 @@ flowchart LR
     style D fill:#6f6
 ```
 
+
+
+
 ---
 
 ## Backend (Django)
@@ -62,6 +65,21 @@ aws s3 sync build/ s3://bucket-name --delete
 
 Scans for vulnerabilities on `main` branch. Results in GitHub Security tab.
 
+### Akido Scan Results
+![Akido Scan Result 1](image.png)
+![Akido Scan Result 2](image%20copy.png)
+
+
+### False Positives / Known Findings
+- **Issue 1 (Leaked Password):** The password detected in test cases is a sample password used for testing purposes and is not a security risk.
+
+
+## Resolved Issues
+
+- **Issue 1 & 2:** Fixed in the latest version.
+    - **Issue 2 (CloudFront Headers):** Added all security headers in CloudFront to resolve the issue. There are no issues in the frontend.
+
+
 ---
 
 ## GitHub Secrets
@@ -85,7 +103,8 @@ Add in: Settings → Secrets → Actions
 | Problem | Fix |
 |---------|-----|
 | Tests fail | Check logs in Actions tab |
-| Docker build fails | Check `requirements.txt` |
+| Docker build fails | Check Code |
+| Docker Build Fails | Remove the image from the ec2 instance storage may be full |
 | EC2 deploy fails | Verify SSH key |
 | S3 upload fails | Check AWS credentials |
 
@@ -112,22 +131,11 @@ git push origin dev
 Go to Actions tab → Click workflow
 
 # Backend logs
-docker logs accipere-backend
+docker logs -f accipere-backend
 
 # Security scans
 Go to Security tab
 ```
-
----
-
-## Cost
-
-| Service | Monthly |
-|---------|---------|
-| EC2 | ₹600-800 |
-| RDS | ₹1200-1600 |
-| S3+CloudFront | ₹80-400 |
-| **Total** | **₹2000-3000** |
 
 ---
 

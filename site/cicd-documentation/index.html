@@ -447,6 +447,39 @@
     </span>
   </a>
   
+    <nav class="md-nav" aria-label="Security Scan">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#akido-scan-results" class="md-nav__link">
+    <span class="md-ellipsis">
+      Akido Scan Results
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#false-positives-known-findings" class="md-nav__link">
+    <span class="md-ellipsis">
+      False Positives / Known Findings
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#resolved-issues-sast-dast" class="md-nav__link">
+    <span class="md-ellipsis">
+      Resolved Issues SAST &amp; DAST
+    </span>
+  </a>
+  
 </li>
       
         <li class="md-nav__item">
@@ -573,6 +606,21 @@ aws<span class="w"> </span>s3<span class="w"> </span>sync<span class="w"> </span
 <h2 id="security-scan">Security Scan<a class="headerlink" href="#security-scan" title="Permanent link">&para;</a></h2>
 <p><strong>File:</strong> <code>.github/workflows/trivy-scan.yml</code></p>
 <p>Scans for vulnerabilities on <code>main</code> branch. Results in GitHub Security tab.</p>
+<h3 id="akido-scan-results">Akido Scan Results<a class="headerlink" href="#akido-scan-results" title="Permanent link">&para;</a></h3>
+<p><img alt="Akido Scan Result 1" src="../image.png" />
+<img alt="Akido Scan Result 2" src="../image%20copy%202.png" />
+<img alt="Akido Scan Result 3" src="../image%20copy.png" /></p>
+<h3 id="false-positives-known-findings">False Positives / Known Findings<a class="headerlink" href="#false-positives-known-findings" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>Issue 1 (Leaked Password):</strong> The password detected in test cases is a sample password used for testing purposes and is not a security risk.</li>
+</ul>
+<h2 id="resolved-issues-sast-dast">Resolved Issues SAST &amp; DAST<a class="headerlink" href="#resolved-issues-sast-dast" title="Permanent link">&para;</a></h2>
+<ul>
+<li><strong>Issue Dast:</strong> Fixed in the latest version.<ul>
+<li><strong>Issue (CloudFront Headers):</strong> Added all security headers in CloudFront to resolve the issue. There are no issues in the frontend.</li>
+</ul>
+</li>
+</ul>
 <hr />
 <h2 id="github-secrets">GitHub Secrets<a class="headerlink" href="#github-secrets" title="Permanent link">&para;</a></h2>
 <p><strong>Backend:</strong>
