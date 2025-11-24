@@ -14,6 +14,7 @@ theme:
 nav:
   - Home: index.md
   - Technical Documentation: technical-documentation.md
+  - CI/CD Pipeline: cicd-documentation.md
 
 markdown_extensions:
   - pymdownx.superfences:
