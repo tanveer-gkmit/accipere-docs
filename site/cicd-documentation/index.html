@@ -474,9 +474,9 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#resolved-issues-sast-dast" class="md-nav__link">
+  <a href="#resolved-issues" class="md-nav__link">
     <span class="md-ellipsis">
-      Resolved Issues SAST &amp; DAST
+      Resolved Issues
     </span>
   </a>
   
@@ -513,15 +513,6 @@
   <a href="#logs" class="md-nav__link">
     <span class="md-ellipsis">
       Logs
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#cost" class="md-nav__link">
-    <span class="md-ellipsis">
-      Cost
     </span>
   </a>
   
@@ -608,16 +599,15 @@ aws<span class="w"> </span>s3<span class="w"> </span>sync<span class="w"> </span
 <p>Scans for vulnerabilities on <code>main</code> branch. Results in GitHub Security tab.</p>
 <h3 id="akido-scan-results">Akido Scan Results<a class="headerlink" href="#akido-scan-results" title="Permanent link">&para;</a></h3>
 <p><img alt="Akido Scan Result 1" src="../image.png" />
-<img alt="Akido Scan Result 2" src="../image%20copy%202.png" />
-<img alt="Akido Scan Result 3" src="../image%20copy.png" /></p>
+<img alt="Akido Scan Result 2" src="../image%20copy.png" /></p>
 <h3 id="false-positives-known-findings">False Positives / Known Findings<a class="headerlink" href="#false-positives-known-findings" title="Permanent link">&para;</a></h3>
 <ul>
 <li><strong>Issue 1 (Leaked Password):</strong> The password detected in test cases is a sample password used for testing purposes and is not a security risk.</li>
 </ul>
-<h2 id="resolved-issues-sast-dast">Resolved Issues SAST &amp; DAST<a class="headerlink" href="#resolved-issues-sast-dast" title="Permanent link">&para;</a></h2>
+<h2 id="resolved-issues">Resolved Issues<a class="headerlink" href="#resolved-issues" title="Permanent link">&para;</a></h2>
 <ul>
-<li><strong>Issue Dast:</strong> Fixed in the latest version.<ul>
-<li><strong>Issue (CloudFront Headers):</strong> Added all security headers in CloudFront to resolve the issue. There are no issues in the frontend.</li>
+<li><strong>Issue 1 &amp; 2:</strong> Fixed in the latest version.<ul>
+<li><strong>Issue 2 (CloudFront Headers):</strong> Added all security headers in CloudFront to resolve the issue. There are no issues in the frontend.</li>
 </ul>
 </li>
 </ul>
@@ -648,7 +638,11 @@ aws<span class="w"> </span>s3<span class="w"> </span>sync<span class="w"> </span
 </tr>
 <tr>
 <td>Docker build fails</td>
-<td>Check <code>requirements.txt</code></td>
+<td>Check Code</td>
+</tr>
+<tr>
+<td>Docker Build Fails</td>
+<td>Remove the image from the ec2 instance storage may be full</td>
 </tr>
 <tr>
 <td>EC2 deploy fails</td>
@@ -676,39 +670,11 @@ git<span class="w"> </span>push<span class="w"> </span>origin<span class="w"> </
 Go<span class="w"> </span>to<span class="w"> </span>Actions<span class="w"> </span>tab<span class="w"> </span>→<span class="w"> </span>Click<span class="w"> </span>workflow
 
 <span class="c1"># Backend logs</span>
-docker<span class="w"> </span>logs<span class="w"> </span>accipere-backend
+docker<span class="w"> </span>logs<span class="w"> </span>-f<span class="w"> </span>accipere-backend
 
 <span class="c1"># Security scans</span>
 Go<span class="w"> </span>to<span class="w"> </span>Security<span class="w"> </span>tab
 </code></pre></div>
-<hr />
-<h2 id="cost">Cost<a class="headerlink" href="#cost" title="Permanent link">&para;</a></h2>
-<table>
-<thead>
-<tr>
-<th>Service</th>
-<th>Monthly</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>EC2</td>
-<td>₹600-800</td>
-</tr>
-<tr>
-<td>RDS</td>
-<td>₹1200-1600</td>
-</tr>
-<tr>
-<td>S3+CloudFront</td>
-<td>₹80-400</td>
-</tr>
-<tr>
-<td><strong>Total</strong></td>
-<td><strong>₹2000-3000</strong></td>
-</tr>
-</tbody>
-</table>
 <hr />
 <h2 id="summary">Summary<a class="headerlink" href="#summary" title="Permanent link">&para;</a></h2>
 <ul>
