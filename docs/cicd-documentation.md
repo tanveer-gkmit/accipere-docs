@@ -67,6 +67,7 @@ Scans for vulnerabilities on `main` branch. Results in GitHub Security tab.
 
 ### Akido Scan Results
 ![Akido Scan Result 1](image.png)
+![Akido Scan Result 1](image%20copy%202.png)
 ![Akido Scan Result 2](image%20copy.png)
 
 
